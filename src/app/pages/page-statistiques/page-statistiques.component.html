@@ -1,0 +1,116 @@
+<div data-layout>
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-12">
+      </div>
+    </div>
+  
+    //<div class="row">
+      <div class="col-md-4">
+        <!-- Content of the first column -->
+        <div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px;">
+          <div class="d-flex align-items-start flex-column" style="height: 200px;">
+            <div class=" p-2"><button class="btn-outline-primary" (click)="Boutique()"> Statistique Boutique</button></div>
+            <div class="p-2"> <button class="btn-outline-primary" (click)="Livraison()" >Statistique Livraison</button></div>
+            <div class="p-2"> <button class="btn-outline-primary" >Commandes</button></div>
+            <div class="p-2"> <button class="btn-outline-primary">Historique</button></div>
+
+
+          </div>
+        </div>
+      </div>
+    
+      <div class="col-md-8" *ngIf="BBoutique">
+        <!-- Content of the second column -->
+        <div class="row mb-2 mt-2 mr-0 custom-border mt-3">
+            <div class="col-md-4 m-3">
+              <h4>Boutique:</h4>
+              <p>{{username}}</p>
+            </div>
+            <div class="col-md-4 m-3">
+              <h4>Date du Commande:</h4>
+              <p>22/7/2023 - {{ currentDate.getDate() }}/{{ currentDate.getMonth() + 1 }}/{{ currentDate.getFullYear() }}  </p>
+            </div></div>
+          <div class="row mb-2 mt-2 mr-0 custom-border mt-3">
+            <div class="col-md-4 m-3">
+              <B>Nombre de commande:</B>
+              <p>{{nbCommandes}} commandes</p>
+            </div>
+            <div class="col-md-4 m-2">
+              <B>Les commandes Terminées:</B>
+              <p>{{numberOfLivreeTerminee}} commandes</p>
+            </div>
+            <div class="col-md-4 m-2">
+              <B>Les commandes En cours:</B>
+              <p>{{numberOfLivreeRetournee}} commandes</p>
+            </div>
+            <div class="col-md-4 m-2">
+                <B>Les commandes 'Delivered':</B>
+                <p>{{numberOfLivreeDelivered}} commandes</p>
+              </div>
+            <div class="col-md-4 m-2">
+              <B>Les commandes annulées:</B>
+              <p>{{numberOfLivreeAnnulee}} commandes</p>
+            </div>
+          </div>
+          <div class="row mb-2 mt-2 mr-0 custom-border mt-3">
+            
+          
+            <div class="col-md-4 m-3">
+              <B>Somme  total des commandes:</B>
+              <p>{{total}} DNT</p>
+            </div>
+            <div class="col-md-4 m-2">
+              <B>Somme commande delivered:</B>
+              <p>{{totalDeliveredCommand}} DNT</p>
+            </div>
+            
+            
+          </div>
+          
+          
+      </div>  
+      <div class="col-md-8" *ngIf="LLivraison">
+        <!-- Content of the second column -->
+        <div class="row mb-2 mt-2 mr-0 custom-border mt-3">
+            <div class="col-md-4 m-3">
+              <h4>Boutique:</h4>
+              <p>{{username}}</p>
+            </div>
+            <div class="col-md-4 m-3">
+              <h4>Date du Commande:</h4>
+              <p>22/7/2023 - {{ currentDate.getDate() }}/{{ currentDate.getMonth() + 1 }}/{{ currentDate.getFullYear() }}  </p>
+            </div></div>
+          <div class="row mb-2 mt-2 mr-0 custom-border mt-3">
+            <div class="col-md-4 m-3">
+              <B>Aramex</B>
+              <p>{{nbCommandAramex}} Delivered commandes</p>
+            </div>
+            
+            <div class="col-md-4 m-2">
+              <B>Bonjour Express</B>
+              <p>{{nbCommandBonjour}}  Delivered commandes</p>
+            </div>
+            
+          </div>
+          <div class="row mb-2 mt-2 mr-0 custom-border mt-3">
+            
+          
+            <div class="col-md-4 m-3">
+              <B>Aramex :  commandes Delivered:</B>
+              <p>{{totalDeliveredCommandAramex}} DNT</p>
+            </div>
+           
+            <div class="col-md-4 m-2">
+              <B>Bonjour Express :  commande delivered:</B>
+              <p>{{totalDeliveredCommandBonjour}} DNT</p>
+            </div>
+            
+            
+          </div>
+          
+          
+  </div> 
+  
+      </div>

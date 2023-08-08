@@ -1,0 +1,340 @@
+
+
+<div class="col mb-3">
+  <div class="col-md-12">
+    <div class="col-md-12 mb-3 mt-3">
+      <h2>Nouvelle commande {{origin}}</h2>
+    </div>
+    <div class="alert alert-danger" *ngIf="errorMsg.length">
+      <div *ngFor="let msg of errorMsg">
+        <span> {{ msg }}</span>
+      </div>
+    </div>
+    <div class="row p-3 custom-border">
+      <div class="col-md-5 custom-border-right">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" name="codeCmd" placeholder="Code commande" [(ngModel)]="codeCommande">
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" placeholder="Date commande">
+          </div>
+          
+          <div class="form-group"> {{origin}} :
+            <select class="form-control" name="cltFrs" [(ngModel)]="selectedClientFournisseur">
+              <option>Selectionner un {{ origin }}</option>
+              <option *ngFor="let obj of listClientsFournisseurs" [ngValue]="obj">
+                {{ obj.nom }}&nbsp;{{ obj.prenom }}
+              </option>
+            </select>
+          </div>
+          <div class="form-group"> Expédition :
+            <select class="form-control" name="Livraison" [(ngModel)]="Livraison">
+              <option>Selectionner le type de livraison</option>
+              <option value="Aramex"  >
+                Aramex
+              </option>
+              <option value="BonjourExpress"  >
+                Bonjour Express
+              </option>
+              <option value="Retrait en Boutique"  >
+                Retrait en Boutique
+              </option>
+            </select>
+          </div>
+          <div class="form-group"> Mode paiement :
+            <select class="form-control" name="paiement" [(ngModel)]="paiement">
+              <option>mode paiement</option>
+              <option value="Cash on delivery"  >
+                Cash on delivery
+              </option>
+              <option value="Virement"  >
+                Virement
+              </option>
+              <option value="Espèce"  >
+                Espèce
+              </option>
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="codeSuivi" placeholder="Code Suivi" [(ngModel)]="codeSuivi">
+          </div>
+          
+        </form>
+      </div>
+      <div class="col-md-3 custom-border-right" *ngIf="selectedClientFournisseur.nom">
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1"><i class="fas fa-info-circle blue-color"></i></div>
+            <div class="col-md-10">{{ selectedClientFournisseur.nom }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"><i class="fas fa-info-circle blue-color"></i></div>
+            <div class="col-md-10">{{ selectedClientFournisseur.prenom }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"><i class="fas fa-phone-alt blue-color"></i></div>
+            <div class="col-md-10"> {{ selectedClientFournisseur.numTel }}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"><i class="fas fa-hourglass-half blue-color"></i></div>
+            <div class="col-md-10 text-primary">Nouvelle commande</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 custom-border-right" *ngIf="selectedClientFournisseur.nom">
+        <div class="col">
+          <div class="row">
+            <div class="col-md-1"><i class="fas fa-info-circle blue-color"></i></div>
+            <div class="col-md-10">Via :  </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">{{Livraison}}</div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"><i class="fas fa-info-circle blue-color"></i></div>
+            <div class="col-md-10">mode paiement:  </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1"></div>
+            <div class="col-md-10">{{paiement}}</div>
+          </div>
+    
+        </div>
+      </div>
+      
+      <div class="col-md-2 text-center" *ngIf="selectedClientFournisseur.nom">
+        <img [src]="selectedClientFournisseur.photo ? selectedClientFournisseur.photo :  'assets/product.png' " class="rounded-circle" width="150px"
+             height="150px" />
+      </div>
+    </div>
+    <div class="scroll-container" style="height: 700px; overflow-y: auto;" *ngIf="origin==='client'">
+
+    <div class="row mt-2 p-3 custom-border" >
+      <div class="card mb-3">
+        <div class="card-body">
+          
+          <div class="d-flex justify-content-between">
+            <div class="p-2">
+              <label class="form-label" for="validationTooltip01">Nom product</label>
+    
+              <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+              <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded">
+               
+              </div>
+            </div>
+            <div class="p-2">
+              <label class="form-label" for="validationTooltip01">Categorie</label>
+    
+              <select class="form-control" name="cltFrs" [(ngModel)]="selectedCat" (click)="findAllArticles()">
+                <option>Selectionner une categorie</option>
+                <option *ngFor="let obj of listCategories" [ngValue]="obj.code">
+                  {{ obj.code }}&nbsp;{{ obj.designation }}
+                </option>
+              </select>
+              </div>
+            </div>
+          
+          
+          </div>
+        
+          <div class="row">
+            
+            <div class="mb-4 col-md-6 col-lg-3" *ngFor="let article of listArticle">
+              <!-- The col-lg-3 class is used to display 4 cards per row on large screens -->
+              <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                <div class="overflow-hidden">
+                  <div class="position-relative rounded-top overflow-hidden">
+                    <a class="d-block">
+                      <img class="img-fluid rounded-top" src="{{article.photo}}" alt="" />
+                    </a>
+                    <span class="badge rounded-pill bg-success position-absolute mt-2 me-2 z-index-2 top-0 end-0">New</span>
+                  </div>
+                  <div class="p-3">
+                    <h5 class="fs-0"><a class="text-dark" >{{article.designation}}</a></h5>
+                    <p class="fs--1 mb-3"><a class="text-500" >{{article.codeArticle}} &amp; {{article.category?.code}}</a></p>
+                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">{{article.prixUnitaireTtc}} Dnt
+                      <del class="ms-2 fs--1 text-500">{{article.prixUnitaireHt}} Dnt</del>
+                    </h5>
+                    <p class="fs--1 mb-1">Livraison: <strong>7dnt</strong></p>
+                    <p class="fs--1 mb-1">Stock: <strong class="text-success">Available</strong></p>
+                  </div>
+                </div>
+                <div class="d-flex flex-between-center px-3">
+                  
+                  <div>
+                    
+                    <a class="btn btn-sm btn-falcon-default" (click)="selectArticleClick(article)" data-toggle="modal" [attr.data-target]="'#modalDeleteArticle' + searchedArticle._id" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Cart">
+                      <span class="fas fa-cart-plus"></span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="row mt-2 p-3 custom-border" *ngIf="origin==='fournisseur'">
+        <div class="form-row col-md-12">
+          <div class="col-md-4">
+            <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+            <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+              <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+                <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+                {{ article.codeArticle }}&nbsp; {{ article.designation }}
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+          </div>
+          
+          <div class="col-md-3">
+            <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+          </div>
+          
+        </div>
+        <div class="form-row col-md-12 mt-4">
+          
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+          </div>
+          
+          <div class="col-md-4">
+            <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control"  placeholder="Platinage" [(ngModel)]="Platinage">
+          </div>
+          
+          
+        </div>
+        <div class="form-row col-md-12 mt-4">
+          <div class="col-md-4">
+            <input type="text" class="form-control"  placeholder="Note"  [(ngModel)]="Note">
+          </div>
+          
+          <div class="col-md-1">
+            <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+    </div>
+    
+    
+    
+    <div class="row mt-2 p-3 custom-border" style="max-height: 300px;overflow-y: scroll">
+      <div class="col-md-12">
+        <app-detail-cmd *ngFor="let ligne of lignesCommande"
+        [ligneCommande]="ligne"
+        ></app-detail-cmd>
+      </div>
+    </div>
+    <div class="row mt-2 p-3 custom-border ">
+      <div class="col-md-12 text-right">
+        <h3>Total de la commande: {{ totalCommande }}</h3>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 text-right mt-2">
+    <button class="btn btn-danger mr-3">
+      <i class="fas fa-ban"></i>&nbsp;
+      Annuler
+    </button>
+    <button class="btn btn-primary" (click)="enregistrerCommande()">
+      <i class="fas fa-save"></i>&nbsp;
+      Enregitrer
+    </button>
+  </div>
+  
+
+<div class="modal fade" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+   aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="form-row col-md-12">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Nom product</label>
+
+          <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+          <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+            <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+              <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+              {{ article.codeArticle }}&nbsp; {{ article.designation }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite</label>
+
+          <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+        </div>
+        
+        <div class="col-md-3">
+          <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+          <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+        </div>
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Recto</label>
+
+          <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+        </div>
+        
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Verso</label>
+
+          <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+        </div>
+        
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        
+        
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Platinage</label>
+
+          <input type="text" class="form-control"  placeholder="Platinage" [(ngModel)]="Platinage">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite argent</label>
+          <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="quantiteArgent">
+        </div>
+        
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Note</label>
+
+          <input type="text" class="form-control"  placeholder="Note"  [(ngModel)]="Note">
+        </div>
+        <div class="form-row col-md-12 mt-4">
+
+        <div class="col-md-1">
+          <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      
+  </div>
+  
+  
+  
+</div>
+</div>
+
+

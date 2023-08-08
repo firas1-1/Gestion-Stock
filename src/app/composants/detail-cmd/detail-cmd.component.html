@@ -1,0 +1,115 @@
+<div class="row mb-1 mr-0 custom-border">
+  <!--  Details article-->
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row text-center">
+      <div class="col-md-11"><b>{{ ligneCommande.article?.codeArticle }} </b></div>
+    </div>
+  </div>
+
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> {{ ligneCommande.article?.designation }} </b>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> {{ ligneCommande.quantite }} </b>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b>  {{ ligneCommande.prixUnitaire }} </b>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2 mb-1 mt-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> {{ ligneCommande.prixUnitaire && ligneCommande.quantite ? +ligneCommande.prixUnitaire * +ligneCommande.quantite : '' }} </b>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row mb-1 mr-0 custom-border">
+  <!--  Details article-->
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row text-center">
+      <div class="col-md-11"> <b> Recto </b> :{{ ligneCommande.Recto}}</div>
+    </div>
+  </div>
+
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> Verso : </b>  {{ ligneCommande.Verso }}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> Platinage : </b>    {{ ligneCommande.Platinage }}
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> Note : </b>    {{ ligneCommande.Note }}
+      </div>
+    </div>
+    
+  </div>
+  <div class="col-md-2 custom-border-right mb-1 mt-1 " *ngIf="update">
+      <div class="col-md-12 text-center">
+        <button  type="button" class="btn btn-link text-danger" data-toggle="modal" *ngIf="ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' + ligneCommande._id">
+          <i class="fas fa-trash-alt"></i>&nbsp;Supprimer
+        </button>
+      
+    </div>
+    <div class="col-md-12 text-center">
+      <button  type="button" class="btn " data-toggle="modal" *ngIf="!ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' ">
+        <i class="fas fa-trash-alt"></i>&nbsp;article ajoutée
+      </button>
+    
+  </div>
+    
+  </div>
+  
+
+  
+</div>
+<hr>
+<div class="modal fade" id="modalDeleteArticle{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+       aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Etes vous-sur de vouloir supprimer cet article?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <i class="fas fa-ban"></i>&nbsp;Annuler</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="supprimerArticle()" >
+            <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,215 @@
+<div class="col mb-3">
+    <div class="col-md-12">
+      <div class="col-md-12 mb-3 mt-3">
+        <h2>commande</h2>
+      </div>
+      <div class="alert alert-danger" >
+        <div >
+          <span> </span>
+        </div>
+      </div>
+      <div class="row p-3 custom-border">
+        <div class="col-md-5 custom-border-right">
+          <form>
+            <div class="form-group">
+              <input type="text" class="form-control" name="codeCmd" placeholder="Code commande" [(ngModel)]="Command.code" >
+            </div>
+            <div class="form-group">
+              <input type="date" class="form-control" placeholder="Date commande" [(ngModel)]="Command.dateCommande" >
+            </div>
+            <div class="form-group"> Etat Commande :
+                <select class="form-control" name="cltFrs" [(ngModel)]="Command.etatCommande" >
+                  <option>Selectionner un Etat</option>
+                  <option  value="Terminée">
+                    Terminée
+                  </option>
+                  <option value="Out of delivery" >
+                    Out of delivery
+                  </option>
+                  <option value="Delivered" >
+                    Delivered
+                  </option>
+                </select>
+              </div>
+              <div class="form-group"> Expédition :
+                <select class="form-control" name="Livraison"  [(ngModel)]="Command.Livraison">
+                  <option>Selectionner le type de livraison</option>
+                  <option value="Aramex"  >
+                    Aramex
+                  </option>
+                  <option value="BonjourExpress"  >
+                    Bonjour Express
+                  </option>
+                  <option value="Retrait en Boutique"  >
+                    Retrait en Boutique
+                  </option>
+                </select>
+              </div>
+              <div class="form-group"> Mode paiement :
+                <select class="form-control" name="paiement" [(ngModel)]="Command.paiement">
+                  <option>Selectionner le type de paiement</option>
+                  <option value="Cash on delivery"  >
+                    Cash on delivery
+                  </option>
+                  <option value="Virement"  >
+                    Virement
+                  </option>
+                  <option value="Espèce"  >
+                    Espèce
+                  </option>
+                </select>
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="codeSuivi" placeholder="Code Suivi" [(ngModel)]="Command.codeSuivi">
+              </div>
+              
+              <div class="col-md-1 custom-border-right p-1 text-center mb-1 mt-1">
+                <a [href]="ClientDto.photo ? ClientDto.photo : 'assets/product.png'" target="_blank">
+                  <img [src]="ClientDto.photo ? ClientDto.photo : 'assets/product.png'" width="100px" height="100px">
+                </a>
+              </div>
+           
+          </form>
+        </div>
+        <div class="col-md-6 custom-border-right" >
+            <div class="col-md-12">
+                <form>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Nom"
+                      name="nom" [(ngModel)]="ClientDto.nom" >
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Adresse 1"
+                      name="adresse1" [(ngModel)]="adresseDto.adresse1" >
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Prenom"
+                      name="prenom" [(ngModel)]="ClientDto.prenom" >
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Adresse 2"
+                             name="adresse2" [(ngModel)]="adresseDto.adresse2" >
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <input type="email" class="form-control" placeholder="E-mail"
+                             name="mail" [(ngModel)]="ClientDto.mail"  >
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Ville"
+                             name="ville" [(ngModel)]="adresseDto.ville" >
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Telephone"
+                             name="numTel" [(ngModel)]="ClientDto.numTel" >
+                    </div>
+                    
+                  </div>
+                  <div class="row mb-3">
+                    <div class="col">
+                      &nbsp;
+                    </div>
+                    <div class="col">
+                      <input type="text" class="form-control" placeholder="Pays"
+                             name="pays" >
+                    </div>
+                  </div>
+                  
+                    <div class="col">
+                  
+                    </div>
+                  
+                </form>
+              </div>
+            </div>
+        </div>
+       
+        
+       
+      </div>
+      <div class="row mt-2 p-3 custom-border">
+      
+
+        <div class="form-row col-md-12">
+          <div class="form-row col-md-12">
+            <div class="col-md-4">
+              <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+              <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+                <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+                  <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+                  {{ article.codeArticle }}&nbsp; {{ article.designation }}
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+            </div>
+            
+            <div class="col-md-3">
+              <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+            </div>
+            
+          </div>
+          
+        </div>
+        <div class="form-row col-md-12 mt-4">
+          
+          <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="Recto"  name='Recto'[(ngModel)]="Recto">
+          </div>
+          
+          <div class="col-md-4">
+            <input type="text" class="form-control"  placeholder="Verso" name='Verso'  [(ngModel)]="Verso">
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control"  placeholder="Platinage" name='Platinage' [(ngModel)]="Platinage">
+          </div>
+          
+        </div>
+        <div class="form-row col-md-12 mt-4">
+          
+         
+          <div class="col-md-4">
+            <input type="text" class="form-control"  placeholder="Note" name='Note' [(ngModel)]="Note">
+          </div>
+          <div class="col-md-1">
+            <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+    </div> 
+    
+    <div class="row mt-2 p-3 custom-border" style="max-height: 300px;overflow-y: scroll">
+        <div class="col-md-12">
+          <app-detail-cmd *ngFor="let ligne of lignesCommande"
+          (suppressionResult)="handleSuppression($event)"
+          [ligneCommande]="ligne" 
+
+          > 
+        </app-detail-cmd>
+        </div>
+      </div>
+      
+      
+      <div class="row mt-2 p-3 custom-border ">
+        <div class="col-md-12 text-right">
+          <h3> </h3>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12 text-right mt-2">
+      <button class="btn btn-danger mr-3" (click)="cancelClick()">
+        <i class="fas fa-ban"></i>&nbsp;
+        Annuler
+      </button>
+      <button class="btn btn-primary" (click)="enregistrerCommande()" >
+        <i class="fas fa-save"></i>&nbsp; 
+        Enregitrer
+      </button>
+    </div>

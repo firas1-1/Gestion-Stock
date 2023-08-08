@@ -1,0 +1,141 @@
+<div class="col">
+  <div class="row m-3">
+    <div class="col-md-8 p-0">
+      <h1>Commande {{origin}}s</h1>
+    </div>
+    <div class="col-md-4 text-right">
+      <app-boutton-action
+        [isImporterVisible]="false"
+
+      (clickEvent)="nouvelleCommande()"
+      ></app-boutton-action>
+    </div>
+  </div>
+  
+
+  <div class="d-flex align-items-center ml-5" >
+  
+    <div class="mat-elevation-z8" style="margin-top: 30px; margin-right: 70px;"  >
+      <div class="card">
+        <div class="card-body mr-5" *ngIf="origin === 'client'">
+      <div class="col ml-5 "  >
+        <button  type="button" value="Nouvelle commande" (click)="filterCommandeEtat('Nouvelle commande')"  class="badge bg-primary mr-1 mb-2">Nouvelle commande</button>
+        <button   type="button"  (click)="filterCommandeEtat('Ready for production')" class="badge bg-info mr-1 mb-2">Ready for production</button>
+
+        <button   type="button" (click)="filterCommandeEtat('En cours')" class="badge bg-secondary mr-1 mb-2 ">En cours</button>
+        <button   type="button"  (click)="filterCommandeEtat('Annulée')" class="badge bg-danger mr-1 mb-2" >Annulée</button>
+        <button   type="button"  (click)="filterCommandeEtat('Attente validation')" class="badge bg-warning mr-1 mb-2">Attente validation</button>
+        <button  type="button"  (click)="filterCommandeEtat('Pre-Production')" class="badge bg-info mr-1 mb-2">Pre-Production</button>
+        
+        <button  type="button"  (click)="filterCommandeEtat('Livraison échouée')" class="badge bg-dark mr-1 mb-2">Livraison échouée</button>
+        <button  type="button"    (click)="filterCommandeEtat('Attente paiement')" class="badge bg-warning mr-1 mb-2  ">Attente paiement</button>
+
+        <button type="button"  (click)="filterCommandeEtat('Retournée')" class="badge bg-danger mr-1 mb-2 ">Retourné</button>
+        <button  type="button"  (click)="filterCommandeEtat('Production')" class="badge bg-info mr-1 mb-2 ">Production</button>
+
+          <button   type="button"  (click)="filterCommandeEtat('Out of delivery')" class="badge bg-primary mr-1 mb-2 ">Out of delivery</button>
+          <button   type="button"  (click)="filterCommandeEtat('Delivered')" class="badge bg-primary mr-1 mb-2">Delivered</button>
+          <button  type="button" (click)="filterCommandeEtat('Terminée')" class="badge bg-success mr-1 mb-2">Terminée</button>
+
+      </div>
+        </div>
+        
+      </div>
+    
+    
+
+    
+  </div>
+  </div>
+
+  <form class="row g-3-center" *ngIf="origin === 'client'" >   <hr>
+    <div class="col-md-2 m-3 ml-5">
+      <div class="form-floating ">
+        <label for="floatingName">REf Command</label>
+        <input type="text" class="form-control" placeholder="Code " name="code" [(ngModel)]="code" (input)="filtertest()">
+      </div>
+    </div>
+    <div class="col-md-2 m-3">
+      <div class="form-floating">
+        <label for="floatingName">Telephone</label>
+
+        <input type="text" class="form-control" placeholder="numTel" name="numTel" [(ngModel)]="numTel" (input)="filtertest()">
+      </div>
+    </div>
+    <div class="col-md-2 m-3">
+      <div class="form-floating">
+        <label for="floatingEmail">Code Suivi</label>
+        <input type="email" (input)="filtrerCommandby($event,'3')"   class="form-control" id="floatingEmail" placeholder="Code Suivi" >
+      </div>
+    </div>
+    <div class="col-md-2 m-3">
+      <div class="form-floating">
+        <label for="floatingPassword">NomClient</label>
+
+        <input type="text" class="form-control" placeholder="nomClient" name="nom" [(ngModel)]="nomClient" (input)="filtertest()">
+      </div>
+    </div>
+    <div class="col-md-2 m-3">
+      <div class="form-floating">
+        <label >Livraison</label>
+
+        <input type="text" class="form-control" placeholder="Livraison" name="Livraison" [(ngModel)]="Livraison" (input)="filtertest()">
+      </div>
+      
+    </div> 
+   
+    <hr>
+
+</form>
+  
+  <div class="col m-3 " >
+    <p class="badge bg-danger">     nombre des commandes : ( {{totalCommandes}}) 
+    </p>
+    <div>
+    <div class="accordion" id="accordionExample" *ngFor="let cmd of listeCommandes" >
+      <div class="card">
+        <div classs="card-body" id="headingOne">
+          <button class="btn btn-block text-left" type="button" data-toggle="collapse"
+                  [attr.data-target]="'#collapseOne'+cmd._id"
+                  aria-expanded="true"
+                  aria-controls="collapseOne">
+            <app-detail-cmd-clt-frs
+              [commande]="cmd"
+              [origin]="origin"
+              (suppressionResult)="handleSuppression($event)"
+            ></app-detail-cmd-clt-frs>
+              
+          </button> 
+        </div>
+        <div id="collapseOne{{cmd._id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample"
+             style="max-height: 300px; overflow-y: scroll">
+          <div class="card-body">
+            <app-detail-cmd
+            *ngFor="let ligne of mapLignesCommande.get(cmd._id)"
+            [ligneCommande]="ligne"
+            ></app-detail-cmd>
+          </div>
+        </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-md-6 text-left">
+                <h5>{{mapLignesCommande.get(cmd._id).length}} lignes de commande</h5>
+              </div>
+              <div class="col-md-6 text-right">
+                <h5>Total commande: {{ calculerTotalCommande(cmd._id) }}</h5>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  <div class="row mb-3" *ngIf="listeCommandes.length">
+    <div class=" col-md-12 text-center">
+      <app-pagination [currentPage]="currentPage" [totalPages]="totalPages" (pageChange)="onPageChange($event)"></app-pagination>
+
+    </div>
+  </div>
+  
+
+</div>

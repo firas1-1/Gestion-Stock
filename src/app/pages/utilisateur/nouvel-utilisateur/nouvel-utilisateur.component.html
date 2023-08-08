@@ -1,0 +1,64 @@
+<div class="col mb-3">
+  
+  <hr>
+  <div class="card-body">
+    <div class="alert alert-danger" *ngIf="errorsMsg.length > 0">
+      <div *ngFor="let msg of errorsMsg">
+        <span >{{msg}}</span>
+      </div>
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Nom et prenom " [(ngModel)]="entrepriseDto.nom">
+    </div>
+   
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="E-mail" [(ngModel)]="entrepriseDto.email">
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="password" [(ngModel)]="entrepriseDto.password">
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Adresse 1" [(ngModel)]="adresse.adresse1">
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Adresse 2" [(ngModel)]="adresse.adresse2">
+    </div>
+    <div class="mb-3">
+    <input type="text" class="form-control" placeholder="Ville" [(ngModel)]="adresse.ville">
+  </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Code postal" [(ngModel)]="adresse.codePostale">
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Pays" [(ngModel)]="adresse.pays" >
+    </div>
+    <div class="mb-3">
+      <textarea type="text" class="form-control" placeholder="Description" [(ngModel)]="entrepriseDto.description"></textarea>
+    </div>
+    <div class="mb-3">
+    </div>
+    <div class="mb-3">
+      <input type="text" class="form-control" placeholder="Numero de telephone" [(ngModel)]="entrepriseDto.numTel">
+    </div>
+    <div class="form-floating">
+      <select class="form-select" id="floatingSelect" aria-label="Floating label select example" [(ngModel)]="entrepriseDto.Role">
+        <option selected="">Open Role of {{entrepriseDto.nom }}</option>
+        <option value="User">User</option>
+        <option value="Admin">Admin</option>
+      </select>
+      <label for="floatingSelect">role is required</label>
+    </div>
+
+    
+  </div>
+  <div class="col-md-12 text-right">
+    <button class="btn btn-danger mr-3" (click)="cancel()">
+      <i class="fas fa-ban"></i>&nbsp;
+      Annuler
+    </button>
+    <button type="button" class="btn btn-primary" (click)="inscrire()">
+      <i class="fas fa-check"></i>&nbsp;S'inscrire
+    </button>
+  </div>
+
+</div>
