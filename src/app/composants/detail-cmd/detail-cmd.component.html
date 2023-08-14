@@ -1,4 +1,9 @@
+
+
+
+
 <div class="row mb-1 mr-0 custom-border">
+  
   <!--  Details article-->
   <div class="col-md-3 custom-border-right mb-1 mt-1 ">
     <div class="row text-center">
@@ -6,14 +11,22 @@
     </div>
   </div>
 
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+  <div class="col-md-3 mb-1 mt-1 border-bottom border-200 ">
     <div class="row">
       <div class="col-md-12 text-center">
         <b> {{ ligneCommande.article?.designation }} </b>
       </div>
     </div>
   </div>
-
+  <div class="col-md-2 mb-1 mt-1 border-bottom border-200">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <div class="d-flex align-items-center position-relative"><img
+          class="rounded-1" [src]="ligneCommande.article?.photo ? ligneCommande.article?.photo: 'assets/product.png'"
+          width="60" alt="" />
+     </div>      </div>
+    </div>
+  </div>
   <div class="col-md-2 custom-border-right mb-1 mt-1 ">
     <div class="row">
       <div class="col-md-12 text-center">
@@ -29,41 +42,100 @@
       </div>
     </div>
   </div>
+  
+</div>
 
+
+<div class="row mb-1 mr-0 ">
   <div class="col-md-2 mb-1 mt-1">
     <div class="row">
       <div class="col-md-12 text-center">
-        <b> {{ ligneCommande.prixUnitaire && ligneCommande.quantite ? +ligneCommande.prixUnitaire * +ligneCommande.quantite : '' }} </b>
       </div>
     </div>
   </div>
+  <div class="col-md-2 mb-1 mt-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 mb-1 mt-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 mb-1 mt-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+      </div>
+    </div>
+  </div>
+  <div class="col-md-2 mb-1 mt-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-md-2 mb-1 mt-1">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b>Amount :  {{ ligneCommande.prixUnitaire && ligneCommande.quantite ? +ligneCommande.prixUnitaire * +ligneCommande.quantite : '' }} Dt </b>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <div class="row mb-1 mr-0 custom-border">
   <!--  Details article-->
   <div class="col-md-3 custom-border-right mb-1 mt-1 ">
     <div class="row text-center">
-      <div class="col-md-11"> <b> Recto </b> :{{ ligneCommande.Recto}}</div>
+      <div class="col-md-11"> <b> Recto </b> :{{ ligneCommande.Gravure?.Recto}}</div>
     </div>
   </div>
 
   <div class="col-md-3 custom-border-right mb-1 mt-1 ">
     <div class="row">
       <div class="col-md-12 text-center">
-        <b> Verso : </b>  {{ ligneCommande.Verso }}
+        <b> Verso : </b>  {{ ligneCommande.Gravure?.Verso }}
       </div>
     </div>
   </div>
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> Gauche : </b>  {{ ligneCommande.Gravure?.Gauche }}
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> Droite : </b>  {{ ligneCommande.Gravure?.Droite }}
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row mb-1 mr-0 custom-border">
 
-  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
     <div class="row">
       <div class="col-md-12 text-center">
         <b> Platinage : </b>    {{ ligneCommande.Platinage }}
       </div>
     </div>
   </div>
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <b> Taille : </b>    {{ ligneCommande.Taille }}
+      </div>
+    </div>
+  </div>
 
-  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
+  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
     <div class="row">
       <div class="col-md-12 text-center">
         <b> Note : </b>    {{ ligneCommande.Note }}
@@ -71,15 +143,29 @@
     </div>
     
   </div>
+  
+
+
+
   <div class="col-md-2 custom-border-right mb-1 mt-1 " *ngIf="update">
       <div class="col-md-12 text-center">
-        <button  type="button" class="btn btn-link text-danger" data-toggle="modal" *ngIf="ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' + ligneCommande._id">
+        <button   type="button" class="btn btn-link text-danger" data-toggle="modal" *ngIf="ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' + ligneCommande._id">
           <i class="fas fa-trash-alt"></i>&nbsp;Supprimer
         </button>
       
     </div>
+
     <div class="col-md-12 text-center">
-      <button  type="button" class="btn " data-toggle="modal" *ngIf="!ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' ">
+      <button   type="button" class="btn btn-link " data-toggle="modal" *ngIf="ligneCommande._id"  [attr.data-target]="'#modalUpdateLigne' + ligneCommande._id">
+        <span class="fas fa-pencil-alt fs--2 me-1"></span>
+
+      </button>
+    
+  </div>
+
+    
+    <div class="col-md-12 text-center">
+      <button  type="button" class="btn "  data-toggle="modal" *ngIf="!ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' ">
         <i class="fas fa-trash-alt"></i>&nbsp;article ajoutée
       </button>
     
@@ -91,12 +177,13 @@
   
 </div>
 <hr>
+<hr>
 <div class="modal fade" id="modalDeleteArticle{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
        aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+          <h5 class="modal-title" id="staticBackdropLabel">Modification</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -107,9 +194,362 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">
             <i class="fas fa-ban"></i>&nbsp;Annuler</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="supprimerArticle()" >
+          <button type="button"  class="btn btn-danger" data-dismiss="modal" [disabled]="Role === 'User'"  (click)="supprimerArticle()" >
             <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
         </div>
       </div>
     </div>
   </div>
+  
+
+
+
+<div class="modal fade" *ngIf="chaine" id="modalUpdateLigne{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+ <div class="modal-header">
+   <h5 class="modal-title" id="staticBackdropLabel">Modification</h5>
+   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+     <span aria-hidden="true">&times;</span>
+   </button>
+ </div>
+  
+   <div class="form-row col-md-12 mt-4">
+ 
+    <h5>   {{ligneCommande.article?.designation}} </h5>
+
+   
+     <div class="col">
+       <label class="form-label" for="validationTooltip01">Taille</label>
+
+       <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="ligneCommande.Taille">
+     </div>
+     
+     
+   </div>
+   <div class="form-row col-md-12 mt-4">
+     
+     
+     <div class="col">
+       Selectionner un platinage
+       <select  class="form-select" aria-label="Default select example" [(ngModel)]="ligneCommande.Platinage">
+         <option [value]="'Silver'">Silver</option>
+         <option [value]="'Gold'" >Gold</option>
+         <option [value]="'Rosé'" >Rosé</option>
+         <option [value]="'Blanc'" >Blanc</option>
+          </select>
+     </div>
+     
+     
+   </div>
+   
+   <div class="form-row col-md-12 mt-4">
+     <div class="col-md-4">
+       
+     
+     <div class="form-floating">
+       <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="ligneCommande.Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+       <label for="floatingTextarea2">Notes</label>
+     </div>
+   </div>
+   <div class="form-row col-md-12 mt-4">
+     <div class="col-md-1">
+       <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="modifyLigne()" ><i class="fas fa-plus"></i></button>
+     </div>
+   </div>
+   
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" *ngIf="Pendatif" id="modalUpdateLigne{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+<div class="modal-header">
+ <h5 class="modal-title" id="staticBackdropLabel">Modification</h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+ </button>
+</div>
+
+<h5>   {{ligneCommande.article?.designation}} </h5>
+
+ <div class="form-row col-md-12 mt-4">
+   <div class="col" >
+
+    <div class="form-check">
+      <input class="form-check-input" id="flexCheckIndeterminate" type="checkbox"  [(ngModel)]=" ligneCommande.PrixVerso"  />
+      <label class="form-check-label" for="flexCheckIndeterminate">Gravure Verso + 5dt</label>
+    </div>
+     
+   </div>
+ </div>
+
+   <div class="form-row col-md-12 mt-4">
+
+   <div class="col-md-4" >
+     <label class="form-label" for="validationTooltip01">Recto</label>
+
+     <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+   </div>
+   
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Verso</label>
+
+     <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+   </div>
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Taille</label>
+
+     <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="ligneCommande.Taille">
+   </div>
+   
+   
+ </div>
+ <div class="form-row col-md-12 mt-4">
+   <div class="col">
+     Selectionner un platinage
+     <select  class="form-select" aria-label="Default select example" [(ngModel)]="ligneCommande.Platinage">
+       <option [value]="'Silver'">Silver</option>
+       <option [value]="'Gold'" >Gold</option>
+       <option [value]="'Rosé'" >Rosé</option>
+       <option [value]="'Blanc'" >Blanc</option>
+     </select>
+   </div>
+ </div>
+ <div class="form-row col-md-12 mt-4">
+
+  
+   <div class="col">
+     <label class="form-label" for="validationTooltip01">Quantite argent</label>
+     <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="ligneCommande.quantiteArgent">
+   </div>
+   
+ </div>
+ 
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-4">
+       
+     
+     <div class="form-floating">
+       <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="ligneCommande.Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+       <label for="floatingTextarea2">Notes</label>
+     </div>
+   </div>
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-1">
+     <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="modifyLigne()" ><i class="fas fa-plus"></i></button>
+   </div>
+ </div>
+ 
+</div>
+
+
+</div>
+</div>
+</div>
+
+<div class="modal fade" *ngIf="Collier" id="modalUpdateLigne{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+<div class="modal-header">
+ <h5 class="modal-title" id="staticBackdropLabel">Modification</h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+ </button>
+</div>
+<h5>   {{ligneCommande.article?.designation}} </h5>
+
+ <div class="form-row col-md-12 mt-4">
+
+   <div class="col-md-4" >
+     <label class="form-label" for="validationTooltip01">Recto</label>
+
+     <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+   </div>
+   
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Verso</label>
+
+     <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+   </div>
+   <div class="col-md-4" >
+     <label class="form-label" for="validationTooltip01">Droite</label>
+
+     <input type="text" class="form-control"  placeholder="Droite" [(ngModel)]="Droite">
+   </div>
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Gauche</label>
+
+     <input type="text" class="form-control"  placeholder="Gauche" [(ngModel)]="Gauche">
+   </div>
+ 
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Taille</label>
+
+     <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="ligneCommande.Taille">
+   </div>
+   
+   
+ </div>
+ <div class="form-row col-md-12 mt-4">
+   
+   
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Platinage</label>
+
+     <input type="text" class="form-control"  placeholder="Platinage" [(ngModel)]="ligneCommande.Platinage">
+   </div>
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Quantite argent</label>
+     <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="ligneCommande.quantiteArgent">
+   </div>
+   
+ </div>
+ 
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Note</label>
+     <input type="text" class="form-control"  placeholder="Note"  [(ngModel)]="ligneCommande.Note">
+   </div>
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-1">
+     <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="modifyLigne()" ><i class="fas fa-plus"></i></button>
+   </div>
+ </div>
+ 
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="modal fade" *ngIf="Braclet" id="modalUpdateLigne{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+<div class="modal-header">
+ <h5 class="modal-title" id="staticBackdropLabel">Modification</h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+ </button>
+</div>
+ 
+ <div class="form-row col-md-12 mt-4">
+  <h5>   {{ligneCommande.article?.designation}} </h5>
+
+   <div class="col" >
+     <label class="form-label" for="validationTooltip01">Recto</label>
+
+     <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+   </div>
+ </div>
+ <div class="form-row col-md-12 mt-4">
+   <div class="col">
+     <label class="form-label" for="validationTooltip01">Verso</label>
+
+     <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+   </div>
+ </div>
+ <div class="form-row col-md-12 mt-4">
+   
+   
+   
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Quantite argent</label>
+     <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="ligneCommande.quantiteArgent">
+   </div>
+   
+ </div>
+ 
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-4">
+       
+     
+     <div class="form-floating">
+       <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="ligneCommande.Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+       <label for="floatingTextarea2">Notes</label>
+     </div>
+   </div>
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-1">
+     <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="modifyLigne()"  ><i class="fas fa-plus"></i></button>
+   </div>
+ </div>
+ 
+</div>
+
+
+</div>
+</div>
+</div>
+
+
+<div class="modal fade" *ngIf="bague" id="modalUpdateLigne{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+<div class="modal-header">
+ <h5 class="modal-title" id="staticBackdropLabel">Modification</h5>
+ <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+   <span aria-hidden="true">&times;</span>
+ </button>
+</div>
+ <h5> {{ligneCommande.article?.designation}} </h5>
+ <div class="form-row col-md-12 mt-4">
+
+   <div class="col" >
+     <label class="form-label" for="validationTooltip01">Gravure</label>
+
+     <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+   </div>
+ </div>
+ 
+ <div class="form-row col-md-12 mt-4">
+   <div class="col">
+     Selectionner Taille
+     <select  class="form-select" aria-label="Default select example" [(ngModel)]="ligneCommande.Taille">
+       <option [value]="'S'">S</option>
+       <option [value]="'M'" >M</option>
+       <option [value]="'L'" >L</option>
+       <option [value]="'XL'" >XL</option>
+        </select>
+   </div>
+ </div>
+
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-4">
+     <label class="form-label" for="validationTooltip01">Quantite argent</label>
+     <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="ligneCommande.quantiteArgent">
+   </div>
+   
+ </div>
+ 
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-4">
+       
+     
+     <div class="form-floating">
+       <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="ligneCommande.Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+       <label for="floatingTextarea2">Notes</label>
+     </div>
+   </div>
+ <div class="form-row col-md-12 mt-4">
+   <div class="col-md-1">
+     <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="modifyLigne()" ><i class="fas fa-plus"></i></button>
+   </div>
+ </div>
+ 
+</div>
+
+
+</div>
+</div>
+</div>

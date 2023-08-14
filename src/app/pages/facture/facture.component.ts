@@ -10,6 +10,7 @@ import { ArticleDto } from '../../../gs-api/src/models/article-dto';
 import { ArticleService } from '../../services/article/article.service';
 import { LigneCommandeClientDto } from '../../../gs-api/src/models/ligne-commande-client-dto';
 import { CommandeFournisseurDto } from '../../../gs-api/src/models/commande-fournisseur-dto';
+import { GravureDto } from 'src/gs-api/src/models/Gravure-dto';
 
 
 
@@ -38,8 +39,12 @@ export class FactureComponent implements OnInit {
   code = '';
   Recto = '';
   Verso = '';
+  Droite='';
+  Gauche = '';
+  Taille=''; 
   Platinage = '';
   Note = '';
+  quantiteArgent=0;
   mapLignesCommande = new Map();
   mapPrixTotalCommande = new Map();
 
@@ -47,6 +52,7 @@ export class FactureComponent implements OnInit {
   totalCommande = 0;
   articleNotYetSelected = false;
   idCommand: any;
+  TotalCommande=0;
 
 
 
@@ -173,18 +179,24 @@ export class FactureComponent implements OnInit {
           lig.quantite = lig.quantite + +this.quantite;
         }
       });
-    } else {
+    }else {
+      const Gravure:GravureDto={
+        Recto: this.Recto,
+        Verso: this.Verso,
+        Droite: this.Droite,
+        Gauche: this.Gauche
+      }
       const ligneCmd: LigneCommandeClientDto = {
         article: this.searchedArticle,
+        Gravure: Gravure,
+        Platinage:this.Platinage,
+        Taille:this.Taille,
+        Note: this.Note,
         prixUnitaire: this.searchedArticle.prixUnitaireTtc,
-        quantite: +this.quantite ,
-        Recto: this.Recto ,
-        Verso: this.Verso ,
-        Platinage : this.Platinage,
-        Note: this.Note};
-console.log('ligneCmd',ligneCmd);
+        quantite: +this.quantite,
+        quantiteArgent:this.quantiteArgent
+      };
       this.lignesCommande.push(ligneCmd);
-
     }
   }
 
@@ -272,8 +284,8 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
         this.mapLignesCommande.set(idCommande, list);
         this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list));
       });
-    
   }
+
 
   calculerTatalCmd(list: Array<LigneCommandeClientDto>): number {
     let total = 0;
@@ -281,13 +293,21 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
       if (ligne.prixUnitaire && ligne.quantite) {
         total += +ligne.quantite * +ligne.prixUnitaire;
       }
+      console.log('total',total);
+      if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
+        total += +ligne.quantite *5
+      }
+      console.log('total1',total);
     });
+    
     return Math.floor(total);
   }
   calculerTotalCommande(id?: number): number {
-    console.log("calculerTotalCommande", this.Command.Livraison);
-  
+    
+
     if (this.Command.Livraison === 'Aramex' || this.Command.Livraison === 'BonjourExpress') {
+      console.log("calculerTotalCommande1111",  this.mapPrixTotalCommande.get(id) )
+
       return this.mapPrixTotalCommande.get(id) + 7;
     } else if (this.Command.Livraison === 'Retrait en Boutique') {
       return this.mapPrixTotalCommande.get(id);

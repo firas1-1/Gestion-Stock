@@ -17,14 +17,15 @@ export class NouveauCltFrsComponent implements OnInit {
 
   origin = '';
 
-  clientFournisseur: any = {};
+  clientFournisseur: any = { };
   listeClient:Array<ClientDto> = [];
   adresseDto: AdresseDto = {};
   errorMsg: Array<string> = [];
   file: File | null = null;
   searchedArticle: ClientDto = {};
   articleNotYetSelected = false;
-
+  currentPage = 1;
+  itemsPerPage = 100; 
 
   imgUrl: string | ArrayBuffer = 'assets/product.png';
   update: boolean=false;
@@ -103,7 +104,7 @@ export class NouveauCltFrsComponent implements OnInit {
     } else if (this.origin === 'fournisseur') {
       this.cltFrsService.findAllFournisseurs()
         .subscribe(cmd => {
-          // this.clientFournisseur = cmd;
+           this.clientFournisseur = cmd;
           
         });
     }
@@ -114,10 +115,16 @@ export class NouveauCltFrsComponent implements OnInit {
     if (this.clientFournisseur.numTel.length === 0) {
       this.finAllClients();
     }
+    const perPage = 10; // Set your desired items per page here
 
-    this.listeClient = this.listeClient
-      .filter(art => art.numTel?.includes(this.clientFournisseur.numTel) || art.numTel?.includes(this.clientFournisseur.numTel));
+    this.http.get<any>(`http://localhost:3000/api/Client/all?page=${this.currentPage}&perPage=${perPage}&nom=${this.clientFournisseur.numTel}`)
+    .subscribe((data) => {
+      console.log('API response:', data);
+      this.listeClient = data.clients;
+      this.currentPage = data.pagination.currentPage;
+    })
     }
+    
 
   selectArticleClick(client: ClientDto): void {
     console.log('selectedArticle', client);

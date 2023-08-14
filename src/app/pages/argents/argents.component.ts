@@ -27,9 +27,17 @@ export class ArgentsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.http.get<any>(`http://localhost:3000/api/ligneCommandFrs/argentQuantite/f`)
+      .subscribe(  total => {
+        this.totalArgent = total;
+        console.log('totttttttttttttttttttttt',this.totalArgent);
+        this.ngAfterViewInit1();
+
+      });
     this.fetchTotalArgentConsomee();
-    this.argentTotal();
+   // this.argentTotal();
     this.findAllCommandes();
+    
   }
 
   fetchTotalArgentConsomee(): void {
@@ -44,17 +52,17 @@ export class ArgentsComponent implements OnInit {
     );
   }
 
-  argentTotal(): void {
-    this.cmdCltFrsService.totalArgent().subscribe(
-      total => {
-        this.totalArgent = total;
-        this.ngAfterViewInit1();
-      },
-      error => {
-        console.error('Erreur lors de la récupération des données:', error);
-      }
-    );
-  }
+  // argentTotal(): void {
+  //   this.cmdCltFrsService.totalArgent().subscribe(
+  //     total => {
+  //       this.totalArgent = total;
+  //       this.ngAfterViewInit1();
+  //     },
+  //     error => {
+  //       console.error('Erreur lors de la récupération des données:', error);
+  //     }
+  //   );
+  // }
 
   ngAfterViewInit() {
     if (this.totalCommandes) {

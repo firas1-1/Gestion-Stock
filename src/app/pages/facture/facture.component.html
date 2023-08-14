@@ -81,6 +81,8 @@
               <th class="border-0 text-center">Quantity</th>
               <th class="border-0 text-end">Unit price</th>
               <th class="border-0 text-end">Amount</th>
+              <th class="border-0 text-end">total Amount</th>
+
             </tr>
           </thead>
           <tbody>
@@ -88,11 +90,15 @@
             <tr *ngFor="let ligneCommande of lignesCommande">
               <td class="align-middle">
                 <h6 class="mb-0 text-nowrap">{{ ligneCommande.article?.codeArticle }}</h6>
-                <p class="mb-0">{{ ligneCommande.article?.designation }}</p>
+                <p class="mb-0" *ngIf="ligneCommande.PrixVerso">Gravure verso  +5dt </p>
               </td>
               <td class="align-middle text-center">{{ ligneCommande.quantite }}</td>
-              <td class="align-middle text-end">{{ ligneCommande.prixUnitaire }}</td>
-              <td class="align-middle text-end">{{ ligneCommande.quantite * ligneCommande.prixUnitaire }}</td>
+              <td class="align-middle text-end" >{{ ligneCommande.prixUnitaire }}</td>
+              <td class="align-middle text-end"  >{{ ligneCommande.quantite * ligneCommande.prixUnitaire }}</td>
+              <td class="align-middle text-end" *ngIf="ligneCommande.PrixVerso" >{{ ligneCommande.quantite * ligneCommande.prixUnitaire +  ligneCommande.quantite * 5}} </td>
+              <td class="align-middle text-end" *ngIf="!ligneCommande.PrixVerso" >{{ ligneCommande.quantite * ligneCommande.prixUnitaire }} </td>
+
+
             </tr>
           </tbody>
         </table>
@@ -114,7 +120,7 @@
             </tr>
             <tr class="border-top border-top-2 fw-bolder text-900">
               <th>Amount Due:</th>
-              <td>{{ calculerTotalCommande(Command._id) }}</td>
+              <td>{{ calculerTotalCommande(Command._id) }} {{TotalCommande}}</td>
             </tr>
           </table>
         </div>

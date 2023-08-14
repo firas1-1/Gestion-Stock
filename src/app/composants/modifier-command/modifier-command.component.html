@@ -1,215 +1,694 @@
 <div class="col mb-3">
-    <div class="col-md-12">
-      <div class="col-md-12 mb-3 mt-3">
-        <h2>commande</h2>
+  <div class="col-md-12">
+    <div class="col-md-12 mb-3 mt-3">
+      <h2>commande</h2>
+    </div>
+    
+    <div class="alert alert-danger" *ngIf="errorMsg.length">
+      <div *ngFor="let msg of errorMsg">
+        <span> {{ msg }}</span>
       </div>
-      <div class="alert alert-danger" >
-        <div >
-          <span> </span>
-        </div>
-      </div>
-      <div class="row p-3 custom-border">
-        <div class="col-md-5 custom-border-right">
-          <form>
+    </div>
+    <div class="row p-3 custom-border">
+      <div class="col-md-5 custom-border-right">
+        <form>
+          <div class="form-group">
+            <input type="text" class="form-control" name="codeCmd" placeholder="Code commande" [(ngModel)]="Command.code" >
+          </div>
+          <div class="form-group">
+            <input type="date" class="form-control" placeholder="Date commande" [(ngModel)]="Command.dateCommande" >
+          </div>
+          <div class="form-group">
+            Etat Commande :
+            <select class="form-control" name="cltFrs" [(ngModel)]="Command.etatCommande">
+              <option  *ngFor="let etat of EtatCommandes" [ngValue]="etat">
+                {{ etat }}
+              </option>
+            </select>
+          </div>
+            <div class="form-group"> Expédition :
+              <select class="form-control" name="Livraison"  [(ngModel)]="Command.Livraison">
+                <option>Selectionner le type de livraison</option>
+                <option value="Aramex"  >
+                  Aramex
+                </option>
+                <option value="BonjourExpress"  >
+                  Bonjour Express
+                </option>
+                <option value="Retrait en Boutique"  >
+                  Retrait en Boutique
+                </option>
+              </select>
+            </div>
+            <div class="form-group"> Mode paiement :
+              <select class="form-control" name="paiement" [(ngModel)]="Command.paiement">
+                <option>Selectionner le type de paiement</option>
+                <option value="Cash on delivery"  >
+                  Cash on delivery
+                </option>
+                <option value="Virement"  >
+                  Virement
+                </option>
+                <option value="Espèce"  >
+                  Espèce
+                </option>
+              </select>
+            </div>
             <div class="form-group">
-              <input type="text" class="form-control" name="codeCmd" placeholder="Code commande" [(ngModel)]="Command.code" >
-            </div>
-            <div class="form-group">
-              <input type="date" class="form-control" placeholder="Date commande" [(ngModel)]="Command.dateCommande" >
-            </div>
-            <div class="form-group"> Etat Commande :
-                <select class="form-control" name="cltFrs" [(ngModel)]="Command.etatCommande" >
-                  <option>Selectionner un Etat</option>
-                  <option  value="Terminée">
-                    Terminée
-                  </option>
-                  <option value="Out of delivery" >
-                    Out of delivery
-                  </option>
-                  <option value="Delivered" >
-                    Delivered
-                  </option>
-                </select>
-              </div>
-              <div class="form-group"> Expédition :
-                <select class="form-control" name="Livraison"  [(ngModel)]="Command.Livraison">
-                  <option>Selectionner le type de livraison</option>
-                  <option value="Aramex"  >
-                    Aramex
-                  </option>
-                  <option value="BonjourExpress"  >
-                    Bonjour Express
-                  </option>
-                  <option value="Retrait en Boutique"  >
-                    Retrait en Boutique
-                  </option>
-                </select>
-              </div>
-              <div class="form-group"> Mode paiement :
-                <select class="form-control" name="paiement" [(ngModel)]="Command.paiement">
-                  <option>Selectionner le type de paiement</option>
-                  <option value="Cash on delivery"  >
-                    Cash on delivery
-                  </option>
-                  <option value="Virement"  >
-                    Virement
-                  </option>
-                  <option value="Espèce"  >
-                    Espèce
-                  </option>
-                </select>
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="codeSuivi" placeholder="Code Suivi" [(ngModel)]="Command.codeSuivi">
-              </div>
-              
-              <div class="col-md-1 custom-border-right p-1 text-center mb-1 mt-1">
-                <a [href]="ClientDto.photo ? ClientDto.photo : 'assets/product.png'" target="_blank">
-                  <img [src]="ClientDto.photo ? ClientDto.photo : 'assets/product.png'" width="100px" height="100px">
-                </a>
-              </div>
-           
-          </form>
-        </div>
-        <div class="col-md-6 custom-border-right" >
-            <div class="col-md-12">
-                <form>
-                  <div class="row mb-3">
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Nom"
-                      name="nom" [(ngModel)]="ClientDto.nom" >
-                    </div>
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Adresse 1"
-                      name="adresse1" [(ngModel)]="adresseDto.adresse1" >
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Prenom"
-                      name="prenom" [(ngModel)]="ClientDto.prenom" >
-                    </div>
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Adresse 2"
-                             name="adresse2" [(ngModel)]="adresseDto.adresse2" >
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col">
-                      <input type="email" class="form-control" placeholder="E-mail"
-                             name="mail" [(ngModel)]="ClientDto.mail"  >
-                    </div>
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Ville"
-                             name="ville" [(ngModel)]="adresseDto.ville" >
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Telephone"
-                             name="numTel" [(ngModel)]="ClientDto.numTel" >
-                    </div>
-                    
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col">
-                      &nbsp;
-                    </div>
-                    <div class="col">
-                      <input type="text" class="form-control" placeholder="Pays"
-                             name="pays" >
-                    </div>
-                  </div>
-                  
-                    <div class="col">
-                  
-                    </div>
-                  
-                </form>
-              </div>
-            </div>
-        </div>
-       
-        
-       
-      </div>
-      <div class="row mt-2 p-3 custom-border">
-      
-
-        <div class="form-row col-md-12">
-          <div class="form-row col-md-12">
-            <div class="col-md-4">
-              <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
-              <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
-                <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
-                  <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
-                  {{ article.codeArticle }}&nbsp; {{ article.designation }}
-                </p>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+              <input type="text" class="form-control" name="codeSuivi" placeholder="Code Suivi" [(ngModel)]="Command.codeSuivi">
             </div>
             
-            <div class="col-md-3">
-              <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+           <div class="col-md-1 custom-border-right p-1 text-center mb-1 mt-1">
+              <a [href]="ClientDto.photo ? ClientDto.photo : 'assets/product.png'" target="_blank">
+                <img [src]="ClientDto.photo ? ClientDto.photo : 'assets/product.png'" width="100px" height="100px">
+              </a>
             </div>
-            
-          </div>
-          
-        </div>
-        <div class="form-row col-md-12 mt-4">
-          
-          <div class="col-md-4">
-            <input type="text" class="form-control" placeholder="Recto"  name='Recto'[(ngModel)]="Recto">
-          </div>
-          
-          <div class="col-md-4">
-            <input type="text" class="form-control"  placeholder="Verso" name='Verso'  [(ngModel)]="Verso">
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control"  placeholder="Platinage" name='Platinage' [(ngModel)]="Platinage">
-          </div>
-          
-        </div>
-        <div class="form-row col-md-12 mt-4">
-          
          
-          <div class="col-md-4">
-            <input type="text" class="form-control"  placeholder="Note" name='Note' [(ngModel)]="Note">
+        </form>
+      </div>
+      <div class="col-md-6 custom-border-right" >
+          <div class="col-md-12">
+              <form>
+                <div class="row mb-3">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Nom"
+                    name="nom" [(ngModel)]="ClientDto.nom" >
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Adresse 1"
+                    name="adresse1" [(ngModel)]="adresseDto.adresse1" >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Prenom"
+                    name="prenom" [(ngModel)]="ClientDto.prenom" >
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Adresse 2"
+                           name="adresse2" [(ngModel)]="adresseDto.adresse2" >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <input type="email" class="form-control" placeholder="E-mail"
+                           name="mail" [(ngModel)]="ClientDto.mail"  >
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Ville"
+                           name="ville" [(ngModel)]="adresseDto.ville" >
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Telephone"
+                           name="numTel" [(ngModel)]="ClientDto.numTel" >
+                  </div>
+                  
+                </div>
+                <div class="row mb-3">
+                  <div class="col">
+                    &nbsp;
+                  </div>
+                  <div class="col">
+                    <input type="text" class="form-control" placeholder="Pays"
+                           name="pays" >
+                  </div>
+                </div>
+                
+                  <div class="col">
+                
+                  </div>
+                
+              </form>
+            </div>
           </div>
-          <div class="col-md-1">
-            <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
-          </div>
-        </div>
-    </div> 
-    
-    <div class="row mt-2 p-3 custom-border" style="max-height: 300px;overflow-y: scroll">
-        <div class="col-md-12">
-          <app-detail-cmd *ngFor="let ligne of lignesCommande"
-          (suppressionResult)="handleSuppression($event)"
-          [ligneCommande]="ligne" 
+      </div>
+     
+      
+     
+    </div>
+    <div class="scroll-container" style="height: 700px; overflow-y: auto;" >
 
-          > 
-        </app-detail-cmd>
+      <div class="row mt-2 p-3 custom-border" >
+        <div class="card mb-3">
+          <div class="card-body">
+            
+            <div class="d-flex justify-content-between">
+              <div class="p-2">
+                <label class="form-label" for="validationTooltip01">Nom product</label>
+      
+                <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+                <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded">
+                 
+                </div>
+              </div>
+              <div class="p-2">
+                <label class="form-label" for="validationTooltip01">Categorie</label>
+      
+                <select class="form-control" name="cltFrs" [(ngModel)]="selectedCat" (click)="findAllArticles()">
+                  <option>Selectionner une categorie</option>
+                  <option *ngFor="let obj of listCategories" [ngValue]="obj.code">
+                    {{ obj.code }}&nbsp;{{ obj.designation }}
+                  </option>
+                </select>
+                </div>
+              </div>
+            
+            
+            </div>
+          
+            <div class="row">
+              
+              <div class="mb-4 col-md-6 col-lg-3" *ngFor="let article of listArticle">
+                <!-- The col-lg-3 class is used to display 4 cards per row on large screens -->
+                <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                  <div class="overflow-hidden">
+                    <div class="position-relative rounded-top overflow-hidden">
+                      <a class="d-block">
+                        <img class="img-fluid rounded-top" src="{{article.photo}}" alt="" />
+                      </a>
+                      <span class="badge rounded-pill bg-success position-absolute mt-2 me-2 z-index-2 top-0 end-0">New</span>
+                    </div>
+                    <div class="p-3">
+                      <h5 class="fs-0"><a class="text-dark" >{{article.designation}}</a></h5>
+                      <p class="fs--1 mb-3"><a class="text-500" >{{article.codeArticle}} &amp; {{article.category?.code}}</a></p>
+                      <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">{{article.prixUnitaireTtc}} Dnt
+                        <del class="ms-2 fs--1 text-500">{{article.prixUnitaireHt}} Dnt</del>
+                      </h5>
+                      <p class="fs--1 mb-1">Livraison: <strong>7dnt</strong></p>
+                      <p class="fs--1 mb-1">Stock: <strong class="text-success">Available</strong></p>
+                    </div>
+                  </div>
+                  <div class="d-flex flex-between-center px-3">
+                    
+                    <div>
+                      
+                      <a class="btn btn-sm btn-falcon-default" (click)="selectArticleClick(article)" data-toggle="modal" [attr.data-target]="'#modalDeleteArticle' + searchedArticle._id" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Cart">
+                        <span class="fas fa-cart-plus"></span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      </div>
       
-      
-      <div class="row mt-2 p-3 custom-border ">
-        <div class="col-md-12 text-right">
-          <h3> </h3>
-        </div>
+    
+  <div class="row mt-2 p-3 custom-border" style="max-height: 300px;overflow-y: scroll">
+      <div class="col-md-12">
+        <app-detail-cmd *ngFor="let ligne of lignesCommande"
+        (suppressionResult)="handleSuppression($event)"
+        [ligneCommande]="ligne" 
+        [Role]="Role"
+        [etatCommande]="Command.etatCommande"
+        > 
+      </app-detail-cmd>
       </div>
     </div>
     
-    <div class="col-md-12 text-right mt-2">
-      <button class="btn btn-danger mr-3" (click)="cancelClick()">
-        <i class="fas fa-ban"></i>&nbsp;
-        Annuler
-      </button>
-      <button class="btn btn-primary" (click)="enregistrerCommande()" >
-        <i class="fas fa-save"></i>&nbsp; 
-        Enregitrer
+    
+    <div class="row mt-2 p-3 custom-border ">
+      <div class="col-md-12 text-right">
+        <h3> </h3>
+      </div>
+    </div>
+
+  
+  <div class="col-md-12 text-right mt-2">
+    <button class="btn btn-danger mr-3" (click)="cancelClick()">
+      <i class="fas fa-ban"></i>&nbsp;
+      Annuler
+    </button>
+    <button class="btn btn-primary" [disabled]="disabled" (click)="enregistrerCommande()" >
+      <i class="fas fa-save"></i>&nbsp; 
+      Enregitrer
+    </button>
+  </div>
+  
+
+  <div class="modal fade" *ngIf="chaine" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+ aria-hidden="true">
+ <div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
       </button>
     </div>
+      <div class="form-row col-md-12">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Nom product</label>
+
+          <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+          <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+            <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+              <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+              {{ article.codeArticle }}&nbsp; {{ article.designation }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite</label>
+
+          <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+        </div>
+        
+        <div class="col-md-3">
+          <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+          <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+        </div>
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+    
+        
+      
+        <div class="col">
+          <label class="form-label" for="validationTooltip01">Taille</label>
+
+          <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="Taille">
+        </div>
+        
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        
+        
+        <div class="col">
+          Selectionner un platinage
+          <select  class="form-select" aria-label="Default select example" [(ngModel)]="Platinage">
+            <option [value]="'Silver'">Silver</option>
+            <option [value]="'Gold'" >Gold</option>
+            <option [value]="'Rosé'" >Rosé</option>
+            <option [value]="'Blanc'" >Blanc</option>
+             </select>
+        </div>
+        
+        
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-4">
+          
+        
+        <div class="form-floating">
+          <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Notes</label>
+        </div>
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-1">
+          <button type="button" class="btn btn-success" [disabled]="disabled" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      
+  </div>
+  
+  
+  </div>
+</div>
+</div>
+
+
+<div class="modal fade" *ngIf="Pendatif" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+ aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div class="form-row col-md-12">
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Nom product</label>
+
+        <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+        <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+          <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+            <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+            {{ article.codeArticle }}&nbsp; {{ article.designation }}
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite</label>
+
+        <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+        <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+      </div>
+      
+    </div>
+    
+    <div class="form-row col-md-12 mt-4">
+      <div class="col" >
+
+        <div class="form-check">
+          <input class="form-check-input" id="flexCheckIndeterminate" type="checkbox" [(ngModel)]="PrixVerso"  />
+          <label class="form-check-label" for="flexCheckIndeterminate">Gravure Verso + 5dt</label>
+        </div>
+        
+      </div>
+    </div>
+
+      <div class="form-row col-md-12 mt-4">
+
+      <div class="col-md-4" >
+        <label class="form-label" for="validationTooltip01">Recto</label>
+
+        <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+      </div>
+      
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Verso</label>
+
+        <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Taille</label>
+
+        <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="Taille">
+      </div>
+      
+      
+    </div>
+    <div class="form-row col-md-12 mt-4">
+      <div class="col">
+        Selectionner un platinage
+        <select  class="form-select" aria-label="Default select example" [(ngModel)]="Platinage">
+          <option [value]="'Silver'">Silver</option>
+          <option [value]="'Gold'" >Gold</option>
+          <option [value]="'Rosé'" >Rosé</option>
+          <option [value]="'Blanc'" >Blanc</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row col-md-12 mt-4">
+
+     
+      <div class="col">
+        <label class="form-label" for="validationTooltip01">Quantite argent</label>
+        <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="searchedArticle.quantiteArgent">
+      </div>
+      
+    </div>
+    
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-4">
+          
+        
+        <div class="form-floating">
+          <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Notes</label>
+        </div>
+      </div>
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-1">
+        <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    
+</div>
+
+
+</div>
+</div>
+</div>
+
+<div class="modal fade" *ngIf="Collier" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+ aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div class="form-row col-md-12">
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Nom product</label>
+
+        <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+        <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+          <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+            <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+            {{ article.codeArticle }}&nbsp; {{ article.designation }}
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite</label>
+
+        <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+        <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+      </div>
+      
+    </div>
+    <div class="form-row col-md-12 mt-4">
+  
+      <div class="col-md-4" >
+        <label class="form-label" for="validationTooltip01">Recto</label>
+
+        <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+      </div>
+      
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Verso</label>
+
+        <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+      </div>
+      <div class="col-md-4" >
+        <label class="form-label" for="validationTooltip01">Droite</label>
+
+        <input type="text" class="form-control"  placeholder="Droite" [(ngModel)]="Droite">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Gauche</label>
+
+        <input type="text" class="form-control"  placeholder="Gauche" [(ngModel)]="Gauche">
+      </div>
+    
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Taille</label>
+
+        <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="Taille">
+      </div>
+      
+      
+    </div>
+    <div class="form-row col-md-12 mt-4">
+      
+      
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Platinage</label>
+
+        <input type="text" class="form-control"  placeholder="Platinage" [(ngModel)]="Platinage">
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite argent</label>
+        <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="quantiteArgent">
+      </div>
+      
+    </div>
+    
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Note</label>
+        <input type="text" class="form-control"  placeholder="Note"  [(ngModel)]="Note">
+      </div>
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-1">
+        <button type="button" class="btn btn-success" [disabled]="disabled" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="modal fade" *ngIf="Braclet" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+ aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div class="form-row col-md-12">
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Nom product</label>
+
+        <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+        <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+          <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+            <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+            {{ article.codeArticle }}&nbsp; {{ article.designation }}
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite</label>
+
+        <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+        <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+      </div>
+      
+    </div>
+    <div class="form-row col-md-12 mt-4">
+  
+      <div class="col" >
+        <label class="form-label" for="validationTooltip01">Recto</label>
+
+        <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+      </div>
+    </div>
+    <div class="form-row col-md-12 mt-4">
+      <div class="col">
+        <label class="form-label" for="validationTooltip01">Verso</label>
+
+        <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+      </div>
+    </div>
+    <div class="form-row col-md-12 mt-4">
+      
+      
+      
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite argent</label>
+        <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="quantiteArgent">
+      </div>
+      
+    </div>
+    
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-4">
+          
+        
+        <div class="form-floating">
+          <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Notes</label>
+        </div>
+      </div>
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-1">
+        <button type="button" class="btn btn-success"  [disabled]="disabled" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+</div>
+
+
+</div>
+</div>
+</div>
+<div class="modal fade" *ngIf="bague" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+ aria-hidden="true">
+<div class="modal-dialog" >
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+    <div class="form-row col-md-12">
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Nom product</label>
+
+        <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+        <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+          <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+            <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+            {{ article.codeArticle }}&nbsp; {{ article.designation }}
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite</label>
+
+        <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+      </div>
+      
+      <div class="col-md-3">
+        <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+        <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+      </div>
+      
+    </div>
+    <div class="form-row col-md-12 mt-4">
+  
+      <div class="col" >
+        <label class="form-label" for="validationTooltip01">Gravure</label>
+
+        <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+      </div>
+    </div>
+    
+    <div class="form-row col-md-12 mt-4">
+      <div class="col">
+        Selectionner Taille
+        <select  class="form-select" aria-label="Default select example" [(ngModel)]="Taille">
+          <option [value]="'S'">S</option>
+          <option [value]="'M'" >M</option>
+          <option [value]="'L'" >L</option>
+          <option [value]="'XL'" >XL</option>
+           </select>
+      </div>
+    </div>
+
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-4">
+        <label class="form-label" for="validationTooltip01">Quantite argent</label>
+        <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="quantiteArgent">
+      </div>
+      
+    </div>
+    
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-4">
+          
+        
+        <div class="form-floating">
+          <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+          <label for="floatingTextarea2">Notes</label>
+        </div>
+      </div>
+    <div class="form-row col-md-12 mt-4">
+      <div class="col-md-1">
+        <button type="button" class="btn btn-success" [disabled]="disabled" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+      </div>
+    </div>
+    
+</div>
+
+
+</div>
+</div>
+</div>

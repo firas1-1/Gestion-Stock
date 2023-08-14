@@ -39,6 +39,15 @@ export class CmdcltfrsService {
    
     return this.commandeClientService.save(commandeClient);
   }
+  updateLigne(Ligne:LigneCommandeClientDto): Observable<CommandeClientDto> {
+    const id:any = this.userService.getUserIdFromToken();
+   console.log  ( id, ' id userrr')
+    // Convert null to undefined using nullish coalescing operator ??
+    const idEntreprise = id ?? undefined;
+
+   
+    return this.commandeClientService.updateLigne(Ligne);
+  }
   
   enregistrerCommandeFournisseur(commandeFournisseurDto: CommandeFournisseurDto): Observable<CommandeFournisseurDto> {
     console.log('2',commandeFournisseurDto)
@@ -59,7 +68,6 @@ export class CmdcltfrsService {
     console.log('tessst')
     return this.http.get<number>(`http://localhost:3000/api/ligneCommandFrs/argentQuantite/f`);
   }
-  
   
 
   findAllCommandesClientbyid(idCmd:number): Observable<CommandeClientDto> {

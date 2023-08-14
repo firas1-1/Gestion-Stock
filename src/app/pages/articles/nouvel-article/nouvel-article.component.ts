@@ -8,6 +8,7 @@ import {PhotosService} from '../../../../gs-api/src/services/photos.service';
 import SavePhotoParams = PhotosService.SavePhotoParams;
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-nouvel-article',
   templateUrl: './nouvel-article.component.html',
@@ -35,6 +36,8 @@ export class NouvelArticleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    
     this.categoryService.findAll()
     .subscribe(categories => {
       this.listeCategorie = categories;

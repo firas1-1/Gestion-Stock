@@ -44,9 +44,11 @@ export class PageCmdCltFrsComponent implements OnInit {
   commandeNomCliet=false;
   commandeNumTel=false;
   nomClient='';
+  codeSuivi='';
   etatCommande='';
   totalCommandes: any;
   totalArgentConsomee: any;
+  Role: any;
 
   constructor(
     private router: Router,
@@ -59,6 +61,7 @@ export class PageCmdCltFrsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.Role =this.userServices.getUserRoleFromToken()
     this.activatedRoute.data.subscribe(data => {
       this.origin = data.origin;
     });
@@ -73,7 +76,7 @@ export class PageCmdCltFrsComponent implements OnInit {
     this.commandeEtat= false;
 
     console.log(`Fetching page ${this.currentPage}...`);
-    const perPage = 60; // Set your desired items per page here
+    const perPage = 100; // Set your desired items per page here
     if (this.origin === 'client') {
 
       this.http.get<any>(`http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}`)
@@ -108,13 +111,8 @@ export class PageCmdCltFrsComponent implements OnInit {
 
     }
   }
-  
-  
-  
-
- 
  onPageChange(page: number): void {
-  
+
            if (this.origin === 'client') { 
             this.currentPage = page;
             console.log('currentPage:', this.currentPage);
@@ -134,10 +132,7 @@ export class PageCmdCltFrsComponent implements OnInit {
       this.findAllCommandes();
      }
      this.filtertest()
-     }
-
-      
-       
+     }   
   }
   // findAllCommandes(): void {
   //   console.log('eeeeee', this.origin);
@@ -212,6 +207,7 @@ export class PageCmdCltFrsComponent implements OnInit {
       if (ligne.prixUnitaire && ligne.quantite   ) {
         total += +ligne.quantite * +ligne.prixUnitaire;
       }
+      
     });
     if ( Livraison==='Aramex' || Livraison==='BonjourExpress'){
       total += 7
@@ -226,7 +222,11 @@ export class PageCmdCltFrsComponent implements OnInit {
       if (ligne.prixUnitaire && ligne.quantite   ) {
         total += +ligne.quantite * +ligne.prixUnitaire;
       }
+      if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
+        total += +ligne.quantite *5
+      }
     });
+    
     if ( Livraison==='Aramex' || Livraison==='BonjourExpress'){
       total += 7
     }
@@ -254,16 +254,18 @@ export class PageCmdCltFrsComponent implements OnInit {
     );
   }
   
+  Refresh(){
+    this.ngOnInit()
+  }
   filtertest() {
      
-  
     const Livraison = this.Livraison
     this.commandeEtat= true;
 this.findCommandes=false
     const perPage = 1; // Set your desired items per page here
   
     this.http.get<any>(
-      `http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}&etatCommande=${this.etatCommande}&phoneNumber=${this.numTel}&nomClient=${this.nomClient}&Livraison=${Livraison}&code=${this.code}`
+      `http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}&etatCommande=${this.etatCommande}&phoneNumber=${this.numTel}&nomClient=${this.nomClient}&Livraison=${Livraison}&code=${this.code}&codeSuivi=${this.codeSuivi}`
     ).subscribe((data) => {
       console.log('API response:', data);
       this.listeCommandes = data.commands;
@@ -272,6 +274,7 @@ this.findCommandes=false
       this.totalCommandes=data.pagination.totalCommands;
       console.log('totalPages:', this.totalPages);
       this.findAllLignesCommande();
+      
     });
   }
   

@@ -14,7 +14,9 @@ off=true
   @Input()
   origin = '';
   @Input()
+  Role='';
 
+  @Input()
 
   commande: any = {};
   cltFrs: ClientDto | undefined = {};
@@ -26,6 +28,8 @@ off=true
     private CmdcltfrsService: CmdcltfrsService) { }
 
   ngOnInit(): void {
+    console.log('Role',this.Role)
+
     console.log('fourniseeurcommande');
     this.extractClientFournisseur();
     if ( this.commande.etatCommande==='Delivered') {
@@ -43,6 +47,9 @@ off=true
     }
     if ( this.commande.etatCommande==='Pre-Production') {
       this.icon='badge rounded-pill badge-soft-info fs--2'
+    }
+    if ( this.commande.etatCommande==='Annulée') {
+      this.icon='badge rounded-pill badge-soft-danger fs--2'
     }
     
   }

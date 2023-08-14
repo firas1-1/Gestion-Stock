@@ -39,6 +39,7 @@ class ArticlesService extends __BaseService {
   findAllResponse(): __Observable<__StrictHttpResponse<Array<ArticleDto>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
+    console.log('headers', __headers);
     let __body: any = null;
     let req = new HttpRequest<any>(
       'GET',

@@ -179,6 +179,16 @@
     </div>
     
     <div class="row mt-2 p-3 custom-border" *ngIf="origin==='fournisseur'">
+      <div class="p-2">
+        <label class="form-label" for="validationTooltip01">Categorie</label>
+
+        <select class="form-control" name="cltFrs" [(ngModel)]="selectedCat" (click)="findAllArticles()">
+          <option>Selectionner une categorie</option>
+          <option *ngFor="let obj of listCategories" [ngValue]="obj.code">
+            {{ obj.code }}&nbsp;{{ obj.designation }}
+          </option>
+        </select>
+        </div>
         <div class="form-row col-md-12">
           <div class="col-md-4">
             <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
@@ -198,21 +208,7 @@
           </div>
           
         </div>
-        <div class="form-row col-md-12 mt-4">
-          
-          <div class="col-md-4">
-            <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
-          </div>
-          
-          <div class="col-md-4">
-            <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
-          </div>
-          <div class="col-md-4">
-            <input type="text" class="form-control"  placeholder="Platinage" [(ngModel)]="Platinage">
-          </div>
-          
-          
-        </div>
+        
         <div class="form-row col-md-12 mt-4">
           <div class="col-md-4">
             <input type="text" class="form-control"  placeholder="Note"  [(ngModel)]="Note">
@@ -240,7 +236,7 @@
     </div>
   </div>
   <div class="col-md-12 text-right mt-2">
-    <button class="btn btn-danger mr-3">
+    <button class="btn btn-danger mr-3" (click)="cancelClick()">
       <i class="fas fa-ban"></i>&nbsp;
       Annuler
     </button>
@@ -251,9 +247,206 @@
   </div>
   
 
-<div class="modal fade" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+<div class="modal fade" *ngIf="chaine" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
    aria-hidden="true">
-<div class="modal-dialog">
+   <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+        <div class="form-row col-md-12">
+          <div class="col-md-4">
+            <label class="form-label" for="validationTooltip01">Nom product</label>
+  
+            <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+            <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+              <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+                <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+                {{ article.codeArticle }}&nbsp; {{ article.designation }}
+              </p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="form-label" for="validationTooltip01">Quantite</label>
+  
+            <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+          </div>
+          
+          <div class="col-md-3">
+            <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+  
+            <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+          </div>
+          
+        </div>
+        <div class="form-row col-md-12 mt-4">
+      
+          
+        
+          <div class="col">
+            <label class="form-label" for="validationTooltip01">Taille</label>
+  
+            <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="Taille">
+          </div>
+          
+          
+        </div>
+        <div class="form-row col-md-12 mt-4">
+          
+          
+          <div class="col">
+            Selectionner un platinage
+            <select  class="form-select" aria-label="Default select example" [(ngModel)]="Platinage">
+              <option [value]="'Silver'">Silver</option>
+              <option [value]="'Gold'" >Gold</option>
+              <option [value]="'Rosé'" >Rosé</option>
+              <option [value]="'Blanc'" >Blanc</option>
+               </select>
+          </div>
+          
+          
+        </div>
+        
+        <div class="form-row col-md-12 mt-4">
+          <div class="col-md-4">
+            
+          
+          <div class="form-floating">
+            <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Notes</label>
+          </div>
+        </div>
+        <div class="form-row col-md-12 mt-4">
+          <div class="col-md-1">
+            <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+          </div>
+        </div>
+        
+    </div>
+    
+    
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" *ngIf="Pendatif" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+   aria-hidden="true">
+<div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="form-row col-md-12">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Nom product</label>
+
+          <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+          <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+            <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+              <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+              {{ article.codeArticle }}&nbsp; {{ article.designation }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite</label>
+
+          <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+        </div>
+        
+        <div class="col-md-3">
+          <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+          <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+        </div>
+        
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col" >
+
+          <div class="form-check">
+            <input class="form-check-input" id="flexCheckIndeterminate" type="checkbox" [(ngModel)]="PrixVerso"  />
+            <label class="form-check-label" for="flexCheckIndeterminate">Gravure Verso + 5dt</label>
+          </div>
+          
+        </div>
+      </div>
+
+        <div class="form-row col-md-12 mt-4">
+
+        <div class="col-md-4" >
+          <label class="form-label" for="validationTooltip01">Recto</label>
+
+          <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+        </div>
+        
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Verso</label>
+
+          <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Taille</label>
+
+          <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="Taille">
+        </div>
+        
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        <div class="col">
+          Selectionner un platinage
+          <select  class="form-select" aria-label="Default select example" [(ngModel)]="Platinage">
+            <option [value]="'Silver'">Silver</option>
+            <option [value]="'Gold'" >Gold</option>
+            <option [value]="'Rosé'" >Rosé</option>
+            <option [value]="'Blanc'" >Blanc</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row col-md-12 mt-4">
+
+       
+        <div class="col">
+          <label class="form-label" for="validationTooltip01">Quantite argent</label>
+          <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="searchedArticle.quantiteArgent">
+        </div>
+        
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-4">
+            
+          
+          <div class="form-floating">
+            <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Notes</label>
+          </div>
+        </div>
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-1">
+          <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      
+  </div>
+  
+  
+  </div>
+</div>
+</div>
+
+<div class="modal fade" *ngIf="Collier" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+   aria-hidden="true">
+<div class="modal-dialog" >
   <div class="modal-content">
     <div class="modal-header">
       <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
@@ -287,8 +480,8 @@
         
       </div>
       <div class="form-row col-md-12 mt-4">
-        
-        <div class="col-md-4">
+    
+        <div class="col-md-4" >
           <label class="form-label" for="validationTooltip01">Recto</label>
 
           <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
@@ -298,6 +491,22 @@
           <label class="form-label" for="validationTooltip01">Verso</label>
 
           <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+        </div>
+        <div class="col-md-4" >
+          <label class="form-label" for="validationTooltip01">Droite</label>
+
+          <input type="text" class="form-control"  placeholder="Droite" [(ngModel)]="Droite">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Gauche</label>
+
+          <input type="text" class="form-control"  placeholder="Gauche" [(ngModel)]="Gauche">
+        </div>
+      
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Taille</label>
+
+          <input type="text" class="form-control"  placeholder="Taille" [(ngModel)]="Taille">
         </div>
         
         
@@ -312,7 +521,7 @@
         </div>
         <div class="col-md-4">
           <label class="form-label" for="validationTooltip01">Quantite argent</label>
-          <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="quantiteArgent">
+          <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="searchedArticle.quantiteArgent">
         </div>
         
       </div>
@@ -320,11 +529,9 @@
       <div class="form-row col-md-12 mt-4">
         <div class="col-md-4">
           <label class="form-label" for="validationTooltip01">Note</label>
-
           <input type="text" class="form-control"  placeholder="Note"  [(ngModel)]="Note">
         </div>
-        <div class="form-row col-md-12 mt-4">
-
+      <div class="form-row col-md-12 mt-4">
         <div class="col-md-1">
           <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
         </div>
@@ -333,8 +540,173 @@
   </div>
   
   
+  </div>
+</div>
+</div>
+<div class="modal fade" *ngIf="Braclet" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+   aria-hidden="true">
+<div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="form-row col-md-12">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Nom product</label>
+
+          <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+          <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+            <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+              <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+              {{ article.codeArticle }}&nbsp; {{ article.designation }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite</label>
+
+          <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+        </div>
+        
+        <div class="col-md-3">
+          <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+          <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+        </div>
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+    
+        <div class="col" >
+          <label class="form-label" for="validationTooltip01">Recto</label>
+
+          <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+        </div>
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        <div class="col">
+          <label class="form-label" for="validationTooltip01">Verso</label>
+
+          <input type="text" class="form-control"  placeholder="Verso" [(ngModel)]="Verso">
+        </div>
+      </div>
+      <div class="form-row col-md-12 mt-4">
+        
+        
+        
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite argent</label>
+          <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="searchedArticle.quantiteArgent">
+        </div>
+        
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-4">
+            
+          
+          <div class="form-floating">
+            <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Notes</label>
+          </div>
+        </div>
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-1">
+          <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      
+  </div>
   
+  
+  </div>
 </div>
 </div>
+<div class="modal fade" *ngIf="bague" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+   aria-hidden="true">
+<div class="modal-dialog" >
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+      <div class="form-row col-md-12">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Nom product</label>
 
+          <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" required (input)="filtrerArticle()">
+          <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
+            <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
+              <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
+              {{ article.codeArticle }}&nbsp; {{ article.designation }}
+            </p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite</label>
 
+          <input type="text" class="form-control" placeholder="Quantite" [(ngModel)]="quantite">
+        </div>
+        
+        <div class="col-md-3">
+          <label class="form-label" for="validationTooltip01">Prix Unitaire</label>
+
+          <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+        </div>
+        
+      </div>
+      <div class="form-row col-md-12 mt-4">
+    
+        <div class="col" >
+          <label class="form-label" for="validationTooltip01">Gravure</label>
+
+          <input type="text" class="form-control" placeholder="Recto" [(ngModel)]="Recto">
+        </div>
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col">
+          Selectionner Taille
+          <select  class="form-select" aria-label="Default select example" [(ngModel)]="Taille">
+            <option [value]="'S'">S</option>
+            <option [value]="'M'" >M</option>
+            <option [value]="'L'" >L</option>
+            <option [value]="'XL'" >XL</option>
+             </select>
+        </div>
+      </div>
+
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-4">
+          <label class="form-label" for="validationTooltip01">Quantite argent</label>
+          <input type="text" class="form-control"  placeholder="QntArgent" [(ngModel)]="searchedArticle.quantiteArgent">
+        </div>
+        
+      </div>
+      
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-4">
+            
+          
+          <div class="form-floating">
+            <textarea class="form-control" id="floatingTextarea2" [(ngModel)]="Note" placeholder="Leave a comment here" style="height: 100px"></textarea>
+            <label for="floatingTextarea2">Notes</label>
+          </div>
+        </div>
+      <div class="form-row col-md-12 mt-4">
+        <div class="col-md-1">
+          <button type="button" class="btn btn-success" (click)="ajouterLigneCommande()"><i class="fas fa-plus"></i></button>
+        </div>
+      </div>
+      
+  </div>
+  
+  
+  </div>
+</div>
+</div>

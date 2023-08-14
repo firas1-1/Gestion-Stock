@@ -1,3 +1,4 @@
+
 <div class="col">
   <div class="row m-3">
     <div class="col-md-8 p-0">
@@ -36,6 +37,8 @@
           <button   type="button"  (click)="filterCommandeEtat('Out of delivery')" class="badge bg-primary mr-1 mb-2 ">Out of delivery</button>
           <button   type="button"  (click)="filterCommandeEtat('Delivered')" class="badge bg-primary mr-1 mb-2">Delivered</button>
           <button  type="button" (click)="filterCommandeEtat('Terminée')" class="badge bg-success mr-1 mb-2">Terminée</button>
+          <button  type="button" (click)="Refresh()" class="badge bg-success mr-1 mb-2">Tous les commandes </button>
+
 
       </div>
         </div>
@@ -65,7 +68,7 @@
     <div class="col-md-2 m-3">
       <div class="form-floating">
         <label for="floatingEmail">Code Suivi</label>
-        <input type="email" (input)="filtrerCommandby($event,'3')"   class="form-control" id="floatingEmail" placeholder="Code Suivi" >
+        <input type="email" name="codeSuivi" [(ngModel)]="codeSuivi" (input)="filtertest()"  class="form-control" id="floatingEmail" placeholder="Code Suivi" >
       </div>
     </div>
     <div class="col-md-2 m-3">
@@ -102,24 +105,26 @@
             <app-detail-cmd-clt-frs
               [commande]="cmd"
               [origin]="origin"
+              [Role]="Role"
               (suppressionResult)="handleSuppression($event)"
             ></app-detail-cmd-clt-frs>
-              
           </button> 
         </div>
         <div id="collapseOne{{cmd._id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample"
              style="max-height: 300px; overflow-y: scroll">
           <div class="card-body">
             <app-detail-cmd
+
             *ngFor="let ligne of mapLignesCommande.get(cmd._id)"
             [ligneCommande]="ligne"
+
             ></app-detail-cmd>
           </div>
         </div>
           <div class="card-footer">
             <div class="row">
               <div class="col-md-6 text-left">
-                <h5>{{mapLignesCommande.get(cmd._id).length}} lignes de commande</h5>
+                <h6>{{mapLignesCommande.get(cmd._id).length}} lignes de commande</h6>
               </div>
               <div class="col-md-6 text-right">
                 <h5>Total commande: {{ calculerTotalCommande(cmd._id) }}</h5>
@@ -139,3 +144,4 @@
   
 
 </div>
+  

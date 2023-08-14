@@ -10,6 +10,10 @@ import { ArticleDto } from '../../../gs-api/src/models/article-dto';
 import { ArticleService } from '../../services/article/article.service';
 import { LigneCommandeClientDto } from '../../../gs-api/src/models/ligne-commande-client-dto';
 import { CommandeFournisseurDto } from '../../../gs-api/src/models/commande-fournisseur-dto';
+import { GravureDto } from 'src/gs-api/src/models/Gravure-dto';
+import { CategoryService } from 'src/app/services/category/category.service';
+import { CategoryDto } from 'src/gs-api/src/models';
+import { UserService } from 'src/app/services/user/user.service';
 
 @Component({
   selector: 'app-modifier-command',
@@ -17,14 +21,18 @@ import { CommandeFournisseurDto } from '../../../gs-api/src/models/commande-four
   styleUrls: ['./modifier-command.component.scss']
 })
 export class ModifierCommandComponent implements OnInit {
+  
   @Input()
   origin = '';
   @Input()
 
  Command: any = {};
   ClientDto: ClientDto = {};
+  selectedCat:string = 'chaine';
   adresseDto: AdresseDto = {};
-
+  EtatCommandes: Array<string> = ['Delivered', 'Out of delivery', 'Terminée', 'Annulée',
+   'Retournée','Nouvelle commande','Production','Pre-Production',
+   'En cours','Attente validation', 'Livraison échouée','Attente paiement','Ready for production'];
   errorMsg: Array<string> = [];
   file: File | null = null;
   selectedClientFournisseur: any = {};
@@ -37,7 +45,20 @@ export class ModifierCommandComponent implements OnInit {
   Recto = '';
   Verso = '';
   Platinage = '';
+  Droite='';
+  Gauche='';
+  Taille=''
+  Role:any;
   Note = '';
+  bague=false;
+  chaine=false;
+  Pendatif=false;
+  Collier=false
+ ;
+ PrixVerso=false ;
+
+  Braclet=false
+  quantiteArgent=0
   mapLignesCommande = new Map();
   mapPrixTotalCommande = new Map();
 
@@ -45,6 +66,8 @@ export class ModifierCommandComponent implements OnInit {
   totalCommande = 0;
   articleNotYetSelected = false;
   idCommand: any;
+  listCategories: Array<any> = [];
+  disabled=false;
 
 
 
@@ -52,10 +75,13 @@ export class ModifierCommandComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private CmdcltfrsService: CmdcltfrsService,
-    private articleService: ArticleService
+    private articleService: ArticleService,
+    private categoryService:CategoryService,
+    private userServices: UserService,
   ) { }
 
   ngOnInit(): void {
+    this.Role =this.userServices.getUserRoleFromToken()
     const idClient = this.activatedRoute.snapshot.params.idObject;
     console.log('idClient',idClient);
     this.calculerTotalCommande();
@@ -64,8 +90,15 @@ export class ModifierCommandComponent implements OnInit {
     });
     this.findObject();
     this.findAllLignesCommande();
+    this.findAllCategories()
+    
   }
-
+  findAllCategories(): void {
+    this.categoryService.findAll()
+    .subscribe(res => {
+      this.listCategories = res;
+    });
+  }
   filtrerArticle(): void {
     try {
       if (this.codeArticle.trim().length === 0) {
@@ -93,12 +126,69 @@ export class ModifierCommandComponent implements OnInit {
 
 
   findAllArticles(): void {
-    this.articleService.findAllArticles()
+    if ( this.selectedCat==='chaine' ) {
+      this.chaine=true;
+      this.bague=false;
+      this.Pendatif=false;
+      this.Collier=false;
+      this.Braclet=false;
+
+
+
+    }
+    if(this.selectedCat==='Bague'){
+      this.bague=true;
+
+      this.chaine=false;;
+  
+      this.Pendatif=false;
+      this.Collier=false;
+      this.Braclet=false;
+    }
+    if (this.selectedCat==='Pendatif'){
+this.Pendatif=true
+
+this.bague=false;
+
+      this.chaine=false;
+  
+      this.Collier=false;
+      this.Braclet=false;
+    }
+    if(this.selectedCat==='Collier'){
+      this.Collier=true
+
+
+      this.Pendatif=false;
+
+this.bague=false;
+
+      this.chaine=false;
+  
+      this.Braclet=false;
+    }
+    if(this.selectedCat==='Braclet'){
+      this.Braclet=true
+      this.Collier=false;
+
+
+      this.Pendatif=false;
+
+this.bague=false;
+
+      this.chaine=false;
+  
+      
+    }
+    this.articleService.findAllArticlesInMvt(this.selectedCat)
     .subscribe(articles => {
       this.listArticle = articles;
+      console.log('Cattt',this.listArticle)
+      
     });
-  }
+    
 
+  }
 
   findObject(): void {
     const id = this.activatedRoute.snapshot.params.id;
@@ -114,6 +204,9 @@ export class ModifierCommandComponent implements OnInit {
           this.ClientDto = this.Command.client;
           this.adresseDto = this.Command.client.adresse
           console.log('client+adresse0',this.Command.dateCommande);
+          if(this.Command.etatCommande==='Delivered' && this.Role==='User'){
+            this.disabled=true;
+          }
 
         });
     }
@@ -144,7 +237,6 @@ export class ModifierCommandComponent implements OnInit {
     this.Platinage='';
     this.Note='';
 
-
     this.articleNotYetSelected = false;
     this.findAllArticles();
   }
@@ -157,6 +249,9 @@ export class ModifierCommandComponent implements OnInit {
         console.log('calculerTotalCommande',ligne.prixUnitaire)
 
         this.totalCommande += +ligne.prixUnitaire * +ligne.quantite;
+      }
+      if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
+        this.totalCommande += +ligne.quantite *5;
       }
     });
   }
@@ -171,17 +266,25 @@ export class ModifierCommandComponent implements OnInit {
         }
       });
     } else {
+      const Gravure:GravureDto={
+        Recto: this.Recto,
+        Verso: this.Verso,
+        Droite: this.Droite,
+        Gauche: this.Gauche
+      }
       const ligneCmd: LigneCommandeClientDto = {
         article: this.searchedArticle,
+        Gravure: Gravure,
+        Platinage:this.Platinage,
+        Taille:this.Taille,
+        Note: this.Note,
         prixUnitaire: this.searchedArticle.prixUnitaireTtc,
-        quantite: +this.quantite ,
-        Recto: this.Recto ,
-        Verso: this.Verso ,
-        Platinage : this.Platinage,
-        Note: this.Note};
-console.log('ligneCmd',ligneCmd);
+        quantite: +this.quantite,
+        PrixVerso:this.PrixVerso,
+        quantiteArgent:this.searchedArticle.quantiteArgent
+      };
+      console.log('ffffffffff',ligneCmd);
       this.lignesCommande.push(ligneCmd);
-
     }
   }
 
@@ -269,7 +372,6 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
         this.mapLignesCommande.set(idCommande, list);
         this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list));
       });
-    
   }
 
   calculerTatalCmd(list: Array<LigneCommandeClientDto>): number {

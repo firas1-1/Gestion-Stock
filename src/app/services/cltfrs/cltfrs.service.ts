@@ -20,6 +20,7 @@ export class CltfrsService {
 
   enregistrerClient(clientDto: ClientDto): Observable<ClientDto> {
     clientDto.idEntreprise = this.userService.getConnectedUser()._id;
+    console.log('clientDto.idEntreprise',clientDto.idEntreprise)
     return this.clientService.save(clientDto);
   }
 

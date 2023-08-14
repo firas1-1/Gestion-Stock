@@ -13,6 +13,7 @@ import { UtilisateursService } from 'src/gs-api/src/services';
 export class PageUtilisateurComponent implements OnInit {
   utlisateurs: Array<EntrepriseDto> = [];
   errorMsg: any;
+  Role:any;
   constructor(
     private router: Router,
     private utilisateurService: UtilisateursService,
@@ -24,11 +25,10 @@ export class PageUtilisateurComponent implements OnInit {
     this.entrepriseService.findAll().subscribe(res =>{
        this.utlisateurs=res
        console.log('gggggggggggggg',res);
-
     });
     console.log('gggggggggggggg',this.utlisateurs);
-    const Role =this.userSerive.getUserRoleFromToken()
-    console.log("Role",Role)
+    this.Role =this.userSerive.getUserRoleFromToken()
+    console.log("Role",this.Role)
   }
 
   nouvelUtilosateur(): void {

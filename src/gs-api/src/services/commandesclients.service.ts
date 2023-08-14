@@ -25,6 +25,8 @@ class CommandesclientsService extends __BaseService {
   static readonly updateEtatCommandePath = '/gestiondestock/v1/commandesclients/update/etat/{idCommande}/{etatCommande}';
   static readonly updateQuantiteCommandePath = '/gestiondestock/v1/commandesclients/update/quantite/{idCommande}/{idLigneCommande}/{quantite}';
   static readonly findByIdPath = '/api/Command/{idCommandeClient}';
+  static readonly updateLigneCommand = '/api/LigneCommand/create';
+
 
   constructor(
     config: __Configuration,
@@ -101,6 +103,38 @@ class CommandesclientsService extends __BaseService {
   save(body?: CommandeClientDto): __Observable<CommandeClientDto> {
     return this.saveResponse(body).pipe(
       __map(_r => _r.body as CommandeClientDto)
+    );
+  }
+
+  updateLigneResponse(body?: LigneCommandeClientDto): __Observable<__StrictHttpResponse<LigneCommandeClientDto>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+    __body = body;
+    let req = new HttpRequest<any>(
+      'POST',
+      this.rootUrl + `/api/LigneCommand`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<CommandeClientDto>;
+      })
+    );
+  }
+  /**
+   * @param body undefined
+   * @return successful operation
+   */
+  updateLigne(body?: LigneCommandeClientDto): __Observable<LigneCommandeClientDto> {
+    return this.updateLigneResponse(body).pipe(
+      __map(_r => _r.body as LigneCommandeClientDto)
     );
   }
 
@@ -353,6 +387,21 @@ class CommandesclientsService extends __BaseService {
    *
    * @return successful operation
    */
+
+
+  
+  /**
+   * @param params The `CommandesclientsService.UpdateArticleParams` containing the following parameters:
+   *
+   * - `idLigneCommande`:
+   *
+   * - `idCommande`:
+   *
+   * - `idArticle`:
+   *
+   * @return successful operation
+   */
+  
   updateArticleResponse(params: CommandesclientsService.UpdateArticleParams): __Observable<__StrictHttpResponse<CommandeClientDto>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();

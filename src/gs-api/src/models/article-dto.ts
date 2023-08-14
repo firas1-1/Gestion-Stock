@@ -10,5 +10,6 @@ export interface ArticleDto {
   prixUnitaireTtc?: number;
   photo?: string;
   category?: CategoryDto;
+  quantiteArgent?:number
   idEntreprise?: string;
 }
