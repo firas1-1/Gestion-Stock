@@ -148,6 +148,7 @@ export class PageCmdCltFrsComponent implements OnInit {
       this.http.put<any>(`http://localhost:3000/api/Command/etat/` + id, { etatCommande })
         .subscribe((data) => {
           console.log("Updated command:", data);
+          this.CommandeE=''
           this.Refresh();
         });
     }

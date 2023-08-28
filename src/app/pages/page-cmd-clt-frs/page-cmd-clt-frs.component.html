@@ -150,7 +150,20 @@
 </div>
 
 
-<div class="col-md-10">
+<div class="col-md-11">
+  <select class="form-select form-select-sm" [(ngModel)]="CommandeE" (change)="CommandeEtat()" aria-label="Bulk actions">
+    <option value="Nouvelle commande">Nouvelle commande</option>
+    <option value="Ready for production">Ready for production</option>
+    <option value="En cours">En cours</option>
+    <option value="Annulée">Annulée</option>
+    <option value="Retournée">Retournée</option>
+    <option value="Delivered">Delivered</option>
+    <option value="Terminée">Terminée</option>
+    <option value="Livraison échouée">Livraison échouée</option>
+    <option value="Pre-Production">Pre-Production</option>
+    <option value="Attente paiement">Attente paiement</option>
+    <option value="Attente validation">Attente validation</option>
+  </select>   
   <div class="card" style="background-color: #ececec;">
     <div classs="card-body" id="headingOne" >
       
@@ -187,28 +200,7 @@
       
   </div>
 </div>
-<div class="col-md-1">
-   
-  <form class="row gx-2">
-    <div class="col-auto"><small> </small></div>
-    <div class="col-auto">
-      <select class="form-select form-select-sm" [(ngModel)]="CommandeE" name="CommandeE" (change)="CommandeEtat()" aria-label="Bulk actions">
-        <option value="Nouvelle commande">Nouvelle commande</option>
-        <option value="Ready for production">Ready for production</option>
-        <option value="En cours">En cours</option>
-        <option value="Annulée">Annulée</option>
-        <option value="Retournée">Retournée</option>
-        <option value="Delivered">Delivered</option>
-        <option value="Terminée">Terminée</option>
-        <option value="Livraison échouée">Livraison échouée</option>
-        <option value="Pre-Production">Pre-Production</option>
-        <option value="Attente paiement">Attente paiement</option>
-        <option value="Attente validation">Attente validation</option>
-      </select>
-        
-    </div>
-  </form>
-</div>
+
 
 
       </div>
