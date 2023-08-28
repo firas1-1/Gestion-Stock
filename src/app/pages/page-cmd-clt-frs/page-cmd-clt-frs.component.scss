@@ -7,4 +7,15 @@
   .form-check{
     font-size:x-large;
   }
+  .sidebar-fixed {
+    position: fixed;
+    top: 0; /* Adjust this value if needed */
+    left: 0;
+    width: 200px; /* Adjust the width as needed */
+    height: 100%; /* Make the sidebar cover the entire height */
+    padding: 20px; /* Add padding as needed */
+    background-color: #f8f9fa; /* Set the background color */
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    overflow-y: auto; /* Enable scrolling if content overflows */
+  }
   

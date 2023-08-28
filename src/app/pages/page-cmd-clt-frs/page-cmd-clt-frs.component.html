@@ -17,9 +17,9 @@
 <div class="d-flex align-items-center ml-5" *ngIf="etatChange"  >
   
   <div class="mat-elevation-z8" style="margin-top: 30px; margin-right: 70px;"  >
-    <div class="card">
+    <div class="card ">
       <div class="card-body mr-5" *ngIf="origin === 'client'">
-    <div class="col ml-5 "  >
+        <div class="col ml-5 "  >
       <button  type="button" value="Nouvelle commande" (click)="ChangeEtatCommand('Nouvelle commande')"  class="badge bg-primary mr-1 mb-2">Nouvelle commande</button>
       <button   type="button"  (click)="ChangeEtatCommand('Ready for production')" class="badge bg-info mr-1 mb-2">Ready for production</button>
 

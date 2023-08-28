@@ -83,7 +83,7 @@ export class PageCmdCltFrsComponent implements OnInit {
     this.commandeEtat= false;
 
     console.log(`Fetching page ${this.currentPage}...`);
-    const perPage = 10; // Set your desired items per page here
+    const perPage = 100; // Set your desired items per page here
     if (this.origin === 'client') {
 
       this.http.get<any>(`http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}`)
