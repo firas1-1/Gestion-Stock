@@ -1,9 +1,16 @@
 .main-container {
-  margin: 50px;
+  margin: 25px;
 }
 .min-height-600 {
   min-height: 600px;
 }
 .no-flex-wrap {
   flex-wrap: inherit !important;
+}
+app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Adjust the z-index as needed */
 }

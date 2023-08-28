@@ -37,7 +37,9 @@ export class PageClientComponent implements OnInit {
   findAllClients(): void {
     console.log(`Fetching page ${this.currentPage}...`);
     const perPage = 1; // Set your desired items per page here
-
+ if ( this.nom.length!=0){
+ this.currentPage=1
+ }
       this.http.get<any>(`http://localhost:3000/api/Client/all?page=${this.currentPage}&perPage=${perPage}&nom=${this.nom}`)
       .subscribe((data) => {
         console.log('API response:', data);

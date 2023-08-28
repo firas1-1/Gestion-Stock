@@ -20,6 +20,7 @@ export class ArgentsComponent implements OnInit {
   totalCommandes: any;
   totalArgentConsomee: any;
   totalArgent: any;
+  difference=0;
 
   constructor(
     private cmdCltFrsService: CmdcltfrsService,
@@ -31,7 +32,14 @@ export class ArgentsComponent implements OnInit {
       .subscribe(  total => {
         this.totalArgent = total;
         console.log('totttttttttttttttttttttt',this.totalArgent);
-        this.ngAfterViewInit1();
+        
+
+      });
+      this.http.get<any>(`http://localhost:3000/api/ligneCommand/argentQuantite/f`)
+      .subscribe(  total => {
+        this.totalArgentConsomee = total;
+        console.log('totttttttttttttttttttttt',this.totalArgent);
+        
 
       });
     this.fetchTotalArgentConsomee();
@@ -44,14 +52,18 @@ export class ArgentsComponent implements OnInit {
     this.cmdCltFrsService.totalArgentConsomee().subscribe(
       total => {
         this.totalArgentConsomee = total;
-        this.ngAfterViewInit2();
+        console.log('this.totalArgentConsomee.total',this.totalArgentConsomee.total);
+        this.argentDisponible()
       },
       error => {
         console.error('Erreur lors de la récupération des données:', error);
       }
     );
   }
+  argentDisponible(): void {
+    this.difference =this.totalArgent.total - this.totalArgentConsomee.total
 
+  }
   // argentTotal(): void {
   //   this.cmdCltFrsService.totalArgent().subscribe(
   //     total => {
@@ -64,61 +76,18 @@ export class ArgentsComponent implements OnInit {
   //   );
   // }
 
-  ngAfterViewInit() {
-    if (this.totalCommandes) {
-      const endValue = this.totalCommandes;
-      const options = {
-        decimalPlaces: 0,
-        suffix: '',
-      };
-      this.countUp = new CountUp(this.countUpElement.nativeElement, endValue, options);
-      if (!this.countUp.error) {
-        this.countUp.start();
-      } else {
-        console.error(this.countUp.error);
-      }
-    }
-  }
+  
 
-  ngAfterViewInit1() {
-    if (this.totalArgentConsomee) {
-      const endValue = this.totalArgent.total;
-      const options = {
-        decimalPlaces: 0,
-        suffix: ' g',
-      };
-      this.countUp1 = new CountUp(this.countUpElement1.nativeElement, endValue, options);
-      if (!this.countUp1.error) {
-        this.countUp1.start();
-      } else {
-        console.error(this.countUp1.error);
-      }
-    }
-  }
+  
 
-  ngAfterViewInit2() {
-    if (this.totalArgent && this.totalArgentConsomee) {
-      const endValue = this.totalArgent.total - this.totalArgentConsomee.total;
-      const options = {
-        decimalPlaces: 0,
-        suffix: ' g',
-      };
-      this.countUp2 = new CountUp(this.countUpElement2.nativeElement, endValue, options);
-      if (!this.countUp2.error) {
-        this.countUp2.start();
-      } else {
-        console.error(this.countUp2.error);
-      }
-    }
-  }
+  
 
   findAllCommandes(): void {
     const perPage = 400; // Update with your desired value
     this.http.get<any>(`http://localhost:3000/api/command/all?page=1&perPage=${perPage}`)
       .subscribe(data => {
         this.totalCommandes = data.pagination.totalCommands;
-        this.ngAfterViewInit();
-        this.ngAfterViewInit2();
+       
       });
   }
 }

@@ -16,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
 export class NouveauCltFrsComponent implements OnInit {
 
   origin = '';
-
+Fournisseur:FournisseurDto={}
   clientFournisseur: any = { };
   listeClient:Array<ClientDto> = [];
   adresseDto: AdresseDto = {};
@@ -58,19 +58,25 @@ export class NouveauCltFrsComponent implements OnInit {
           this.clientFournisseur = client;
           this.adresseDto = this.clientFournisseur.adresse;
           console.log('client+adresse0',this.adresseDto,this.clientFournisseur);
-
         });
       } else if (this.origin === 'fournisseur') {
         this.cltFrsService.findFournisseurById(id)
         .subscribe(fournisseur => {
-          this.clientFournisseur = fournisseur;
+          this.Fournisseur = fournisseur;
           this.adresseDto = this.clientFournisseur.adresse;
-          console.log('client+adresse0',this.adresseDto,this.clientFournisseur);
+          console.log('client+adresse0',this.adresseDto,fournisseur);
         });
       }
     }
   }
-
+  enregistrerFournisseur(){
+    this.cltFrsService.enregistrerFournisseur(this.mapToFournisseur())
+      .subscribe(fournisseur => {
+        this.savePhoto(fournisseur._id,);
+      }, error => {
+        this.errorMsg = error.error.errors;
+      }); 
+  }
   enregistrer(): void {
     if (this.origin === 'client') {
       this.cltFrsService.enregistrerClient(this.mapToClient())
@@ -83,7 +89,8 @@ export class NouveauCltFrsComponent implements OnInit {
       console.log('fournisseur',this.clientFournisseur)
       this.cltFrsService.enregistrerFournisseur(this.mapToFournisseur())
       .subscribe(fournisseur => {
-        this.savePhoto(fournisseur._id,);
+        this.router.navigate(['nouvellecommandefrs'], );
+
       }, error => {
         this.errorMsg = error.error.errors;
       });
@@ -105,7 +112,7 @@ export class NouveauCltFrsComponent implements OnInit {
       this.cltFrsService.findAllFournisseurs()
         .subscribe(cmd => {
            this.clientFournisseur = cmd;
-          
+
         });
     }
   }
@@ -154,7 +161,7 @@ export class NouveauCltFrsComponent implements OnInit {
   }
 
   mapToFournisseur(): FournisseurDto {
-    const fournisseurDto: FournisseurDto = this.clientFournisseur;
+    const fournisseurDto: FournisseurDto = this.Fournisseur;
     fournisseurDto.adresse = this.adresseDto;
     return fournisseurDto;
   }
@@ -200,7 +207,9 @@ export class NouveauCltFrsComponent implements OnInit {
           console.log('Image and data sent successfully!');
           // Handle the response from the backend if needed
       if ( this.update==true ) { 
-        this.router.navigate(['clients'], );
+       // this.router.navigate(['clients'], );
+        this.router.navigate(['nouvellecommandeclt'], );
+
         return; 
 
 
@@ -231,7 +240,7 @@ export class NouveauCltFrsComponent implements OnInit {
           (response) => {
             console.log('Image and data sent successfully!');
             // Handle the response from the backend if needed
-            this.router.navigate(['nouvellecommandeclt'], );
+            this.router.navigate(['nouvellecommandefrs'], );
           },
           (error) => {
             console.error('Error sending data to the server:', error);

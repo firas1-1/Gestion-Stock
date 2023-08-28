@@ -12,9 +12,16 @@
     <div class="row p-3 custom-border">
       <div class="col-md-5 custom-border-right">
         <form>
+          <div class="row">
+            
+           
+            <p > vendu par :#{{Command.idEntreprise}}</p>
+         
+        </div>
           <div class="form-group">
             <input type="text" class="form-control" name="codeCmd" placeholder="Code commande" [(ngModel)]="Command.code" >
           </div>
+          
           <div class="form-group">
             <input type="date" class="form-control" placeholder="Date commande" [(ngModel)]="Command.dateCommande" >
           </div>
@@ -39,6 +46,9 @@
                   Retrait en Boutique
                 </option>
               </select>
+            </div>
+            <div class="form-group">
+              <input type="string" class="form-control" name="noteLivraison" placeholder="noteLivraison" [(ngModel)]="Command.noteLivraison" >
             </div>
             <div class="form-group"> Mode paiement :
               <select class="form-control" name="paiement" [(ngModel)]="Command.paiement">
@@ -223,9 +233,9 @@
       <i class="fas fa-ban"></i>&nbsp;
       Annuler
     </button>
-    <button class="btn btn-primary" [disabled]="disabled" (click)="enregistrerCommande()" >
+    <button class="btn btn-primary" [disabled]="disabled" (click)="enregistrerCommande()">
       <i class="fas fa-save"></i>&nbsp; 
-      Enregitrer
+      Enregistrer
     </button>
   </div>
   

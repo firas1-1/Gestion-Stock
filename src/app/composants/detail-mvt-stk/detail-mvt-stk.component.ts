@@ -9,12 +9,13 @@ import { MvtStkDto } from 'src/gs-api/src/models';
 export class DetailMvtStkComponent implements OnInit {
 
   @Input()
-  MvtStock: MvtStkDto = {};
+  MvtStock: any = {};
 
 
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.MvtStock.quantite,'MvtStock.quantite')
   }
 
 }

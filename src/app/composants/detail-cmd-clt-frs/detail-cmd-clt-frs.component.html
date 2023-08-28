@@ -1,10 +1,14 @@
 
 
-<div class="card mb-3">
-  <div class="card-header">
+
+<div class=" card border h-100 border-primary">
+  
+<div>   <div class="bg-holder d-none d-lg-block bg-card" style="background-image:url(../../assets/img/icons/spot-illustrations/corner-4.png);">
+</div>
+  <div class="card-header" *ngIf="origin==='clienst'" >
     <div class="row align-items-center">
-      <div class="col">
-        <h5 class="mb-0">#{{commande.code}}</h5>
+      <div class="col" >
+        <h5 class="mb-0">Ref#{{commande.code}}</h5>
       </div>
       
       <div class="col-auto"><a class="btn btn-falcon-default btn-sm" (click)="modifierClick()" ><span class="fas fa-pencil-alt fs--2 me-1"></span>Update details</a></div>
@@ -15,74 +19,58 @@
   </div>
   <div class="card-body bg-light border-top">
     
+    
     <div class="row">
       <div class="col-lg col-xxl-5">
+       
+        <div class="row">
+          <p class="mb-0">Reference :<b> {{commande.code}} </b> </p>
+
+        </div>
+        <div class="row">
+          <p class="col-md-12 text-center rounded-pill  badge-soft-warning ">{{ commande.noteLivraison }}</p>
+
+        </div>
+
+      </div>
+      <div class="col-lg col-xxl-5">
+        
         <h6 class="fw-semi-bold ls mb-3 text-uppercase"></h6>
-        <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-1"><i class="fas fa-info-circle gray-color"></i></p>
-          </div>
-          <div class="col">{{ cltFrs?.nom }}</div>        </div>
-        <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-1"><i class="fas fa-info-circle gray-color"></i></p>
-          </div>
-          <div class="col">{{ cltFrs?.prenom }}</div>
+        <div class="row" *ngIf="(cltFrs?.nom)|| (cltFrs?.prenom)">
+          <div class="col" ><i class="fas fa-info-circle blue-color"></i> &nbsp; {{ cltFrs?.nom }} {{ cltFrs?.prenom }}</div>   
+        
         </div>
+       
         <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-1"><i class="fas fa-phone-alt gray-color"></i></p>
-          </div>
-          <div class="col"><a >{{ cltFrs?.numTel }}</a> </div>
+          <div class="col"><a > <i class="fas fa-phone-alt blue-color"></i> &nbsp;{{ cltFrs?.numTel }}</a> </div>
+         
         </div>
-        <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-1">Description</p>
-          </div>
+       
+        <div class="row" *ngIf="commande.Livraison">
+         
           <div class="col">
-            <p class="fst-italic text-400 mb-1">{{commande.Note}}</p>
+            <p > <i class='fas  fa-truck-fast gray-color'></i>{{commande.Livraison}}</p>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-0"><a> <i class='fas  fa-truck-fast gray-color'></i></a></p>
-          </div>
-          <div class="col">
-            <p >{{commande.Livraison}}</p>
-          </div>
-          
+         
         </div>
       </div>
       <div class="col-lg col-xxl-5 mt-4 mt-lg-0 offset-xxl-1">
-        <h6 class="fw-semi-bold ls mb-3 text-uppercase"></h6>
         
         <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-1"></p>
-          </div>
-          <div class="col"><a href="mailto:tony@gmail.com">{{ commande.dateCommande  | date:'yyyy-MM-dd' }}</a></div>
+          
+          <div class="col"><a >{{ commande.dateCommande  | date:'yyyy-MM-dd' }}</a></div>
         </div>
-        <div class="row">
-          <div class="col-5 col-sm-4">
-            <p class="fw-semi-bold mb-1"></p>
-          </div>
-          <div class="col"> 
-            <p class="mb-1"><br /></p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-5 col-sm-4">
+        
+        <div class="row" >
+          <div class="col-5 col-sm-3">
           </div>          
-          <div class="{{icon}}">{{ commande.etatCommande }}<span class="fas fa-check ms-1" data-fa-transform="shrink-2"></span></div>
-              </div>
-              <div class="row">
-                <div class="col-5 col-sm-4">
-                  <p class="fw-semi-bold mb-1">  </p>
-                </div>
-                <div class="col"> 
-                  <p class="mb-1"><br /> vendu par :#{{commande.idEntreprise}}</p>
-                </div>
-              </div>
+          <div  class="{{icon}}"> <b>{{ commande.etatCommande }} </b> <span class="fas fa-check ms-1 enlarged-icon" data-fa-transform="shrink-2"></span></div>
+          <style>
+            .enlarged-icon {
+              font-size: 1.5em; /* You can adjust the size as needed */
+            }
+          </style>              </div>
+              
         </div>
         
       </div>
@@ -91,9 +79,18 @@
   </div>
 
 
-  <div class="card-footer border-top text-end">
-    <a class="btn btn-falcon-default btn-sm text-end" data-toggle="modal" [attr.data-target]="'#modalDeleteArticle' + commande._id"><span class="fas fa-trash-alt fs--2 me-1"></span>Supprimer</a>
+  <div class="card-footer border-top text-end"  >
+    
+    <div class="row" *ngIf="origin==='client'">
+      <div class="col-auto mr-2"><a class="btn btn-falcon-default btn-sm" (click)="modifierClick()" ><span class="fas fa-pencil-alt fs--2 me-1"></span>Update details</a></div>
+      <div class="col-auto"><a class="btn btn-falcon-default btn-sm" (click)="Facture()" ><span class="fas fa-file-invoice-dollar"></span>Facture</a></div>
 
+     </div>
+     <div class="col-auto ">    <a class="btn btn-falcon-default btn-sm text-end" data-toggle="modal" [attr.data-target]="'#modalDeleteArticle' + commande._id"><span class="fas fa-trash-alt fs--2 me-1"></span>Supprimer</a>
+     </div>
+    
+
+  </div>
                   <div class="modal fade" id="modalDeleteArticle{{ commande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
        aria-hidden="true">
     <div class="modal-dialog">

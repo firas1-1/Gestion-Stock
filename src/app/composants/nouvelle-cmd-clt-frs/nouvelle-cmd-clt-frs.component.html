@@ -42,6 +42,10 @@
               </option>
             </select>
           </div>
+          <div class="form-group">
+            <input type="text" class="form-control" name="noteLivraison" placeholder="note Livraison" [(ngModel)]="noteLivraison">
+          </div>
+          
           <div class="form-group"> Mode paiement :
             <select class="form-control" name="paiement" [(ngModel)]="paiement">
               <option>mode paiement</option>
@@ -105,7 +109,7 @@
       </div>
       
       <div class="col-md-2 text-center" *ngIf="selectedClientFournisseur.nom">
-        <img [src]="selectedClientFournisseur.photo ? selectedClientFournisseur.photo :  'assets/product.png' " class="rounded-circle" width="150px"
+        <img [src]="selectedClientFournisseur.photo  " class="rounded-circle" width="150px"
              height="150px" />
       </div>
     </div>
@@ -164,7 +168,6 @@
                 <div class="d-flex flex-between-center px-3">
                   
                   <div>
-                    
                     <a class="btn btn-sm btn-falcon-default" (click)="selectArticleClick(article)" data-toggle="modal" [attr.data-target]="'#modalDeleteArticle' + searchedArticle._id" data-bs-toggle="tooltip" data-bs-placement="top" title="Add to Cart">
                       <span class="fas fa-cart-plus"></span>
                     </a>
@@ -191,7 +194,7 @@
         </div>
         <div class="form-row col-md-12">
           <div class="col-md-4">
-            <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrerArticle()">
+            <input type="text"  class="form-control" placeholder="Code article" [(ngModel)]="codeArticle" (input)="filtrer()">
             <div *ngIf="codeArticle.length && !articleNotYetSelected" class="autocomplete shadow p-3 mb-5 bg-white rounded" style="height: 500px;">
               <p class="p-1" *ngFor="let article of listArticle" (click)="selectArticleClick(article)" style="height: 100%;">
                 <img *ngIf="article.photo" [src]="article.photo" alt="Article Photo" width="50%" height="100%">
@@ -204,7 +207,7 @@
           </div>
           
           <div class="col-md-3">
-            <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixUnitaireTtc">
+            <input type="text" class="form-control"  placeholder="Prix unitaire" [(ngModel)]="searchedArticle.prixAchat">
           </div>
           
         </div>
@@ -240,9 +243,9 @@
       <i class="fas fa-ban"></i>&nbsp;
       Annuler
     </button>
-    <button class="btn btn-primary" (click)="enregistrerCommande()">
-      <i class="fas fa-save"></i>&nbsp;
-      Enregitrer
+    <button class="btn btn-primary" [disabled]="disabled" (click)="enregistrerCommande()">
+      <i class="fas fa-save"></i>&nbsp; 
+      Enregistrer
     </button>
   </div>
   

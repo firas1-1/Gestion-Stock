@@ -9,6 +9,7 @@ import { MvtstkService } from 'src/gs-api/src/services/mvtstk.service';
 import {  LigneCommandeFournisseurDto } from 'src/gs-api/src/models';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   
   selector: 'app-page-cmd-clt-frs',
@@ -22,15 +23,19 @@ export class PageCmdCltFrsComponent implements OnInit {
   
   totalPages: number = 400;  
 
+  isChecked = false;
 
   origin = '';
   listeCommandes:  Array<any> = [];
   listefilter:  Array<any> = [];
   mapLignesCommande = new Map();
+  mapCheckedComand:  Array<any> = [];
+  etatChange=false;
   mapPrixTotalCommande = new Map();
   errorMsg: any;
   code = '';
-  numTel='';
+  CommandeE: string=''; 
+    numTel='';
   Livraison='';
   articleNotYetSelected = false;
   nomEntreprise: string | undefined;
@@ -57,7 +62,7 @@ export class PageCmdCltFrsComponent implements OnInit {
     private userServices: UserService,
     private entrepriseService : EntrepriseService,
     private mvtstkService:MvtstkService,
-    private http: HttpClient
+    private http: HttpClient,
   ) { }
 
   ngOnInit(): void {
@@ -71,12 +76,14 @@ export class PageCmdCltFrsComponent implements OnInit {
    // this.findAllCommandes();
     const id =  this.userServices.getUserIdFromToken()
   }
+
+  
   findAllCommandes(): void {
     this.findCommandes= true;
     this.commandeEtat= false;
 
     console.log(`Fetching page ${this.currentPage}...`);
-    const perPage = 100; // Set your desired items per page here
+    const perPage = 10; // Set your desired items per page here
     if (this.origin === 'client') {
 
       this.http.get<any>(`http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}`)
@@ -111,6 +118,59 @@ export class PageCmdCltFrsComponent implements OnInit {
 
     }
   }
+
+  handleCheckboxChange(id: any) {
+    if (this.isChecked) {
+      if (!this.mapCheckedComand.includes(id)) {
+        this.mapCheckedComand.push(id);
+        this.etatChange = true;
+      }
+      this.isChecked = false; // Reset checkbox state after adding
+    } else {
+      const index = this.mapCheckedComand.indexOf(id);
+      if (index !== -1) {
+        this.mapCheckedComand.splice(index, 1); // Remove the item from the array
+      }
+      if (this.mapCheckedComand.length === 0) {
+        this.etatChange = false;
+      }
+    }
+  }
+  CommandeEtat(){
+    if (this.mapCheckedComand.length === 0) {
+      console.log("No commands selected.");
+      return;
+    }
+  
+    for (let product of this.mapCheckedComand) {
+      const id = product;
+      let etatCommande = this.CommandeE
+      this.http.put<any>(`http://localhost:3000/api/Command/etat/` + id, { etatCommande })
+        .subscribe((data) => {
+          console.log("Updated command:", data);
+          this.Refresh();
+        });
+    }
+    this.mapCheckedComand = [];
+  }
+  ChangeEtatCommand(etatCommande: any) {
+    if (this.mapCheckedComand.length === 0) {
+      console.log("No commands selected.");
+      return;
+    }
+  
+    for (let product of this.mapCheckedComand) {
+      const id = product;
+      this.http.put<any>(`http://localhost:3000/api/Command/etat/` + id, { etatCommande })
+        .subscribe((data) => {
+          console.log("Updated command:", data);
+          this.Refresh();
+        });
+    }
+    this.mapCheckedComand = [];
+  }
+  
+  
  onPageChange(page: number): void {
 
            if (this.origin === 'client') { 
@@ -123,15 +183,13 @@ export class PageCmdCltFrsComponent implements OnInit {
             this.filtertest()
 
            }
-
-
      } else if (this.origin === 'fournisseur') { 
       this.currentPage = page;
       console.log('currentPage:', this.currentPage);
-      if ( this.findCommandes){
+      
       this.findAllCommandes();
-     }
-     this.filtertest()
+     
+   //  this.filtertest()
      }   
   }
   // findAllCommandes(): void {
@@ -193,19 +251,19 @@ export class PageCmdCltFrsComponent implements OnInit {
       .subscribe(list => {
         console.log('lissssst',list);
         this.mapLignesCommande.set(idCommande, list);
-        this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmdFrs(list,Livraison),);
+        this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list,Livraison),);
         console.log('lissssst',this.mapLignesCommande);
 
       });
     }
   }
-  calculerTatalCmdFrs(list: Array<LigneCommandeFournisseurDto>,Livraison:string): number {
+  calculerTatalCmdFrs(list: Array<LigneCommandeClientDto>,Livraison:string): number {
     console.log('livraiosn', Livraison)
     
     let total = 0;
     list.forEach(ligne => {
-      if (ligne.prixUnitaire && ligne.quantite   ) {
-        total += +ligne.quantite * +ligne.prixUnitaire;
+      if (ligne.prixAchat && ligne.quantite   ) {
+        total += +ligne.quantite * +ligne.prixAchat;
       }
       
     });
@@ -218,20 +276,41 @@ export class PageCmdCltFrsComponent implements OnInit {
     console.log('livraiosn', Livraison)
     
     let total = 0;
-    list.forEach(ligne => {
-      if (ligne.prixUnitaire && ligne.quantite   ) {
-        total += +ligne.quantite * +ligne.prixUnitaire;
+    if ( this.origin==='client'){
+      list.forEach(ligne => {
+        if (ligne.prixUnitaire && ligne.quantite   ) {
+          total += +ligne.quantite * +ligne.prixUnitaire;
+        }
+        if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
+          total += +ligne.quantite *5
+        }
+      });
+      
+      if ( Livraison==='Aramex' || Livraison==='BonjourExpress'){
+        total += 7
       }
-      if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
-        total += +ligne.quantite *5
-      }
-    });
+      
     
-    if ( Livraison==='Aramex' || Livraison==='BonjourExpress'){
-      total += 7
+    
+    } else if ( this.origin==='fournisseur'){
+      console.log('1')
+      list.forEach(ligne => {
+        if (ligne.prixAchat && ligne.quantite   ) {
+          total += +ligne.quantite * +ligne.prixAchat;
+        }
+        if(ligne.PrixVerso && ligne.quantite && ligne.prixAchat){
+          total += +ligne.quantite *5
+        }
+      });
+      
+      if ( Livraison==='Aramex' || Livraison==='BonjourExpress'){
+        total += 7
+      }
     }
     return Math.floor(total);
-  }
+    
+    }
+    
   
   calculerTotalCommande(id?: number): number {
 
@@ -240,6 +319,7 @@ export class PageCmdCltFrsComponent implements OnInit {
  
   filterCommandeEtat(etatCommande:string){
     this.etatCommande=etatCommande
+    this.currentPage=1
     this.filtertest()
   }
   fetchTotalArgentConsomee(): void {
@@ -255,6 +335,9 @@ export class PageCmdCltFrsComponent implements OnInit {
   }
   
   Refresh(){
+    if (this.etatChange ){
+      this.etatChange=!this.etatChange
+    }
     this.ngOnInit()
   }
   filtertest() {
@@ -263,11 +346,12 @@ export class PageCmdCltFrsComponent implements OnInit {
     this.commandeEtat= true;
 this.findCommandes=false
     const perPage = 1; // Set your desired items per page here
-  
+    // this.currentPage=1
     this.http.get<any>(
-      `http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}&etatCommande=${this.etatCommande}&phoneNumber=${this.numTel}&nomClient=${this.nomClient}&Livraison=${Livraison}&code=${this.code}&codeSuivi=${this.codeSuivi}`
+      `http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}&etatCommande=${this.etatCommande}&phoneNumber=${this.numTel}&nomClient=${this.nomClient}&Livraison=${this.Livraison}&code=${this.code}&codeSuivi=${this.codeSuivi}`
     ).subscribe((data) => {
       console.log('API response:', data);
+     
       this.listeCommandes = data.commands;
       this.currentPage = data.pagination.currentPage;
       this.totalPages = data.pagination.totalPages;

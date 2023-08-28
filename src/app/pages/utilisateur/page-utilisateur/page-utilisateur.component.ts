@@ -36,8 +36,9 @@ export class PageUtilisateurComponent implements OnInit {
   }
   handleSuppression(event: any): void {
     if (event === 'success') {
-      this.utilisateurService.findAll().subscribe(utilisateur =>{
-        this.utlisateurs=utilisateur
+      this.entrepriseService.findAll().subscribe(res =>{
+        this.utlisateurs=res
+        console.log('gggggggggggggg',res);
      });
     } else {
       this.errorMsg = event;

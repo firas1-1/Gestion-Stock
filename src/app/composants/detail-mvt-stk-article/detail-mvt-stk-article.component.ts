@@ -1,7 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { ArticleService } from 'src/app/services/article/article.service';
-import { ArticleDto, MvtStkDto } from 'src/gs-api/src/models';
+import { ArticleDto, LigneCommandeClientDto, MvtStkDto } from 'src/gs-api/src/models';
 import { MvtstkService } from 'src/gs-api/src/services';
+import { AlerteService } from '../alerte/alerte.service';
 
 @Component({
   selector: 'app-detail-mvt-stk-article',
@@ -17,16 +21,20 @@ export class DetailMvtStkArticleComponent implements OnInit {
 articleDto: ArticleDto = {};
 @Input()
 Total= 0;
-  total: number=0;
+
+
+  totalFrs: number=0;
+  etatStock=false
 
 
 
-constructor(private articleService:ArticleService,private mvtstkService:MvtstkService) { }
+constructor(private articleService:ArticleService,private mvtstkService:MvtstkService,
+  private route:Router,private alerteService:AlerteService) { }
 
 ngOnInit(): void {
-  this.findListArticle()
- 
-
+  console.log('quantity',this.Total)
+  
+  
 }
 correctionStock(){
 
@@ -36,23 +44,35 @@ correctionStock(){
 
 
 
-findListArticle(): void {
-  this.articleService.findAllArticles()
-  .subscribe(articles => {
-    this.listeMvt = articles;
-    console.log( this.listeMvt)
-    this.findAllMvtStock()
-  });
-}
+// findListArticle(): void {
+//   this.articleService.findAllArticles()
+//     .pipe(
+//       switchMap(articles => {
+//         this.listeMvt = articles;
+        
+//         const observables = this.listeMvt.map(article => this.findMvtStock(article._id));
+//         return forkJoin(observables);
+//       })
+//     )
+//     .subscribe(results => {
+//       console.log('Results:', results);
+//       // Process the results as needed
+//       this.findAllMvtStock()
+//     });
+// }
 
 
 
-  findAllMvtStock(): void {
-    this.listeMvt.forEach(article => {
-      
-     this.findMvtStock(article._id);
-    });
-  }
+  // findAllMvtStock(): void {
+  //   this.listeMvt.forEach(article => {
+  //         console.log( 'this.listeMvt',this.listeMvt)
+  //       //  this.findMvtFrsStock(article._id);
+
+  //    this.findMvtStock(article._id);
+  //   });
+
+
+  // }
   
   // findMvtStock(){
   //   console.log( this.listArticles, 'dataaaa')
@@ -70,42 +90,57 @@ findListArticle(): void {
   
 
 
-  findMvtStock(id: any): void {
-    
-    this.mvtstkService.mvtStkArticle(id)
-      .subscribe(list => {
-        console.log('lissssst',list);
-        this.mapLignesCommande.set(id, list);
-        this.mapPrixTotalCommande.set(id, this.calculerTatalCmd(list));
-      });
-   
-  }
+  // findMvtStock(id: any): void {
+  //   this.mvtstkService.mvtStkArticle(id)
+  //     .subscribe(list => {
+  //       console.log('lissssst',list);
+  //       this.mapLignesCommande.set(id, list);
+  //       this.mapPrixTotalCommande.set(id, this.calculerTotalCmd(list));
+  //     });
+  // }
+ 
 
-  calculerTatalCmd(list: Array<MvtStkDto>): number {
   
-    
-    
-    let TotalSortie=0;
-    let  TotalEntree=0
-    this.total=0
-    list.forEach(mvt => {
-      if ( mvt.quantite   ) {
-        if( mvt.typeMvt==='Sortie'){
-          TotalSortie+= +mvt.quantite 
-        }
-        else if ( mvt.typeMvt==='Entree')
-        TotalEntree += +mvt.quantite 
-      }
-      
-    });
-    this.total = TotalEntree - TotalSortie
-    console.log('totaaal',this.total);
-    return Math.floor(this.total);
+  // calculerTotalCmd(list: MvtStkDto[]): number {
+  //   let totalSortie = 0;
+  //   let totalEntree = 0;
+  //   list.forEach(mvt => {
+  //     if (mvt.quantite) {
+  //       if (mvt.typeMvt === 'Sortie') {
+  //         totalSortie += +mvt.quantite;
+  //       } else if (mvt.typeMvt === 'Entree') {
+  //         totalEntree += +mvt.quantite;
+  //       }
+  //     }
+  //   });
+  //   this.total = totalEntree - totalSortie;
+  //   return Math.floor(this.total);
+  // }
+  
+  modifierArticle(): void {
+    this.route.navigate(['nouvelarticle', this.articleDto._id]);
   }
+  // calculerTotalCommande(id?: number): number {
 
-  calculerTotalCommande(id?: number): number {
 
-    return this.mapPrixTotalCommande.get(id);
-  }
+  //   if ( this.mapPrixTotalCommande.get(id)===0 || this.mapPrixTotalCommande.get(id)<0 ){
+  //     this.etatStock ='Hors stock'
+  //   }
+  //   else if (this.total>0 ) {
+  //     this.etatStock ='On stock'
+  //   }
+  //   return this.mapPrixTotalCommande.get(id);
+  // }
+  
+  // calculerTotalCommande(id: any): void {
+  //   const total = this.mapPrixTotalCommande.get(id) || 0;
+  //   if (total <= 0) {
+  //     this.etatStock=true;
+  //   } else {
+  //     this.etatStock=false;
+  //   }
+  //       return this.mapPrixTotalCommande.get(id);
+
+  // }
 
 }

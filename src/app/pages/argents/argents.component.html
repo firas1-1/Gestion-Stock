@@ -14,7 +14,7 @@
 
         <div class="card-body position-relative">
             <h6> Quantité Argent <span class="badge badge-soft-warning rounded-pill ms-2">-0.23%</span></h6>
-            <div #countUpElement1 class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning">0</div>
+            <div class="display-4 fs-4 mb-2 fw-normal font-sans-serif text-warning">{{totalArgent.total}}</div>
             <a class="fw-semi-bold fs--1 text-nowrap">See all<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
           </div>
       </div>
@@ -42,7 +42,7 @@
 
         <div class="card-body position-relative">
           <h6>Argent disponible<span class="badge badge-soft-success rounded-pill ms-2">9.54%</span></h6>
-          <div  #countUpElement2 class="display-4 fs-4 mb-2 fw-normal font-sans-serif" >0</div>
+          <div   class="display-4 fs-4 mb-2 fw-normal font-sans-serif" >{{difference }}</div>
           <a class="fw-semi-bold fs--1 text-nowrap" href="http://localhost:4200/statistiques">
             Statistics<span class="fas fa-angle-right ms-1" data-fa-transform="down-1"></span></a>
         </div>

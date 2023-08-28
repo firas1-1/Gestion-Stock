@@ -1,183 +1,106 @@
-
-
-
-
-<div class="row mb-1 mr-0 custom-border">
+<div class="card">
   
-  <!--  Details article-->
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row text-center">
-      <div class="col-md-11"><b>{{ ligneCommande.article?.codeArticle }} </b></div>
-    </div>
-  </div>
-
-  <div class="col-md-3 mb-1 mt-1 border-bottom border-200 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> {{ ligneCommande.article?.designation }} </b>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2 mb-1 mt-1 border-bottom border-200">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <div class="d-flex align-items-center position-relative"><img
-          class="rounded-1" [src]="ligneCommande.article?.photo ? ligneCommande.article?.photo: 'assets/product.png'"
-          width="60" alt="" />
-     </div>      </div>
-    </div>
-  </div>
-  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> {{ ligneCommande.quantite }} </b>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-2 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b>  {{ ligneCommande.prixUnitaire }} </b>
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-
-<div class="row mb-1 mr-0 ">
-  <div class="col-md-2 mb-1 mt-1">
-    <div class="row">
-      <div class="col-md-12 text-center">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2 mb-1 mt-1">
-    <div class="row">
-      <div class="col-md-12 text-center">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2 mb-1 mt-1">
-    <div class="row">
-      <div class="col-md-12 text-center">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2 mb-1 mt-1">
-    <div class="row">
-      <div class="col-md-12 text-center">
-      </div>
-    </div>
-  </div>
-  <div class="col-md-2 mb-1 mt-1">
-    <div class="row">
-      <div class="col-md-12 text-center">
-      </div>
-    </div>
-  </div>
-  
-  <div class="col-md-2 mb-1 mt-1">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b>Amount :  {{ ligneCommande.prixUnitaire && ligneCommande.quantite ? +ligneCommande.prixUnitaire * +ligneCommande.quantite : '' }} Dt </b>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<div class="row mb-1 mr-0 custom-border">
-  <!--  Details article-->
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row text-center">
-      <div class="col-md-11"> <b> Recto </b> :{{ ligneCommande.Gravure?.Recto}}</div>
-    </div>
-  </div>
-
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> Verso : </b>  {{ ligneCommande.Gravure?.Verso }}
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> Gauche : </b>  {{ ligneCommande.Gravure?.Gauche }}
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> Droite : </b>  {{ ligneCommande.Gravure?.Droite }}
-      </div>
-    </div>
-  </div>
-</div>
-<div class="row mb-1 mr-0 custom-border">
-
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> Platinage : </b>    {{ ligneCommande.Platinage }}
-      </div>
-    </div>
-  </div>
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> Taille : </b>    {{ ligneCommande.Taille }}
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-3 custom-border-right mb-1 mt-1 ">
-    <div class="row">
-      <div class="col-md-12 text-center">
-        <b> Note : </b>    {{ ligneCommande.Note }}
-      </div>
-    </div>
+  <div class="card-header bg-light btn-reveal-trigger d-flex flex-between-center">
     
-  </div>
-  
-
-
-
-  <div class="col-md-2 custom-border-right mb-1 mt-1 " *ngIf="update">
-      <div class="col-md-12 text-center">
-        <button   type="button" class="btn btn-link text-danger" data-toggle="modal" *ngIf="ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' + ligneCommande._id">
-          <i class="fas fa-trash-alt"></i>&nbsp;Supprimer
-        </button>
+    <div class="row">
       
+      <div class="col">
+        <h5 class="mb-0">{{ ligneCommande.article?.designation }}</h5>
+
+      </div>
+      <div class="col" *ngIf="update">
+
+      <a class="btn btn-link btn-sm btn-reveal text-600">
+        <button type="button" class="btn btn-link" data-toggle="modal"
+        *ngIf="ligneCommande._id" [attr.data-target]="'#modalUpdateLigne' + ligneCommande._id">
+  <span class="fas fa-pencil-alt fs--2 me-1"></span>
+  </button>    </a>
     </div>
+  </div>  
+  <div class="col" *ngIf="update">
+    <button type="button" class="btn" data-toggle="modal"
+                *ngIf="!ligneCommande._id" [attr.data-target]="'#modalDeleteArticle'">
+          <i class="fas fa-trash-alt"></i>&nbsp;Article ajoutée
+        </button>
+  </div> 
+  <div class="col" *ngIf="update">
+    <button type="button" class="btn btn-link text-danger" data-toggle="modal"
+    *ngIf="ligneCommande._id" [attr.data-target]="'#modalDeleteArticle' + ligneCommande._id">
+<i class="fas fa-trash-alt"></i>&nbsp;
+</button>
+  </div> 
 
-    <div class="col-md-12 text-center">
-      <button   type="button" class="btn btn-link " data-toggle="modal" *ngIf="ligneCommande._id"  [attr.data-target]="'#modalUpdateLigne' + ligneCommande._id">
-        <span class="fas fa-pencil-alt fs--2 me-1"></span>
+    
 
-      </button>
-    
-  </div>
-
-    
-    <div class="col-md-12 text-center">
-      <button  type="button" class="btn "  data-toggle="modal" *ngIf="!ligneCommande._id"  [attr.data-target]="'#modalDeleteArticle' ">
-        <i class="fas fa-trash-alt"></i>&nbsp;article ajoutée
-      </button>
-    
-  </div>
-    
   </div>
   
 
   
-</div>
+
+  <div class="card-body">
+    <table class="table table-borderless fs--1 mb-0">
+      <tr class="border-bottom" style="width: 10px;">
+        <th><div class="d-flex align-items-center position-relative"><img
+          class="rounded-1" [src]="ligneCommande.article?.photo ? ligneCommande.article?.photo: 'assets/product.png'"
+          width="50" alt="" />
+     </div></th>
+        <th class="ps-0 pt-0">
+          <div class="pe-0 text-end"><B>{{ ligneCommande.article?.designation }}* {{ ligneCommande.quantite }}</B> </div>
+        </th>
+        <th class="pe-0 text-end pt-0" *ngIf="origin==='client'">{{ ligneCommande.prixUnitaire && ligneCommande.quantite ? +ligneCommande.prixUnitaire * +ligneCommande.quantite : '' }} Dt</th>
+        <th class="pe-0 text-end pt-0" *ngIf="origin==='fournisseur'">{{ ligneCommande.prixAchat && ligneCommande.quantite ? +ligneCommande.prixAchat * +ligneCommande.quantite : '' }} Dt</th>
+
+      </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Taille">
+        <th class="ps-0"><b> Taille </b> 
+          <div class="text-400 fw-normal fs--2">:{{ ligneCommande.Taille}}</div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Taille}} </th>
+      </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Gravure?.Verso">
+        <th class="ps-0"><b> Verso </b> 
+          <div class="text-400 fw-normal fs--2"></div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Gravure?.Verso}} </th>
+      </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Gravure?.Recto">
+        <th class="ps-0"><b> Recto </b> 
+          <div class="text-400 fw-normal fs--2"></div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Gravure?.Recto}} </th>
+      </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Gravure?.Droite">
+        <th class="ps-0"><b> Gravure droite </b> 
+          <div class="text-400 fw-normal fs--2"></div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Gravure?.Droite}} </th>
+      </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Gravure?.Gauche">
+        <th class="ps-0"><b> Gravure gauche </b> 
+          <div class="text-400 fw-normal fs--2"></div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Gravure?.Gauche}} </th>
+      </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Platinage">
+        <th class="ps-0"><b> Platinage </b> 
+          <div class="text-400 fw-normal fs--2"></div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Platinage}} </th>
+      </tr>
+      
+      
+      
+      
+    </table>
+  </div>
+  
+  
+  
+     
 <hr>
-<hr>
+
+
+
 <div class="modal fade" id="modalDeleteArticle{{ ligneCommande._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
        aria-hidden="true">
     <div class="modal-dialog">
@@ -553,3 +476,13 @@ aria-hidden="true">
 </div>
 </div>
 </div>
+
+
+    
+    
+
+
+
+
+
+  

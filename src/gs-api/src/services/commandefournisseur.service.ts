@@ -161,7 +161,7 @@ class CommandefournisseurService extends __BaseService {
 
     let req = new HttpRequest<any>(
       'DELETE',
-      this.rootUrl + `api/CommandFrs/delete/${idCommandeFournisseur}`,
+      this.rootUrl + `/api/CommandFrs/delete/${idCommandeFournisseur}`,
       __body,
       {
         headers: __headers,

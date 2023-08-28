@@ -10,4 +10,6 @@ export interface LigneCommandeFournisseur {
   quantite?: number;
   prixUnitaire?: number;
   idEntreprise?: number;
+  idMVT?:string;
+
 }

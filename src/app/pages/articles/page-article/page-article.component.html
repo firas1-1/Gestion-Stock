@@ -1,4 +1,5 @@
 <div class="col">
+  <div class="card mb-3">
   <div class="row m-3">
     <div class="col-md-8 p-0">
       <h1>Liste des articles</h1>
@@ -7,11 +8,13 @@
       <app-boutton-action
         (clickEvent)="nouvelArticle()"
       ></app-boutton-action>
+
     </div>
     <div class="alert alert-danger" *ngIf="errorMsg">
       {{ errorMsg }}
     </div>
   </div>
+</div>
   <div class="col m-3">
     <div class="row justify-content-center">
       <div class="col-md-4 ">

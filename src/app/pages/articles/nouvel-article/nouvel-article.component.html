@@ -1,3 +1,4 @@
+
 <div class="col mb-3">
   <div class="col-md-12 mb-3 mt-3">
     <button (click)="fileInput.click()"  style="background-color: transparent; border: none;">
@@ -42,16 +43,22 @@
                    (input)="calculerTTC()"
                    [(ngModel)]="articleDto.Remise">  
           </div>
-          <button (click)="changeRemise()" class="btn-primary" ><i class="fas fa-redo-alt"></i></button>  
+          <div class="col" >
+            <button (click)="changeRemise()" class="btn-primary" ><i class="fas fa-redo-alt"></i></button>  
+
+          </div>
         </div>
         <div class="row mb-3">
-          <div class="col">
+          <div class="col"> prix Final
             <input type="text" class="form-control" name="prixunitttc" placeholder="Prix unitaire TTC"  [(ngModel)]="articleDto.prixUnitaireTtc">
           </div>
-          <div class="col">
+          <div class="col"> quantite argent:
             <input type="text" class="form-control" name="quantiteArgent" placeholder="quantiteArgent"  [(ngModel)]="articleDto.quantiteArgent">
           </div>
-          <div class="col">
+          <div class="col">prixAchat:
+            <input type="text" class="form-control" name="prixAchat" placeholder="prixAchat"  [(ngModel)]="articleDto.prixAchat">
+          </div>
+          <div class="col"> Selectionner une categorie:
             <select class="form-control" name="cat" [(ngModel)]="categorieDto._id ">
               <option [value]="null">Selectionner une categorie</option>
               <option *ngFor="let cat of listeCategorie" [value]="cat._id">{{ cat.code  }} - {{ cat.designation }}</option>

@@ -1,5 +1,6 @@
 /* tslint:disable */
 import { CategoryDto } from './category-dto';
+import { ligneCat } from './ligneCat';
 export interface ArticleDto {
   _id?: number;
   codeArticle?: string;
@@ -10,6 +11,8 @@ export interface ArticleDto {
   prixUnitaireTtc?: number;
   photo?: string;
   category?: CategoryDto;
-  quantiteArgent?:number
+  ligneCat?: Array<ligneCat>;
+  quantiteArgent?:number;
+  prixAchat?:string;
   idEntreprise?: string;
 }

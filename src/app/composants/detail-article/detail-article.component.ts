@@ -21,6 +21,8 @@ export class DetailArticleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+   
   }
 
   modifierArticle(): void {

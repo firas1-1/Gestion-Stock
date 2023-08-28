@@ -1,5 +1,6 @@
-
-<div class="col">
+<main class="main" >
+  <div class="col">
+    <div class="card mb-3">
   <div class="row m-3">
     <div class="col-md-8 p-0">
       <h1>Commande {{origin}}s</h1>
@@ -12,9 +13,40 @@
       ></app-boutton-action>
     </div>
   </div>
+</div>
+<div class="d-flex align-items-center ml-5" *ngIf="etatChange"  >
   
+  <div class="mat-elevation-z8" style="margin-top: 30px; margin-right: 70px;"  >
+    <div class="card">
+      <div class="card-body mr-5" *ngIf="origin === 'client'">
+    <div class="col ml-5 "  >
+      <button  type="button" value="Nouvelle commande" (click)="ChangeEtatCommand('Nouvelle commande')"  class="badge bg-primary mr-1 mb-2">Nouvelle commande</button>
+      <button   type="button"  (click)="ChangeEtatCommand('Ready for production')" class="badge bg-info mr-1 mb-2">Ready for production</button>
 
-  <div class="d-flex align-items-center ml-5" >
+      <button   type="button" (click)="ChangeEtatCommand('En cours')" class="badge bg-secondary mr-1 mb-2 ">En cours</button>
+      <button   type="button"  (click)="ChangeEtatCommand('Annulée')" class="badge bg-danger mr-1 mb-2" >Annulée</button>
+      <button   type="button"  (click)="ChangeEtatCommand('Attente validation')" class="badge bg-warning mr-1 mb-2">Attente validation</button>
+      <button  type="button"  (click)="ChangeEtatCommand('Pre-Production')" class="badge bg-info mr-1 mb-2">Pre-Production</button>
+      
+      <button  type="button"  (click)="ChangeEtatCommand('Livraison échouée')" class="badge bg-dark mr-1 mb-2">Livraison échouée</button>
+      <button  type="button"    (click)="ChangeEtatCommand('Attente paiement')" class="badge bg-warning mr-1 mb-2  ">Attente paiement</button>
+
+      <button type="button"  (click)="ChangeEtatCommand('Retournée')" class="badge bg-danger mr-1 mb-2 ">Retourné</button>
+      <button  type="button"  (click)="filterCommandeEtat('Production')" class="badge bg-info mr-1 mb-2 ">Production</button>
+
+        <button   type="button"  (click)="ChangeEtatCommand('Out of delivery')" class="badge bg-primary mr-1 mb-2 ">Out of delivery</button>
+        <button   type="button"  (click)="ChangeEtatCommand('Delivered')" class="badge bg-primary mr-1 mb-2">Delivered</button>
+        <button  type="button" (click)="ChangeEtatCommand('Terminée')" class="badge bg-success mr-1 mb-2">Terminée</button>
+        <button  type="button" (click)="Refresh()" class="badge bg-success mr-1 mb-2">Tous les commandes </button>
+
+
+    </div>
+      </div>
+    </div>
+  </div>
+    </div>
+
+  <div class="d-flex align-items-center ml-5"   *ngIf="!etatChange">
   
     <div class="mat-elevation-z8" style="margin-top: 30px; margin-right: 70px;"  >
       <div class="card">
@@ -49,14 +81,17 @@
 
     
   </div>
+  <hr>
   </div>
 
-  <form class="row g-3-center" *ngIf="origin === 'client'" >   <hr>
+  <form class="row g-3-center" *ngIf="origin === 'client'" >   
     <div class="col-md-2 m-3 ml-5">
       <div class="form-floating ">
         <label for="floatingName">REf Command</label>
         <input type="text" class="form-control" placeholder="Code " name="code" [(ngModel)]="code" (input)="filtertest()">
       </div>
+      <hr>
+
     </div>
     <div class="col-md-2 m-3">
       <div class="form-floating">
@@ -64,12 +99,16 @@
 
         <input type="text" class="form-control" placeholder="numTel" name="numTel" [(ngModel)]="numTel" (input)="filtertest()">
       </div>
+      <hr>
+
     </div>
     <div class="col-md-2 m-3">
       <div class="form-floating">
         <label for="floatingEmail">Code Suivi</label>
         <input type="email" name="codeSuivi" [(ngModel)]="codeSuivi" (input)="filtertest()"  class="form-control" id="floatingEmail" placeholder="Code Suivi" >
       </div>
+      <hr>
+
     </div>
     <div class="col-md-2 m-3">
       <div class="form-floating">
@@ -77,6 +116,8 @@
 
         <input type="text" class="form-control" placeholder="nomClient" name="nom" [(ngModel)]="nomClient" (input)="filtertest()">
       </div>
+      <hr>
+
     </div>
     <div class="col-md-2 m-3">
       <div class="form-floating">
@@ -84,54 +125,104 @@
 
         <input type="text" class="form-control" placeholder="Livraison" name="Livraison" [(ngModel)]="Livraison" (input)="filtertest()">
       </div>
-      
+      <hr>
+
     </div> 
-   
-    <hr>
+  
+
 
 </form>
   
   <div class="col m-3 " >
     <p class="badge bg-danger">     nombre des commandes : ( {{totalCommandes}}) 
     </p>
-    <div>
+    <div >
     <div class="accordion" id="accordionExample" *ngFor="let cmd of listeCommandes" >
-      <div class="card">
-        <div classs="card-body" id="headingOne">
-          <button class="btn btn-block text-left" type="button" data-toggle="collapse"
-                  [attr.data-target]="'#collapseOne'+cmd._id"
-                  aria-expanded="true"
-                  aria-controls="collapseOne">
-            <app-detail-cmd-clt-frs
-              [commande]="cmd"
-              [origin]="origin"
-              [Role]="Role"
-              (suppressionResult)="handleSuppression($event)"
-            ></app-detail-cmd-clt-frs>
-          </button> 
-        </div>
-        <div id="collapseOne{{cmd._id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample"
-             style="max-height: 300px; overflow-y: scroll">
-          <div class="card-body">
-            <app-detail-cmd
+      <div class="row">
+<div class="col-md-1">
+   
+  <div class="d-flex mb-2" style="height: 5rem;">
+    <div class="  p-2 bg-300 align-self-center"></div>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input"  id="" type="checkbox" [(ngModel)]="isChecked" (change)="handleCheckboxChange(cmd._id)" />
+  </div>
+</div>
 
-            *ngFor="let ligne of mapLignesCommande.get(cmd._id)"
-            [ligneCommande]="ligne"
 
-            ></app-detail-cmd>
-          </div>
+<div class="col-md-10">
+  <div class="card" style="background-color: #ececec;">
+    <div classs="card-body" id="headingOne" >
+      
+      <button class="btn btn-block text-left" type="button" data-toggle="collapse" 
+              [attr.data-target]="'#collapseOne'+cmd._id"
+              aria-expanded="true"
+              aria-controls="collapseOne">
+        <app-detail-cmd-clt-frs
+          [commande]="cmd"
+          [origin]="origin"
+          [Role]="Role"
+          (suppressionResult)="handleSuppression($event)"
+        ></app-detail-cmd-clt-frs>
+      </button> 
+      <div class="row">
+        <div class="col-md-5 text-left">
         </div>
-          <div class="card-footer">
-            <div class="row">
-              <div class="col-md-6 text-left">
-                <h6>{{mapLignesCommande.get(cmd._id).length}} lignes de commande</h6>
-              </div>
-              <div class="col-md-6 text-right">
-                <h5>Total commande: {{ calculerTotalCommande(cmd._id) }}</h5>
-              </div>
-            </div>
-          </div>
+        <div class="col-md-6 text-right">
+          <h6>Total : {{ calculerTotalCommande(cmd._id) }} DNT</h6>
+        </div>
       </div>
+    </div>
+    <div id="collapseOne{{cmd._id}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample"
+         style="max-height: 400px; overflow-y: scroll">
+      <div class="card-body" >
+        <app-detail-cmd
+
+        *ngFor="let ligne of mapLignesCommande.get(cmd._id)"
+        [ligneCommande]="ligne"
+
+        ></app-detail-cmd>
+      </div>
+    </div>
+      
+  </div>
+</div>
+<div class="col-md-1">
+   
+  <form class="row gx-2">
+    <div class="col-auto"><small> </small></div>
+    <div class="col-auto">
+      <select class="form-select form-select-sm" [(ngModel)]="CommandeE" name="CommandeE" (change)="CommandeEtat()" aria-label="Bulk actions">
+        <option value="Nouvelle commande">Nouvelle commande</option>
+        <option value="Ready for production">Ready for production</option>
+        <option value="En cours">En cours</option>
+        <option value="Annulée">Annulée</option>
+        <option value="Retournée">Retournée</option>
+        <option value="Delivered">Delivered</option>
+        <option value="Terminée">Terminée</option>
+        <option value="Livraison échouée">Livraison échouée</option>
+        <option value="Pre-Production">Pre-Production</option>
+        <option value="Attente paiement">Attente paiement</option>
+        <option value="Attente validation">Attente validation</option>
+      </select>
+        
+    </div>
+  </form>
+</div>
+
+
+      </div>
+      
+      
+      <hr class="transparent-hr">
+<style>
+  .transparent-hr {
+    border: none; /* Remove the default border */
+    border-top: 1px solid transparent; /* Add a transparent border on top */
+    background-color: transparent; /* Set the background color to transparent */
+    height: 1px; /* Adjust the height as needed */
+  }
+</style>
     </div>
     </div>
   </div>
@@ -144,4 +235,5 @@
   
 
 </div>
+</main>
   

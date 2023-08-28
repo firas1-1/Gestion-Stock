@@ -26,5 +26,7 @@ export class BouttonActionComponent implements OnInit {
   bouttonNouveauClick(): void {
     this.clickEvent.emit();
   }
-
+  ImporterData():void{
+    this.clickEvent.emit();
+  }
 }

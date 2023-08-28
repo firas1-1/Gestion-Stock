@@ -1,20 +1,20 @@
 <div class="d-flex">
+  
   <div class="p-2 flex-fill " *ngIf="isImporterVisible">
-    <button type="button" class="btn btn-warning">
-      <i class="fas fa-cloud-upload-alt"></i>&nbsp;
-      Importer
-    </button>
+    <button *ngIf="isImporterVisible" class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Import</span></button>
+
   </div>
   <div class="p-2 flex-fill " *ngIf="isExporterVisible">
-    <button type="button" class="btn btn-success">
-      <i class="fas fa-cloud-download-alt"></i>&nbsp;
-      Exporter
-    </button>
+    <button *ngIf="isExporterVisible" class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Export</span></button>
+
   </div>
   <div class="p-2 flex-fill " *ngIf="isNouveauVisible">
-    <button type="button" class="btn btn-primary" (click)="bouttonNouveauClick()">
-      <i class="fas fa-plus"></i>&nbsp;
-      Nouveau
-    </button>
+    <button  *ngIf="isNouveauVisible" (click)="bouttonNouveauClick()" class="btn btn-sm btn-falcon-default me-2 d-none d-md-block" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1"><b>Add</b>  </span></button>
+
   </div>
+  
 </div>
+  
+
+
+

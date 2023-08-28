@@ -42,6 +42,7 @@ import { ModifierCommandArticleComponent } from './composants/modifier-command-a
 import { FactureComponent } from './pages/facture/facture.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { ArgentsComponent } from './pages/argents/argents.component';
+import { AlerteComponent } from './composants/alerte/alerte.component';
 
 @NgModule({
   declarations: [
@@ -82,6 +83,7 @@ import { ArgentsComponent } from './pages/argents/argents.component';
     FactureComponent,
     FooterComponent,
     ArgentsComponent,
+    AlerteComponent,
   ],
   imports: [
     BrowserModule,

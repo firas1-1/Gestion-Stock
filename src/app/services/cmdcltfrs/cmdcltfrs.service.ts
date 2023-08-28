@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {CommandesclientsService} from '../../../gs-api/src/services/commandesclients.service';
 import {CommandeClientDto} from '../../../gs-api/src/models/commande-client-dto';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, of} from 'rxjs';
 import {CommandeFournisseurDto} from '../../../gs-api/src/models/commande-fournisseur-dto';
 import {CommandefournisseurService} from '../../../gs-api/src/services/commandefournisseur.service';
 import {UserService} from '../user/user.service';
@@ -14,6 +14,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class CmdcltfrsService {
+  
+  
   findAll() {
     throw new Error('Method not implemented.');
   }
@@ -64,6 +66,8 @@ export class CmdcltfrsService {
     console.log('tessst')
     return this.http.get<number>(`${this.apiUrl}`);
   }
+
+  
   totalArgent(): Observable<Number> {
     console.log('tessst')
     return this.http.get<number>(`http://localhost:3000/api/ligneCommandFrs/argentQuantite/f`);
@@ -89,7 +93,12 @@ export class CmdcltfrsService {
     return of();
   }
 
-
+  deleteCmdFrs(idCommand: number): Observable<any> {
+    if (idCommand) {
+      return this.commandeFournisseurService.delete(idCommand);
+    }
+    return of();
+  }
   deleteArticle(idArticle: number): Observable<any> {
     if (idArticle) {
       return this.commandeClientService.delete(idArticle);

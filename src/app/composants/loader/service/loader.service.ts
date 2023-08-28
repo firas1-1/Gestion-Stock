@@ -14,10 +14,14 @@ export class LoaderService {
   constructor() { }
 
   show(): void {
+    console.log('state2', this.loaderSubject);
+
     this.loaderSubject.next({show: true});
   }
 
   hide(): void {
+    console.log('state1', this.loaderSubject);
+
     this.loaderSubject.next({show: false});
   }
 }

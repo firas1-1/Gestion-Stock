@@ -8,4 +8,7 @@ export interface LigneCommandeFournisseurDto {
   quantite?: number;
   prixUnitaire?: number;
   idEntreprise?: string;
+  prixAchat?: string;
+  idMVT?:string;
+
 }

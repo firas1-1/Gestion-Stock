@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {UserService} from '../user/user.service';
 import {ArticlesService} from '../../../gs-api/src/services/articles.service';
 import {ArticleDto} from '../../../gs-api/src/models/article-dto';
-import {Observable, of} from 'rxjs';
+import {BehaviorSubject, Observable, Subject, of} from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,42 @@ export class ArticleService {
     private userService: UserService,
     private articleService: ArticlesService
   ) { }
+  // private productQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  // productQuantity$: Observable<number> = this.productQuantity.asObservable();
+
+  // private minQuantity: number = 10;
+  // private destroy$: Subject<void> = new Subject<void>();
+
+ 
+
+  // setProductQuantity(quantity: number) {
+  //   this.productQuantity.next(quantity);
+  //   this.checkMinQuantity(quantity);
+  // }
+
+  // private checkMinQuantity(quantity: number) {
+  //   this.productQuantity$
+  //     .pipe(takeUntil(this.destroy$))
+  //     .subscribe(currentQuantity => {
+  //       if (currentQuantity < this.minQuantity) {
+  //         console.log('quantity', currentQuantity);
+
+  //         this.showAlertAndAutoDismiss('Alert: Quantity is below the minimum threshold!', 10);
+  //       }
+  //     });
+  // }
+
+  // private showAlertAndAutoDismiss(message: string, duration: number) {
+  //   alert(message);
+  //   setTimeout(() => {
+  //     alert('Alert dismissed.');
+  //   }, duration);
+  // }
+
+  // ngOnDestroy() {
+  //   this.destroy$.next();
+  //   this.destroy$.complete();
+  // }
 
   enregistrerArticle(articleDto: ArticleDto): Observable<ArticleDto> {
     const id = this.userService.getUserIdFromToken();

@@ -1,6 +1,11 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+  <link href="/path/to/your/styles.css" rel="stylesheet">
+
   <script>
     var isRTL = JSON.parse(localStorage.getItem('isRTL'));
     if (isRTL) {
@@ -20,9 +25,12 @@
   <title>GestionDeStock</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />                           
-  
+    <link href="vendors/dropzone/dropzone.min.css" rel="stylesheet" />
+
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/dist/output.css" rel="stylesheet">
+
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <!-- ===============================================-->
     <link rel="apple-touch-icon" sizes="180x180" href="assets/img/favicons/apple-touch-icon.png">
@@ -34,7 +42,7 @@
     <meta name="theme-color" content="#ffffff">
     <script src="assets/js/config.js"></script>
     <script src="vendors/overlayscrollbars/OverlayScrollbars.min.js"></script>
-
+    <link href="vendors/dropzone/dropzone.min.css" rel="stylesheet" />
 
     <!-- ===============================================-->
     <!--    Stylesheets-->
@@ -62,8 +70,10 @@
       }
     </script>
 </head>
-<body>
+<body >
    <!-- ===============================================-->
+   <script src="/socket.io/socket.io.js"></script>
+
     <script src="vendors/popper/popper.min.js"></script>
     <script src="./vendors/bootstrap/bootstrap.min.js"></script>
     <script src="vendors/anchorjs/anchor.min.js"></script>
@@ -75,6 +85,7 @@
     <script src="vendors/list.js/list.min.js"></script>
     <script src="assets/js/theme.js"></script>
     <script src="vendors/countup/countUp.umd.js"></script>
+    <script src="vendors/dropzone/dropzone.min.js"></script>
 
   <app-root></app-root>
 </body>

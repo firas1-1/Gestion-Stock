@@ -2,23 +2,69 @@
 <div class="row" class="row row-with-background "  >
   <div class="col-md-8">
     <div class="input-group flex-nowrap">
-      <input type="text" class="form-control" placeholder="Rimes bijoux de créateur" aria-label="Username" aria-describedby="addon-wrapping">
       <div class="input-group-prepend">
-        <span class="input-group-text" id="addon-wrapping"><i class="fas fa-search"></i></span>
       </div>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="row">
-      <div class="col-md-9 text-right">
-        <span style="color: aliceblue; font-style: italic;">Bonjour {{username}}&nbsp;</span>
-      </div>
-
-      <div class="col-md-3">
-        <a href="javascript:void(0);" [routerLink]="['/profil']">
-          <img src="favicon.ico" class="rounded-circle" />
-        </a>
-      </div>
-    </div>
-  </div>
+  
+  
 </div>
+<nav class="navbar navbar-standard navbar-expand-lg fixed-top navbar-dark"  style="background-color: black;" data-navbar-darken-on-scroll="data-navbar-darken-on-scroll">
+  
+  <a class="navbar-brand" href="statistiques">Rimes Bijoux </a>
+
+  <!-- Links -->
+  <ul class="navbar-nav">
+    
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Products
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="/articles">Articles</a>
+        <a class="dropdown-item" href="/mvtstk">mouvement du Stock</a>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="clients">Client</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="fournisseurs">Fournisseur</a>
+    </li>
+
+    <!-- Dropdown -->
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Commande 
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="commandesclient">Commande client</a>
+        <a class="dropdown-item" href="commandesfournisseur">Commande fournisseur</a>
+      </div>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+        Plus
+      </a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="Argents"> Mouvement d'Argent</a>
+        <a class="dropdown-item" href="utilisateurs">Users</a>
+        <a class="dropdown-item" href="categories">Categories</a>
+        <a class="dropdown-item" (click)="logout()">Deconnecter</a>
+
+
+      </div>
+    </li>
+    
+  </ul>
+ 
+
+  <div class="navbar-text ml-auto">
+    <div class="row">
+      <div class="col" [routerLink]="['/profil']">    Bonjour {{username}}    
+     </div>
+   
+    
+  </div>
+  
+

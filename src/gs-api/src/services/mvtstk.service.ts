@@ -169,6 +169,37 @@ class MvtstkService extends __BaseService {
       __map(_r => _r.body as Array<MvtStkDto>)
     );
   }
+  mvtStkArticleFrsResponse(idArticle: string): __Observable<__StrictHttpResponse<Array<MvtStkDto>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+      'GET',
+      this.rootUrl + `/api/mvt/Article/${idArticle}`,
+      __body,
+      {
+        headers: __headers,
+        params: __params,
+        responseType: 'json'
+      });
+
+    return this.http.request<any>(req).pipe(
+      __filter(_r => _r instanceof HttpResponse),
+      __map((_r) => {
+        return _r as __StrictHttpResponse<Array<MvtStkDto>>;
+      })
+    );
+  }
+  /**
+   * @param idArticle undefined
+   * @return successful operation
+   */
+  mvtStkFrsArticle(idArticle: string): __Observable<Array<MvtStkDto>> {
+    return this.mvtStkArticleFrsResponse(idArticle).pipe(
+      __map(_r => _r.body as Array<MvtStkDto>)
+    );
+  }
 
   /**
    * @param body undefined

@@ -23,6 +23,7 @@ off=true
   @Output()
   suppressionResult = new EventEmitter();
   icon: string='';
+  dailyDate: any;
   constructor(
     private router: Router,
     private CmdcltfrsService: CmdcltfrsService) { }
@@ -51,6 +52,30 @@ off=true
     if ( this.commande.etatCommande==='Annulée') {
       this.icon='badge rounded-pill badge-soft-danger fs--2'
     }
+    if ( this.commande.etatCommande==='Attente paiement') {
+      this.icon='badge rounded-pill badge-soft-warning fs--2'
+    }
+    if ( this.commande.etatCommande==='Attente validation') {
+      this.icon='badge rounded-pill badge-soft-warning fs--2'
+    }
+    if ( this.commande.etatCommande==='Terminée') {
+      this.icon='badge rounded-pill badge-soft-success fs--2'
+    }
+    if ( this.commande.etatCommande==='Retournée') {
+      this.icon='badge rounded-pill badge-soft-danger fs--2'
+    }
+    if ( this.commande.etatCommande==='En cours') {
+      this.icon='badge rounded-pill badge-soft-secondary fs--2'
+    }
+    if ( this.commande.etatCommande==='Livraison échouée') {
+      this.icon='badge rounded-pill badge-soft-danger fs--2'
+    }
+    if ( this.commande.etatCommande==='Out of delivery') {
+      this.icon='badge rounded-pill badge-soft-success fs--2'
+    }
+    if ( this.commande.etatCommande==='Ready for production') {
+      this.icon='badge rounded-pill badge-soft-info fs--2'
+    }
     
   }
 
@@ -63,7 +88,10 @@ off=true
   Facture(): void {
     this.router.navigate(['factureCommande', this.commande._id]);
   }
-
+Date(){
+  this.dailyDate= this.commande.dateCommande
+  
+}
   extractClientFournisseur(): void {
     if (this.origin === 'client') {
       this.cltFrs = this.commande?.client;
@@ -73,15 +101,29 @@ off=true
     }
   }
   confirmerEtSupprimerArticle(): void {
-    if (this.commande._id) {
-      console.log('idCommand',this.commande._id)
-      this.CmdcltfrsService.deleteArticle(this.commande._id)
-      .subscribe(res => {
-         this.suppressionResult.emit('success');
-        
-       }, error => {
-        this.suppressionResult.emit(error.error.error);
-      });
-   }
+    if ( this.origin==='client') {
+      if (this.commande._id) {
+        console.log('idCommand',this.commande._id)
+        this.CmdcltfrsService.deleteArticle(this.commande._id)
+        .subscribe(res => {
+           this.suppressionResult.emit('success');
+          
+         }, error => {
+          this.suppressionResult.emit(error.error.error);
+        });
+     }
+    }else if (this.origin==='fournisseur'){
+      if (this.commande._id) {
+        console.log('idCommand',this.commande._id)
+        this.CmdcltfrsService.deleteCmdFrs(this.commande._id)
+        .subscribe(res => {
+           this.suppressionResult.emit('success');
+          
+         }, error => {
+          this.suppressionResult.emit(error.error.error);
+        });
+     }
+    }
+   
   }
 }

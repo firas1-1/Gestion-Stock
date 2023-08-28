@@ -4,6 +4,8 @@ import { LigneVente } from './ligne-vente';
 import { LigneCommandeClient } from './ligne-commande-client';
 import { LigneCommandeFournisseur } from './ligne-commande-fournisseur';
 import { MvtStk } from './mvt-stk';
+import { ligneCat } from './ligneCat';
+
 export interface Article {
   _id?: number;
   creationDate?: number;
@@ -17,6 +19,8 @@ export interface Article {
   photo?: string;
   idEntreprise?: number;
   category?: Category;
+  ligneCat?: Array<ligneCat>;
+
   ligneVentes?: Array<LigneVente>;
   ligneCommandeClients?: Array<LigneCommandeClient>;
   ligneCommandeFournisseurs?: Array<LigneCommandeFournisseur>;

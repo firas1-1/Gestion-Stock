@@ -14,6 +14,7 @@ import { GravureDto } from 'src/gs-api/src/models/Gravure-dto';
 import { CategoryService } from 'src/app/services/category/category.service';
 import { CategoryDto } from 'src/gs-api/src/models';
 import { UserService } from 'src/app/services/user/user.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-modifier-command',
@@ -55,7 +56,10 @@ export class ModifierCommandComponent implements OnInit {
   Pendatif=false;
   Collier=false
  ;
+ currentPage=1
  PrixVerso=false ;
+ mvtstock:Array<any> = [];
+
 
   Braclet=false
   quantiteArgent=0
@@ -78,6 +82,8 @@ export class ModifierCommandComponent implements OnInit {
     private articleService: ArticleService,
     private categoryService:CategoryService,
     private userServices: UserService,
+    private http: HttpClient
+
   ) { }
 
   ngOnInit(): void {
@@ -180,11 +186,13 @@ this.bague=false;
   
       
     }
-    this.articleService.findAllArticlesInMvt(this.selectedCat)
-    .subscribe(articles => {
-      this.listArticle = articles;
-      console.log('Cattt',this.listArticle)
-      
+    console.log(`Fetching page ${this.currentPage}...`);
+    const perPage = 1000; // Set your desired items per page here
+  
+    const url = `http://localhost:3000/api/article/all/${this.selectedCat}?page=${this.currentPage}&perPage=${perPage}&searchQuery=${this.codeArticle}`;
+    this.http.get<any>(url).subscribe((data) => {
+      console.log('API response:', data);
+      this.listArticle = data.articles;
     });
     
 
@@ -279,7 +287,7 @@ this.bague=false;
         Taille:this.Taille,
         Note: this.Note,
         prixUnitaire: this.searchedArticle.prixUnitaireTtc,
-        quantite: +this.quantite,
+        quantite: +this.quantite || 1,
         PrixVerso:this.PrixVerso,
         quantiteArgent:this.searchedArticle.quantiteArgent
       };
@@ -298,27 +306,33 @@ this.bague=false;
 console.log('supprimerArticle', );
   }
   enregistrerCommande(): void {
+    this.disabled = true; // Disable the button to prevent multiple clicks
+
     console.log('commandeligneCommandeClients');
 
     const commande = this.preparerCommande();
     console.log('commandeligneCommandeClients', commande.ligneCommandeClients);
-    
-      this.CmdcltfrsService.enregistrerCommandeClient(commande as CommandeClientDto)
-      .subscribe(cmd => {
-        this.router.navigate(['commandesclient']);
-      }, error => {
-        this.errorMsg = error.error.errors;
+
+    this.CmdcltfrsService.enregistrerCommandeClient(commande as CommandeClientDto)
+      .subscribe(
+        cmd => {
+          this.router.navigate(['commandesclient']);
+        },
+        error => {
+          this.errorMsg = error.error.errors;
+        }
+      )
+      .add(() => {
+        this.disabled = false; // Re-enable the button after request completes
       });
-    // } else if (this.origin === 'fournisseur') {
-    //   this.CmdcltfrsService.enregistrerCommandeFournisseur(commande as CommandeFournisseurDto)
-    //   .subscribe(cmd => {
-    //     this.router.navigate(['commandesfournisseur']);
-    //     console.log(cmd);
-    //   }, error => {
-    //     this.errorMsg = error.error.errors;
-    //   });
-     
   }
+
+
+
+
+
+
+
   
 
   private preparerCommande(): any {
@@ -334,7 +348,8 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
         etatCommande: this.Command.etatCommande,
         ligneCommandeClients: this.lignesCommande,
         Livraison : this.Command.Livraison,
-        codeSuivi : this.Command.codeSuivi
+        codeSuivi : this.Command.codeSuivi,
+        noteLivraison:this.Command.noteLivraison
       };
       
     // } else if (this.origin === 'fournisseur') {

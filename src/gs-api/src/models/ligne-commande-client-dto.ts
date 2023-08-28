@@ -12,4 +12,5 @@ export interface LigneCommandeClientDto {
   Taille?: string;
   PrixVerso?: boolean;
   quantiteArgent?: number;
+  prixAchat?: string;
 }
