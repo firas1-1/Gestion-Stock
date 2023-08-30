@@ -314,9 +314,12 @@ this.bague=false;
       //       console.log('entreeStock', data);
       //     });
          //}
-        console.log(ligne.article._id,'ligne.article._id') 
-        let total= this.calculerTotal(ligne.article._id,ligne?.article?.designation)
-        console.log(total,'total') 
+         if( ligne.article.category.code === 'chaine' || ligne.article.category.code ==='Bague') {
+          console.log(ligne.article._id,'ligne.article._id') 
+          let total= this.calculerTotal(ligne.article._id,ligne?.article?.designation)
+          console.log(total,'total') 
+         }
+       
        });
       this.disabled = true; // Disable the button to prevent multiple clicks
 
