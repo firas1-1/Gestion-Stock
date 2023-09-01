@@ -87,6 +87,12 @@
         </th>
         <th class="pe-0 text-end"  > {{ ligneCommande.Platinage}} </th>
       </tr>
+      <tr class="border-bottom" *ngIf="ligneCommande.Note">
+        <th class="ps-0"><b> Note </b> 
+          <div class="text-400 fw-normal fs--2"></div>
+        </th>
+        <th class="pe-0 text-end"  > {{ ligneCommande.Note}} </th>
+      </tr>
       
       
       

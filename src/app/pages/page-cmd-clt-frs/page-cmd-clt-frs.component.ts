@@ -90,6 +90,8 @@ export class PageCmdCltFrsComponent implements OnInit {
       .subscribe((data) => {
         console.log('API response:', data);
         this.listeCommandes = data.commands;
+        console.log('totalPages:', this.listeCommandes);
+
         this.currentPage = data.pagination.currentPage;
         this.totalPages = data.pagination.totalPages;
         console.log('totalPages:', this.totalPages);

@@ -12,7 +12,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 })
 export class PageArticleComponent implements OnInit {
   currentPage = 1;
-  itemsPerPage = 5;  
+  itemsPerPage = 10;  
   listArticle: Array<ArticleDto> = [];
   errorMsg = '';
   totalPages: number = 10;
