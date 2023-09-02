@@ -51,7 +51,13 @@ export class PageArticleComponent implements OnInit {
       .subscribe(articles => {
         this.listArticle = articles;
         this.totalPages = Math.ceil(this.listArticle.length / this.itemsPerPage);
+        
+      },error => {
+        this.errorMsg = error.error.errors;
+        console.log('error',  error.error);
+
       });
+      
   }
 
   nouvelArticle(): void {

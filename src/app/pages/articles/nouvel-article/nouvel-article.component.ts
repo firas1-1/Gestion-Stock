@@ -63,8 +63,10 @@ export class NouvelArticleComponent implements OnInit {
     this.articleService.enregistrerArticle(this.articleDto)
     .subscribe(art => {
       this.onSubmit(art._id);
-    }, error => {
-      this.errorMsg = error.error.errors;
+    },error => {
+      this.errorMsg = error.error;
+      console.log('error',  this.errorMsg);
+
     });
   }
 

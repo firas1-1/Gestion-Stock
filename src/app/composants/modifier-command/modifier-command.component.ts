@@ -320,6 +320,8 @@ console.log('supprimerArticle', );
         },
         error => {
           this.errorMsg = error.error.errors;
+          console.log('error', this.errorMsg);
+
         }
       )
       .add(() => {
