@@ -9,6 +9,7 @@ import {LigneCommandeClientDto} from '../../../gs-api/src/models/ligne-commande-
 import {LigneCommandeFournisseurDto} from '../../../gs-api/src/models/ligne-commande-fournisseur-dto';
 import { EntrepriseService } from '../entreprise/entreprise.service';
 import { HttpClient } from '@angular/common/http';
+import { param } from 'src/gs-api/src/models/param-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -57,9 +58,9 @@ export class CmdcltfrsService {
     return this.commandeFournisseurService.save(commandeFournisseurDto);
   }
 
-  findAllCommandesClient(): Observable<CommandeClientDto[]> {
+  findAllCommandesClient(paramtre:param): Observable<any> {
     console.log('tessst')
-    return this.commandeClientService.findAll();
+    return this.commandeClientService.findAll(paramtre);
   }
 
   totalArgentConsomee(): Observable<Number> {

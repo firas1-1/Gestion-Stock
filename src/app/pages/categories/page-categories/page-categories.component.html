@@ -17,8 +17,15 @@
       <div class="col-md-3 custom-border-right">
         {{cat.code}}
       </div>
-      <div class="col-md-4 custom-border-right">
+      <div class="col-md-4 ">
         {{cat.designation}} 
+      </div>
+      <div class="col-md-2">
+        <div class="form-check form-switch">
+          <input class="form-check-input" (click)="Onselect(cat)"   [checked]="cat.selected" 
+          id="flexSwitchCheckChecked" type="checkbox"/>
+          <label class="form-check-label" for="flexSwitchCheckChecked"></label>
+        </div>
       </div>
       <div class="col-md-3">
         <div class="row">
@@ -38,9 +45,13 @@
               <i class="far fa-list-alt"></i>&nbsp;Details
             </button>
           </div>
+         
         </div>
+       
       </div>
+     
     </div>
+    
   </div>
   <div class="row mb-3" *ngIf="listCategories.length > 0">
     <div class=" col-md-12 text-center">

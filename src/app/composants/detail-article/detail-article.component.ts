@@ -24,6 +24,11 @@ export class DetailArticleComponent implements OnInit {
 
    
   }
+  Onselect(id:any){
+    this.articleService.enregistrerEtatArticle(id).subscribe(data=>{
+      console.log(data);
+    })
+  }
 
   modifierArticle(): void {
     this.router.navigate(['nouvelarticle', this.articleDto._id]);

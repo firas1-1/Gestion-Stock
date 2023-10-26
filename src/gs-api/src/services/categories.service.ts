@@ -4,7 +4,7 @@ import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/com
 import { BaseService as __BaseService } from '../base-service';
 import { ApiConfiguration as __Configuration } from '../api-configuration';
 import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
-import { Observable as __Observable } from 'rxjs';
+import { Observable, Observable as __Observable } from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { CategoryDto } from '../models/category-dto';
@@ -59,6 +59,7 @@ class CategoriesService extends __BaseService {
       __map(_r => _r.body as Array<CategoryDto>)
     );
   }
+ 
 
   /**
    * Cette methode permet d'enregistrer ou modifier une categorie

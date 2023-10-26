@@ -8,6 +8,7 @@ import { EntrepriseService } from '../../services/entreprise/entreprise.service'
 import { MvtstkService } from 'src/gs-api/src/services/mvtstk.service';
 import {  LigneCommandeFournisseurDto } from 'src/gs-api/src/models';
 import { HttpClient } from '@angular/common/http';
+import { param } from 'src/gs-api/src/models/param-dto';
 
 
 @Component({
@@ -54,7 +55,16 @@ export class PageCmdCltFrsComponent implements OnInit {
   totalCommandes: any;
   totalArgentConsomee: any;
   Role: any;
-
+  params:param={
+    page: 0,
+    perPage: 0,
+    etatCommande:undefined,
+    phoneNumber: undefined,
+    nomClient: undefined,
+    Livraison: undefined,
+    code: undefined,
+    codeSuivi: undefined
+  }
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -85,9 +95,12 @@ export class PageCmdCltFrsComponent implements OnInit {
     console.log(`Fetching page ${this.currentPage}...`);
     const perPage = 100; // Set your desired items per page here
     if (this.origin === 'client') {
+     
+      this.params.page=this.currentPage
+      this.params.perPage = 10
 
-      this.http.get<any>(`http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}`)
-      .subscribe((data) => {
+
+this.cmdCltFrsService.findAllCommandesClient(this.params).subscribe((data) => {
         console.log('API response:', data);
         this.listeCommandes = data.commands;
         console.log('totalPages:', this.listeCommandes);
@@ -225,7 +238,7 @@ export class PageCmdCltFrsComponent implements OnInit {
   findAllLignesCommande(): void {
     this.listeCommandes.forEach(cmd => {
       
-     this.findLignesCommande(cmd._id,cmd.Livraison);
+     this.findLignesCommande(cmd._id,cmd.Livraison,cmd.remiseCommande);
      console.log('entrepriseee',cmd.idEntreprise);
     });
   }
@@ -240,13 +253,13 @@ export class PageCmdCltFrsComponent implements OnInit {
   
  
 
-  findLignesCommande(idCommande: number,Livraison:string): void {
+  findLignesCommande(idCommande: number,Livraison:string,remise:number): void {
     if (this.origin === 'client') {
       this.cmdCltFrsService.findAllLigneCommandesClient(idCommande)
       .subscribe(list => {
         console.log('lissssst',list);
         this.mapLignesCommande.set(idCommande, list);
-        this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list,Livraison));
+        this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list,Livraison,remise));
       });
     } else if (this.origin === 'fournisseur') {
       console.log('lissssst',idCommande)
@@ -254,7 +267,7 @@ export class PageCmdCltFrsComponent implements OnInit {
       .subscribe(list => {
         console.log('lissssst',list);
         this.mapLignesCommande.set(idCommande, list);
-        this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list,Livraison),);
+        this.mapPrixTotalCommande.set(idCommande, this.calculerTatalCmd(list,Livraison,remise),);
         console.log('lissssst',this.mapLignesCommande);
 
       });
@@ -275,7 +288,7 @@ export class PageCmdCltFrsComponent implements OnInit {
     }
     return Math.floor(total);
   }
-  calculerTatalCmd(list: Array<LigneCommandeClientDto>,Livraison:string): number {
+  calculerTatalCmd(list: Array<LigneCommandeClientDto>,Livraison:string,remise:number): number {
     console.log('livraiosn', Livraison)
     
     let total = 0;
@@ -292,6 +305,10 @@ export class PageCmdCltFrsComponent implements OnInit {
       if ( Livraison==='Aramex' || Livraison==='BonjourExpress'){
         total += 7
       }
+      if ( typeof(remise)==='number'){
+      total = total + remise
+      }
+      
       
     
     
@@ -348,11 +365,31 @@ export class PageCmdCltFrsComponent implements OnInit {
     const Livraison = this.Livraison
     this.commandeEtat= true;
 this.findCommandes=false
+if ( this.Livraison){
+  this.params.Livraison=this.Livraison
+
+}
+if ( this.nomClient){
+  this.params.nomClient=this.nomClient
+
+}
+if ( this.numTel){
+  this.params.phoneNumber=this.numTel
+}
+if ( this.etatCommande){
+  this.params.etatCommande=this.etatCommande
+}
+if ( this.code){
+  this.params.code=this.code
+}
+if ( this.codeSuivi){
+  this.params.codeSuivi=this.codeSuivi
+}
+this.params.perPage=1
     const perPage = 1; // Set your desired items per page here
     // this.currentPage=1
-    this.http.get<any>(
-      `http://localhost:3000/api/command/all?page=${this.currentPage}&perPage=${perPage}&etatCommande=${this.etatCommande}&phoneNumber=${this.numTel}&nomClient=${this.nomClient}&Livraison=${this.Livraison}&code=${this.code}&codeSuivi=${this.codeSuivi}`
-    ).subscribe((data) => {
+    this.cmdCltFrsService.findAllCommandesClient(this.params).
+    subscribe((data) => {
       console.log('API response:', data);
      
       this.listeCommandes = data.commands;
@@ -395,9 +432,9 @@ this.findCommandes=false
             this.commandeEtat=false
             this.commandeNomCliet=false
             this.commandeNumTel=true
-            this.cmdCltFrsService.findAllCommandesClient().subscribe(data=>{
-              this.listeCommandes=data
-            });
+            // this.cmdCltFrsService.findAllCommandesClient().subscribe(data=>{
+            //   this.listeCommandes=data
+            // });
             this.listeCommandes = this.listeCommandes.filter((commande: CommandeClientDto) => {
               return commande.client?.numTel && commande.client?.numTel.includes(filterValue); // Check if commande.code is defined before filtering
             });

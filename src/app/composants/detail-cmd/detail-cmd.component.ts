@@ -28,8 +28,8 @@ export class DetailCmdComponent implements OnInit {
   Verso='';
   Braclet=false;
   bague=false;
-  chaine=false;
-  Pendatif=false;
+  Chaine=false;
+  Pendentif=false;
   Collier=false
   disabled=false
   
@@ -51,38 +51,38 @@ export class DetailCmdComponent implements OnInit {
     if(this.etatCommande==='Delivered' && this.Role==='User'){
       this.disabled=true
     }
-    if(this.ligneCommande.article?.category?.code==='chaine'){
-      this.chaine=true;
+    if(this.ligneCommande.article?.category?.code==='Chaine'){
+      this.Chaine=true;
       this.bague=false;
-      this.Pendatif=false;
+      this.Pendentif=false;
       this.Collier=false;
       this.Braclet=false;
     }
     if(this.ligneCommande.article?.category?.code==='bague'){
-      this.chaine=false;
+      this.Chaine=false;
       this.bague=true;
-      this.Pendatif=false;
+      this.Pendentif=false;
       this.Collier=false;
       this.Braclet=false;
     }
-    if(this.ligneCommande.article?.category?.code==='Pendatif'){
-      this.chaine=false;
+    if(this.ligneCommande.article?.category?.code==='Pendentif'){
+      this.Chaine=false;
       this.bague=false;
-      this.Pendatif=true;
+      this.Pendentif=true;
       this.Collier=false;
       this.Braclet=false;
     }
     if(this.ligneCommande.article?.category?.code==='Collier'){
-      this.chaine=false;
+      this.Chaine=false;
       this.bague=false;
-      this.Pendatif=false;
+      this.Pendentif=false;
       this.Collier=true;
       this.Braclet=false;
     }
     if(this.ligneCommande.article?.category?.code==='Braclet'){
-      this.chaine=false;
+      this.Chaine=false;
       this.bague=false;
-      this.Pendatif=false;
+      this.Pendentif=false;
       this.Collier=false;
       this.Braclet=true;
     }

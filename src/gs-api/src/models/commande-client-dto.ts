@@ -11,6 +11,7 @@ export interface CommandeClientDto {
   Livraison?: 'Retrait en Boutique' | 'Aramex' | 'BonjourExpress';
   codeSuivi?:string;
   Note?:string;
+  remiseCommande?:number;
   noteLivraison?:string;
   idEntreprise?: string;
   nomEntreprise?: string;

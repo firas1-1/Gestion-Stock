@@ -9,6 +9,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { CommandeClientDto } from '../models/commande-client-dto';
 import { LigneCommandeClientDto } from '../models/ligne-commande-client-dto';
+import { param } from '../models/param-dto';
 @Injectable({
   providedIn: 'root',
 })
@@ -38,13 +39,16 @@ class CommandesclientsService extends __BaseService {
   /**
    * @return successful operation
    */
-  findAllResponse(): __Observable<__StrictHttpResponse<Array<CommandeClientDto>>> {
+  
+  findAllResponse(param:param): __Observable<__StrictHttpResponse<Array<CommandeClientDto>>> {
     let __params = this.newParams();
     let __headers = new HttpHeaders();
     let __body: any = null;
+    let page = param.page;
+    let perPage = param.perPage;
     let req = new HttpRequest<any>(
       'GET',
-      this.rootUrl + `/api/Command/all`,
+      this.rootUrl + `/api/command/all?page=${page}&perPage=${perPage}`,
       __body,
       {
         headers: __headers,
@@ -62,9 +66,9 @@ class CommandesclientsService extends __BaseService {
   /**
    * @return successful operation
    */
-  findAll(): __Observable<Array<CommandeClientDto>> {
+  findAll(param:param): __Observable<Array<CommandeClientDto>> {
     
-    return this.findAllResponse().pipe(
+    return this.findAllResponse(param).pipe(
       __map(_r => _r.body as Array<CommandeClientDto>)
     );
   }

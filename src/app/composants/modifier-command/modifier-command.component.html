@@ -64,6 +64,12 @@
                 </option>
               </select>
             </div>
+           <div class="form-group">
+              <label for="">Total commmande -/+:</label>
+              <input type="text" name="remiseCommande" [(ngModel)]="Command.remiseCommande" id="remiseCommande" class="form-control" placeholder="" aria-describedby="helpId">
+              <small id="helpId" class="text-muted">En Dnt</small>
+            </div>
+            
             <div class="form-group">
               <input type="text" class="form-control" name="codeSuivi" placeholder="Code Suivi" [(ngModel)]="Command.codeSuivi">
             </div>
@@ -240,7 +246,7 @@
   </div>
   
 
-  <div class="modal fade" *ngIf="chaine" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+  <div class="modal fade" *ngIf="Chaine" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
  aria-hidden="true">
  <div class="modal-dialog" >
   <div class="modal-content">
@@ -326,7 +332,7 @@
 </div>
 
 
-<div class="modal fade" *ngIf="Pendatif" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+<div class="modal fade" *ngIf="Pendentif" id="modalDeleteArticle{{ searchedArticle._id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
  aria-hidden="true">
 <div class="modal-dialog" >
 <div class="modal-content">

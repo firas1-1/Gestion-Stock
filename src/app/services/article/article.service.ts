@@ -4,6 +4,7 @@ import {ArticlesService} from '../../../gs-api/src/services/articles.service';
 import {ArticleDto} from '../../../gs-api/src/models/article-dto';
 import {BehaviorSubject, Observable, Subject, of} from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,8 @@ export class ArticleService {
 
   constructor(
     private userService: UserService,
-    private articleService: ArticlesService
+    private articleService: ArticlesService,
+    private http:HttpClient
   ) { }
   // private productQuantity: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   // productQuantity$: Observable<number> = this.productQuantity.asObservable();
@@ -63,6 +65,14 @@ console.log('idididididiidididiidid', id);
     console.log('articleDto.idEntreprise',articleDto);
     return this.articleService.save(articleDto);
   }
+
+
+  enregistrerEtatArticle(articleDto: ArticleDto): Observable<ArticleDto> {
+      return this.http.put<ArticleDto>("http://localhost:3000"+"/api/article/disponible/"+articleDto._id,{...articleDto,disponible:!articleDto.Disponible});
+    
+  }
+
+ 
 
   findAllArticles(): Observable<ArticleDto[]> {
     return this.articleService.findAll();

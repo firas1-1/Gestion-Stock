@@ -194,7 +194,7 @@ this.bague=false;
     console.log(`Fetching page ${this.currentPage}...`);
     const perPage = 100; // Set your desired items per page here
   
-    const url = `http://localhost:3000/api/article/all/${this.selectedCat}?page=${this.currentPage}&perPage=${perPage}&searchQuery=${this.codeArticle}`;
+    const url = `http://localhost:3000/api/article/all/${this.selectedCat}?searchQuery=${this.codeArticle}`;
     this.http.get<any>(url).subscribe((data) => {
       console.log('API response:', data);
       this.listArticle = data.articles;

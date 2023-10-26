@@ -12,7 +12,8 @@ import { LigneCommandeClientDto } from '../../../gs-api/src/models/ligne-command
 import { CommandeFournisseurDto } from '../../../gs-api/src/models/commande-fournisseur-dto';
 import { GravureDto } from 'src/gs-api/src/models/Gravure-dto';
 
-
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 @Component({
   selector: 'app-facture',
@@ -74,30 +75,249 @@ export class FactureComponent implements OnInit {
     this.ajouterLigneCommande()
   }
 
-  filtrerArticle(): void {
-    try {
-      if (this.codeArticle.trim().length === 0) {
-        console.log('No code provided. Retrieving all articles...');
-        this.findAllArticles();
-      } else {
-        this.listArticle = this.listArticle.filter(art => {
-          const codeArticle = art.codeArticle?.toLowerCase();
-          const designation = art.designation?.toLowerCase();
-          const searchTerm = this.codeArticle.trim().toLowerCase();
   
-          return codeArticle?.includes(searchTerm) || designation?.includes(searchTerm);
-        });
-  
-        if (this.listArticle.length === 0) {
-          console.log('No matching articles found.');
-        }
+  public downloadInvoice(){
+
+    const doc = new jsPDF();
+    const code = this.Command.code;
+    const date = this.Command.dateCommande
+    const Livraison = this.Command.livraison
+    const total = this.calculerTotalCommande(this.Command._id)
+    const nomClient = this.ClientDto.nom ? this.ClientDto.nom : '' +' '+ this.ClientDto.prenom ? this.ClientDto.prenom : '' 
+    const adresse1 = this.adresseDto.adresse1 ? this.adresseDto.adresse1 : ''
+    
+    const adresse2 = this.adresseDto.adresse2 ? this.adresseDto.adresse2 : ''
+    const ville = this.adresseDto.ville ? this.adresseDto.ville: ''
+    const numTel = this.ClientDto.numTel
+    const body: any[][] = [];
+
+    this.lignesCommande.forEach(item => {
+      const rowData = [
+        item.article?.designation,
+        item.quantite, // You may replace this with actual data
+        item.prixUnitaire ? item.prixUnitaire + 'Dnt'  : '',         // You may replace this with actual data
+        item.PrixVerso? item.quantite * item.prixUnitaire +  item.quantite * 5 : item.quantite * item.prixUnitaire  + 'Dnt' // You may replace this with actual data
+      ];
+
+      body.push(rowData);
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Rimes Bijoux',
+            styles: {
+              halign: 'left',
+              fontSize: 20,
+              textColor: '#ffffff'
+            }
+          },
+          {
+            content: 'Invoice',
+            styles: {
+              halign: 'right',
+              fontSize: 20,
+              textColor: '#ffffff'
+            }
+          }
+        ],
+      ],
+      theme: 'plain',
+      styles: {
+        fillColor: '#3366ff'
       }
-    } catch (error) {
-      console.error('Error occurred while filtering articles:', error);
-      // Optionally, you could add code here to handle the error further or display an error message to the user.
-    }
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            
+            content: 'Reference: #'+ code 
+            +'\nDate: ' + date
+            +'\nInvoice number: ' + code ,
+            styles: {
+              halign: 'right'
+            }
+          }
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          { 
+            content: 'Billed to:'
+            +'\n'+nomClient
+            +'\n'+ adresse1
+            +'\n' + adresse2
+            +'\n' + ville
+            +'\nTunisie',
+            styles: {
+              halign: 'left'
+            }
+          },
+         
+          {
+            content: 'From:'
+            +'\nRimes Bijoux '
+            +'\nRue Boughdir'
+          
+            +'\n8000 Nabeul'
+            +'\nTunisie',
+            styles: {
+              halign: 'right'
+            }
+          }
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Amount due:',
+            styles: {
+              halign:'right',
+              fontSize: 14
+            }
+          }
+        ],
+        [
+          {
+            content: total + ' Dnt',
+            styles: {
+              halign:'right',
+              fontSize: 20,
+              textColor: '#3366ff'
+            }
+          }
+        ],
+       
+      ],
+      theme: 'plain'
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Products & Services',
+            styles: {
+              halign:'left',
+              fontSize: 14
+            }
+          }
+        ]
+      ],
+      theme: 'plain'
+    });
+    const remiseCommande = this.Command.remiseCommande;
+    
+    autoTable(doc, {
+      head: [['Items', 'Quantity', ' unit Price', 'Amount']],
+      body: body,
+
+      theme: 'striped',
+      headStyles:{
+        fillColor: '#343a40'
+      }
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Subtotal:',
+            styles:{
+              halign:'right'
+            }
+          },
+          {
+            content: total + 'Dnt',
+            styles:{
+              halign:'right'
+            }
+          },
+        ],
+        [
+          {
+            content: 'TAX:',
+            styles:{
+              halign:'right'
+            }
+          },
+          {
+            content: '0' + 'Dnt',
+            styles:{
+              halign:'right'
+            }
+          },
+        ],
+        [
+          {
+            content: 'Total amount:',
+            styles:{
+              halign:'right'
+            }
+          },
+          {
+            content: total + 'Dnt',
+            styles:{
+              halign:'right'
+            }
+          },
+        ],
+      ],
+      theme: 'plain'
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Terms & notes',
+            styles: {
+              halign: 'left',
+              fontSize: 14
+            }
+          }
+        ],
+        [
+          {
+            content: 'Chers clients fidèles, le paiement sera effectué lors de la livraison.'
+           ,
+            styles: {
+              halign: 'left'
+            }
+          }
+        ],
+      ],
+      theme: "plain"
+    });
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Rimes - Bijoux de Créateur',
+            styles: {
+              halign: 'center'
+            }
+          }
+        ]
+      ],
+      theme: "plain"
+    });
+
+    return doc.save("invoice");
+
   }
-  
 
 
   findAllArticles(): void {
@@ -209,58 +429,7 @@ export class FactureComponent implements OnInit {
   supprimerArticle(){
 console.log('supprimerArticle', );
   }
-  enregistrerCommande(): void {
-    console.log('commandeligneCommandeClients');
-
-    const commande = this.preparerCommande();
-    console.log('commandeligneCommandeClients', commande.ligneCommandeClients);
-    
-      this.CmdcltfrsService.enregistrerCommandeClient(commande as CommandeClientDto)
-      .subscribe(cmd => {
-        this.router.navigate(['commandesclient']);
-      }, error => {
-        this.errorMsg = error.error.errors;
-      });
-    // } else if (this.origin === 'fournisseur') {
-    //   this.CmdcltfrsService.enregistrerCommandeFournisseur(commande as CommandeFournisseurDto)
-    //   .subscribe(cmd => {
-    //     this.router.navigate(['commandesfournisseur']);
-    //     console.log(cmd);
-    //   }, error => {
-    //     this.errorMsg = error.error.errors;
-    //   });
-     
-  }
   
-
-  private preparerCommande(): any {
-    
-
-console.log('lignesCommande11111111111111111111111',this.lignesCommande)
-console.log('lignesCommande1111111111111111',this.ClientDto)
-      return  {
-        _id:this.activatedRoute.snapshot.params.id,
-        client: this.ClientDto,
-        code: this.Command.code,
-        dateCommande: new Date().getTime(),
-        etatCommande: this.Command.etatCommande,
-        ligneCommandeClients: this.lignesCommande,
-        Livraison : this.Command.Livraison,
-        codeSuivi : this.Command.codeSuivi
-      };
-      
-    // } else if (this.origin === 'fournisseur') {
-    //   return  {
-    //     fournisseur: this.ClientDto,
-    //     code: this.code,
-    //     dateCommande: new Date().getTime(),
-    //     etatCommande: 'EN_PREPARATION',
-    //     ligneCommandeFournisseurs: this.lignesCommande
-    //   };
-    // }
-  }
-
-
   findAllLignesCommande(): void {
     const id = this.activatedRoute.snapshot.params.id;
 
@@ -290,28 +459,31 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
   calculerTatalCmd(list: Array<LigneCommandeClientDto>): number {
     let total = 0;
     list.forEach(ligne => {
-      if (ligne.prixUnitaire && ligne.quantite) {
+      if (ligne.prixUnitaire && ligne.quantite && !ligne.PrixVerso) {
         total += +ligne.quantite * +ligne.prixUnitaire;
       }
-      console.log('total',total);
-      if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
+      
+     else  if(ligne.PrixVerso && ligne.quantite && ligne.prixUnitaire){
         total += +ligne.quantite *5
       }
       console.log('total1',total);
     });
     
+    
     return Math.floor(total);
   }
   calculerTotalCommande(id?: number): number {
-    
-
-    if (this.Command.Livraison === 'Aramex' || this.Command.Livraison === 'BonjourExpress') {
-      console.log("calculerTotalCommande1111",  this.mapPrixTotalCommande.get(id) )
-
-      return this.mapPrixTotalCommande.get(id) + 7;
-    } else if (this.Command.Livraison === 'Retrait en Boutique') {
-      return this.mapPrixTotalCommande.get(id);
+    const livraison = this.Command.Livraison;
+    const remise = this.Command.remiseCommande;
+    const prixTotal = this.mapPrixTotalCommande.get(id);
+  
+    if (typeof remise === 'number') {
+      return livraison === 'Retrait en Boutique' ? prixTotal + remise : prixTotal + 7 + remise;
     }
+  
+    return livraison === 'Retrait en Boutique' ? prixTotal : prixTotal + 7;
+  
+    
   
     // Ajoutez une valeur de retour par défaut si nécessaire
     return 0; // Par exemple, 0 si aucune condition n'est satisfaite
@@ -321,7 +493,7 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
 
   
 
-  
+ 
   
 
   handleSuppression(event: any): void {

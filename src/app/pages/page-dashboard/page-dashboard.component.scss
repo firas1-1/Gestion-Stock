@@ -14,3 +14,10 @@ app-header {
   width: 100%;
   z-index: 1000; /* Adjust the z-index as needed */
 }
+app-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000; /* Adjust the z-index as needed */
+}

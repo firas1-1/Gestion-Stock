@@ -4,4 +4,5 @@ export interface CategoryDto {
   code?: string;
   designation?: string;
   idEntreprise?: number;
+  selected?: boolean;
 }

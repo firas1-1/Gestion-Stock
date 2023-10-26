@@ -29,7 +29,7 @@ export class ModifierCommandComponent implements OnInit {
 
  Command: any = {};
   ClientDto: ClientDto = {};
-  selectedCat:string = 'chaine';
+  selectedCat:string = 'Chaine';
   adresseDto: AdresseDto = {};
   EtatCommandes: Array<string> = ['Delivered', 'Out of delivery', 'Terminée', 'Annulée',
    'Retournée','Nouvelle commande','Production','Pre-Production',
@@ -52,8 +52,8 @@ export class ModifierCommandComponent implements OnInit {
   Role:any;
   Note = '';
   bague=false;
-  chaine=false;
-  Pendatif=false;
+  Chaine=false;
+  Pendentif=false;
   Collier=false
  ;
  currentPage=1
@@ -132,10 +132,10 @@ export class ModifierCommandComponent implements OnInit {
 
 
   findAllArticles(): void {
-    if ( this.selectedCat==='chaine' ) {
-      this.chaine=true;
+    if ( this.selectedCat==='Chaine' ) {
+      this.Chaine=true;
       this.bague=false;
-      this.Pendatif=false;
+      this.Pendentif=false;
       this.Collier=false;
       this.Braclet=false;
 
@@ -145,18 +145,18 @@ export class ModifierCommandComponent implements OnInit {
     if(this.selectedCat==='Bague'){
       this.bague=true;
 
-      this.chaine=false;;
+      this.Chaine=false;;
   
-      this.Pendatif=false;
+      this.Pendentif=false;
       this.Collier=false;
       this.Braclet=false;
     }
-    if (this.selectedCat==='Pendatif'){
-this.Pendatif=true
+    if (this.selectedCat==='Pendentif'){
+this.Pendentif=true
 
 this.bague=false;
 
-      this.chaine=false;
+      this.Chaine=false;
   
       this.Collier=false;
       this.Braclet=false;
@@ -165,11 +165,11 @@ this.bague=false;
       this.Collier=true
 
 
-      this.Pendatif=false;
+      this.Pendentif=false;
 
 this.bague=false;
 
-      this.chaine=false;
+      this.Chaine=false;
   
       this.Braclet=false;
     }
@@ -178,17 +178,17 @@ this.bague=false;
       this.Collier=false;
 
 
-      this.Pendatif=false;
+      this.Pendentif=false;
 
 this.bague=false;
 
-      this.chaine=false;
+      this.Chaine=false;
   
       
     }
     console.log(`Fetching page ${this.currentPage}...`);
     const perPage = 1000; // Set your desired items per page here
-  
+    
     const url = `http://localhost:3000/api/article/all/${this.selectedCat}?page=${this.currentPage}&perPage=${perPage}&searchQuery=${this.codeArticle}`;
     this.http.get<any>(url).subscribe((data) => {
       console.log('API response:', data);
@@ -350,6 +350,7 @@ console.log('lignesCommande1111111111111111',this.ClientDto)
         etatCommande: this.Command.etatCommande,
         ligneCommandeClients: this.lignesCommande,
         Livraison : this.Command.Livraison,
+        remiseCommande : this.Command.remiseCommande,
         codeSuivi : this.Command.codeSuivi,
         noteLivraison:this.Command.noteLivraison
       };

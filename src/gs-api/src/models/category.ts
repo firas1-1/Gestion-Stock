@@ -8,4 +8,5 @@ export interface Category {
   designation?: string;
   idEntreprise?: number;
   articles?: Array<Article>;
+  selected: boolean;
 }

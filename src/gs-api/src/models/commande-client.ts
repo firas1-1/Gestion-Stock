@@ -9,6 +9,7 @@ export interface CommandeClient {
   dateCommande?: number;
   etatCommande?: 'EN_PREPARATION' | 'VALIDEE' | 'LIVREE';
   idEntreprise?: number;
+  remiseCommande?:number;
   client?: Client;
   ligneCommandeClients?: Array<LigneCommandeClient>;
 }

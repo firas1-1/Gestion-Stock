@@ -9,10 +9,12 @@ export interface ArticleDto {
   tauxRemise?: number;
   Remise?:number;
   prixUnitaireTtc?: number;
-  photo?: string;
+  photo?: string | ArrayBuffer;
   category?: CategoryDto;
   ligneCat?: Array<ligneCat>;
   quantiteArgent?:number;
   prixAchat?:string;
   idEntreprise?: string;
+  description?: string;
+  Disponible?:string ;
 }

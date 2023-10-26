@@ -22,7 +22,11 @@ export class PageCategoriesComponent implements OnInit {
   ngOnInit(): void {
     this.findAllCategories();
   }
-
+  Onselect(category:any){
+ this.categoryService.enregistrerEtatCategory(category).subscribe(data => {
+  
+ })
+  }
   findAllCategories(): void {
     this.categoryService.findAll()
     .subscribe(res => {

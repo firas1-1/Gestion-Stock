@@ -31,6 +31,8 @@
     "bootstrap": "^4.6.0",
     "countup.js": "^2.7.0",
     "jquery": "^3.6.0",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.7.0",
     "lodash": "^4.17.21",
     "papaparse": "^5.4.1",
     "rxjs": "~6.6.0",

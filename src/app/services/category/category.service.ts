@@ -3,6 +3,7 @@ import {UserService} from '../user/user.service';
 import {CategoriesService} from '../../../gs-api/src/services/categories.service';
 import {CategoryDto} from '../../../gs-api/src/models/category-dto';
 import {Observable, of} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ export class CategoryService {
 
   constructor(
     private userService: UserService,
-    private categoryService: CategoriesService
+    private categoryService: CategoriesService,
+    private http:HttpClient
   ) { }
 
   enregistrerCategory(categoryDto: CategoryDto): Observable<CategoryDto> {
@@ -19,7 +21,10 @@ export class CategoryService {
     console.log('categoryDto.idEntreprise',categoryDto)
     return this.categoryService.save(categoryDto);
   }
-
+  enregistrerEtatCategory(CategoryDto: CategoryDto): Observable<CategoryDto> {
+    return this.http.put<CategoryDto>("http://localhost:3000"+"/api/categorie/selected/"+CategoryDto._id,{...CategoryDto,selected:!CategoryDto.selected});
+  
+}
   findAll(): Observable<CategoryDto[]> {
     return this.categoryService.findAll();
   }

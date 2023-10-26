@@ -1,13 +1,30 @@
 
 <div class="col mb-3">
-  <div class="col-md-12 mb-3 mt-3">
-    <button (click)="fileInput.click()"  style="background-color: transparent; border: none;">
-      <img [src]="imgUrl" class="rounded-circle" width="200px" height="200px" />
-      <input hidden type="file" #fileInput (change)="onFileInput(fileInput.files)">
-    </button>
-    
+  <div class="row">
+    <div class="col">
+      <button (click)="fileInput.click()"  style="background-color: transparent; border: none;">
+        <img [src]="imgUrl" class="rounded-circle" width="200px" height="200px" />
+        <input hidden type="file" #fileInput (change)="onFileInput(fileInput.files)">
+      </button>
+    </div>
+    <div class="col">
+      
+      
+    </div>
+    <div class="col">
+     
+      
+    </div>
+    <div class="col">
+     
+      
+    </div>
   </div>
+  
+  
   <hr>
+  <div class="row">
+    <div class="col-lg-6">
   <div class="col-md-12">
     <div class="col-md-12 mb-3">
       <h2><i class="fas fa-info-circle blue-color"></i>&nbsp;Information de l'article </h2>
@@ -20,11 +37,25 @@
       </div>
       <form>
         <div class="row mb-3">
-          <div class="col">
+          <div class="form-floating">
+
             <input type="text" class="form-control" name="codearticle" placeholder="Code article" [(ngModel)]="articleDto.codeArticle">
-          </div> 
-          <div class="col">
-            <input type="text" class="form-control" name="designation" placeholder="Designation"  [(ngModel)]="articleDto.designation">
+            <label for="floatingTextarea2">Code article</label>
+
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="form-floating">
+
+          <input type="text" class="form-control" name="designation" placeholder="Designation"  [(ngModel)]="articleDto.designation">
+          <label for="floatingTextarea2">Designation</label>
+
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="form-floating">
+            <textarea class="form-control"   name="description" [(ngModel)]="articleDto.description" id="floatingTextarea2" placeholder="product description" style="height: 100px ; width: 50%;"></textarea>
+            <label for="floatingTextarea2">Description</label>
           </div>
         </div>
         <div class="row mb-3">
@@ -80,5 +111,62 @@
       Enregitrer
     </button>
   </div>
+    </div>
+      <div class="col-lg-3" [hidden]="Allimage===true" >
+        <div class="row ml-5 mb-5" >
+          <button (click)="fileInput1.click()"  style="background-color: transparent; border: none;">
+            <img [src]="imgUrl1" class="rounded-circle" width="150px" height="150px" />
+            <input hidden type="file" #fileInput1 (change)="onFileInput1(fileInput1.files)">
+          </button>        </div>
+        <div class="row ml-5 mb-5">
+          <button (click)="fileInput2.click()"  style="background-color: transparent; border: none;">
+            <img [src]="imgUrl2" class="rounded-circle" width="150px" height="150px" />
+            <input hidden type="file" #fileInput2 (change)="onFileInput2(fileInput2.files)">
+          </button>
+        </div>
+        <div class="row ml-5 mb-5">
+          <button (click)="fileInput3.click()"  style="background-color: transparent; border: none;">
+            <img [src]="imgUrl3" class="rounded-circle" width="150px" height="150px" />
+            <input hidden type="file" #fileInput3 (change)="onFileInput3(fileInput3.files)">
+          </button>        </div>
+
+      </div>
+      <div class="col-lg-3" >
+        <div class="row ml-5 mb-5 border"  style="border-color: rgb(255, 0, 0);" >
+          <div class="col-lg-5">
+            <button  [hidden]="update===false" >
+              <img [src]="imgUrl15" class="rounded-circle" width="150px" height="150px" />
+            </button> 
+          </div>
+          <div class="col-lg-1">
+            <i  [hidden]="update===false" class='fa fa-exchange'></i>
+          </div>
+          <div class="col-lg-5">
+            <button  [hidden]="update===false" >
+              <img [src]="currentImg" class="rounded-circle" width="150px" height="150px" />
+            </button> 
+          </div>
+          
+        </div>
+          <div class="row ml-5 mb-5 border" [hidden]="update===false"  style="border-color: rgb(255, 0, 0);" >
+
+        </div>
+       
+        <div class="row ml-5 mb-5 " *ngFor="let img of images">
+          
+          <button [hidden]="update===true" (click)="fileInput6.click()" (click)="getimgID(img._id,img.photo)"  style="background-color: transparent; border: none;">
+            <img [src]="img.photo" class="rounded-circle" width="100px" height="100px" />
+            <input hidden type="file" #fileInput6 (change)="onFileInput6(fileInput6.files)">
+          </button> 
+            
+        </div>
+     
+
+      </div>
+      </div>
 
 </div>
+
+
+
+
